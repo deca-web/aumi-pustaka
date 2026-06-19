@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AUMI — Pustaka Kisah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700&family=Source+Serif+4:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- STYLE SYSTEM --- */
+    :root {
+      --void: #0a0d13;
+      --surface: #12161f;
+      --surface-2: #1a2030;
+      --ink: #eae6da;
+      --ink-dim: #878d9c;
+      --gold: #c9a24b;
+      --gold-soft: rgba(201, 162, 75, 0.6);
+      --crimson: #9b3540;
+      --hair: rgba(234, 230, 218, 0.09);
+      --reader-fs: 1.125rem;
+      --reader-lh: 1.9;
+    }
+
+    [data-theme="light"] {
+      --void: #f4f1ea;
+      --surface: #ffffff;
+      --surface-2: #ebe7df;
+      --ink: #1a1a1a;
+      --ink-dim: #6b6b6b;
+      --gold: #8a6a2a;
+      --gold-soft: rgba(138, 106, 42, 0.4);
+      --crimson: #b04050;
+      --hair: rgba(0, 0, 0, 0.08);
+    }
+
+    /* THEME BACA */
+    [data-reader-theme="sepia"] #view-reader, [data-reader-theme="sepia"] .reader-bar, [data-reader-theme="sepia"] .reader-settings-panel {
+      background: #f7f1e3 !important; color: #473c28 !important; --ink: #473c28; --ink-dim: #706553; --hair: rgba(71, 60, 40, 0.15);
+    }
+    [data-reader-theme="dark"] #view-reader, [data-reader-theme="dark"] .reader-bar, [data-reader-theme="dark"] .reader-settings-panel {
+      background: #0a0d13 !important; color: #eae6da !important; --ink: #eae6da; --ink-dim: #878d9c; --hair: rgba(234, 230, 218, 0.09);
+    }
+    [data-reader-theme="light"] #view-reader, [data-reader-theme="light"] .reader-bar, [data-reader-theme="light"] .reader-settings-panel {
+      background: #ffffff !important; color: #1a1a1a !important; --ink: #1a1a1a; --ink-dim: #6b6b6b; --hair: rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--void); color: var(--ink); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+    .view { display: none; opacity: 0; }
+    .view.active { display: block; opacity: 1; }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 6vw; background: rgba(10, 13, 19, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--hair);
+    }
+    .brand { font-family: 'Shippori Mincho B1', serif; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.1em; color: var(--gold); cursor: pointer; }
+
+    .hero { padding: 4vh 6vw; text-align: center; max-width: 1100px; margin: 0 auto; }
+    .hero h1 { font-family: 'Shippori Mincho B1', serif; font-size: 1.8rem; margin-bottom: 8px; color: var(--gold); }
+    .shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; padding: 2vh 6vw; max-width: 1100px; margin: 0 auto; }
+
+    .card { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; overflow: hidden; cursor: pointer; position: relative; }
+    .cover { height: 260px; background-size: cover; background-position: center; background-color: #111; }
+
+    .detail-wrap { max-width: 880px; margin: 0 auto; padding: 4vh 6vw; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-dim); font-size: 0.85rem; margin-bottom: 20px; cursor: pointer; }
+    .detail-head { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 30px; }
+    .detail-cover { flex: 0 0 220px; height: 310px; border-radius: 6px; border: 1px solid var(--hair); background-size: cover; background-position: center; }
+    .detail-info { flex: 1; min-width: 280px; }
+    .detail-info h1 { font-family: 'Shippori Mincho B1', serif; font-size: 1.6rem; margin-bottom: 8px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+    .tag { background: var(--surface-2); border: 1px solid var(--hair); padding: 4px 10px; border-radius: 4px; font-size: 0.72rem; color: var(--gold); }
+
+    .chapter-list-title { font-size: 0.85rem; text-transform: uppercase; color: var(--ink-dim); border-bottom: 1px solid var(--hair); padding-bottom: 10px; margin: 25px 0 10px; }
+    .chapter-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 8px; border-bottom: 1px solid var(--hair); cursor: pointer; }
+    .chapter-row:hover { background: var(--surface-2); color: var(--gold); }
+
+    .reader-bar { position: sticky; top: 0; z-index: 90; display: flex; align-items: center; justify-content: space-between; padding: 14px 6vw; background: var(--surface); border-bottom: 1px solid var(--hair); }
+    .rb-left { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
+    .rb-title { font-size: 0.8rem; color: var(--ink-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
+    .settings-btn { width: 36px; height: 36px; border-radius: 4px; border: 1px solid var(--hair); color: var(--ink); display: flex; align-items: center; justify-content: center; }
+    .settings-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; }
+
+    .reader-settings-panel { display: none; position: absolute; top: 60px; right: 6vw; z-index: 110; width: 280px; background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .reader-settings-panel.active { display: block !important; }
+    .set-group { margin-bottom: 14px; }
+    .set-label { font-size: 0.7rem; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 6px; }
+    .set-options { display: flex; gap: 6px; }
+    .set-opt-btn { flex: 1; padding: 6px; border: 1px solid var(--hair); font-size: 0.78rem; border-radius: 4px; color: var(--ink); text-align: center; background: rgba(0,0,0,0.2); }
+    .set-opt-btn.active { border-color: var(--gold); background: var(--gold-soft); color: #fff; }
+    .fs-controls { display: flex; gap: 6px; }
+    .fs-btn { flex: 1; height: 32px; border-radius: 4px; border: 1px solid var(--hair); color: var(--ink); background: rgba(0,0,0,0.2); }
+
+    .prose-wrap { max-width: 680px; margin: 0 auto; padding: 4vh 6vw; }
+    .prose { font-family: 'Source Serif 4', serif; font-size: var(--reader-fs); line-height: var(--reader-lh); color: var(--ink); text-align: center; }
+    .prose p { margin-bottom: 2.5em; word-wrap: break-word; }
+
+    .reader-footer { max-width: 680px; margin: 20px auto; padding: 20px 6vw 6vh; display: flex; justify-content: space-between; border-top: 1px solid var(--hair); }
+    .btn-nav { border: 1px solid var(--hair); color: var(--ink); padding: 8px 16px; border-radius: 4px; font-size: 0.8rem; background: var(--surface); }
+    .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    /* --- ADMIN & FORM SYSTEM --- */
+    .admin-panel { max-width: 700px; margin: 30px auto; padding: 20px 6vw; background: var(--surface); border: 1px solid var(--hair); border-radius: 8px; }
+    .admin-input, .admin-textarea { width: 100%; background: var(--void); color: var(--ink); border: 1px solid var(--hair); padding: 12px; border-radius: 4px; margin-bottom: 14px; font-family: inherit; }
+    .admin-textarea { min-height: 120px; }
+    .admin-nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--hair); padding-bottom: 10px; }
+    .tab-btn { padding: 8px 16px; color: var(--ink-dim); font-size: 0.85rem; border-radius: 4px; }
+    .tab-btn.active { background: var(--gold-soft); color: #fff; }
+    
+    .btn-action { color: #fff; padding: 10px 20px; border-radius: 4px; font-weight: 600; width: 100%; margin-top: 5px; }
+    .btn-green { background: #2ecc71; }
+    .btn-blue { background: #3498db; }
+    .btn-red { background: var(--crimson); }
+    
+    .btn-del-card { position: absolute; top: 8px; right: 8px; background: rgba(155, 53, 64, 0.8); color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; z-index: 10; }
+
+    @media (max-width: 640px) {
+      .detail-head { flex-direction: column; align-items: center; text-align: center; }
+      .detail-cover { flex: none; width: 100%; max-width: 220px; height: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand" onclick="app.devTap()">AUMI</div>
+</header>
+
+<main id="view-home" class="view active">
+  <section class="hero">
+    <h1>失われた龍 di 記憶</h1>
+    <p style="color: var(--ink-dim); font-size: 0.9rem;">Pustaka novel karya NASHKI.</p>
+  </section>
+  <section class="shelf" id="library-shelf"></section>
+</main>
+
+<main id="view-novel" class="view">
+  <div class="detail-wrap">
+    <div class="back-link" onclick="app.showView('home')">← Kembali ke Pustaka</div>
+    <div class="detail-head">
+      <div class="detail-cover" id="novel-main-cover"></div>
+      <div class="detail-info">
+        <h1 id="detail-title"></h1>
+        <p style="color: var(--gold); font-size: 0.85rem;" id="detail-author"></p>
+        <div class="tags" id="detail-genres"></div>
+        <p id="detail-synopsis" style="margin-top:15px; font-size: 0.92rem; line-height: 1.6; color: var(--ink-dim);"></p>
+      </div>
+    </div>
+    <div class="chapter-list-title">Daftar Chapter Cerita</div>
+    <div id="chapter-list-container"></div>
+  </div>
+</main>
+
+<main id="view-reader" class="view">
+  <div class="reader-bar">
+    <div class="rb-left">
+      <div class="back-link" style="margin:0" onclick="app.showView('novel', {novelId: app.state.currentNovelId})">← Detail</div>
+      <span class="rb-title" id="reader-bar-title"></span>
+    </div>
+    <button class="settings-btn" onclick="app.toggleSettingsPanel()">
+      <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+    </button>
+    <div class="reader-settings-panel" id="settingsPanel">
+      <div class="set-group"><div class="set-label">Ukuran Huruf</div><div class="fs-controls"><button class="fs-btn" onclick="app.changeFontSize(-1)">A−</button><button class="fs-btn" onclick="app.changeFontSize(1)">A+</button></div></div>
+      <div class="set-group"><div class="set-label">Warna Kertas</div><div class="set-options"><button class="set-opt-btn active" id="opt-th-dark" onclick="app.setReaderTheme('dark')">Gelap</button><button class="set-opt-btn" id="opt-th-sepia" onclick="app.setReaderTheme('sepia')">Sepia</button><button class="set-opt-btn" id="opt-th-light" onclick="app.setReaderTheme('light')">Terang</button></div></div>
+    </div>
+  </div>
+  <div class="prose-wrap"><article class="prose" id="prose-content"></article></div>
+  <div class="reader-footer">
+    <button class="btn-nav" id="prev-btn" onclick="app.navChapter(-1)">← Prev</button>
+    <button class="btn-nav" id="next-btn" onclick="app.navChapter(1)">Next →</button>
+  </div>
+</main>
+
+<main id="view-admin" class="view">
+  <div class="admin-panel">
+    <div class="back-link" onclick="app.showView('home')">← Keluar Panel Admin</div>
+    <h2 style="color:var(--gold); margin-bottom:15px;">Panel Kontrol Admin</h2>
+    
+    <div class="admin-nav-tabs">
+      <button class="tab-btn active" id="tab-btn-novel" onclick="app.switchAdminTab('novel')">Tambah Novel</button>
+      <button class="tab-btn" id="tab-btn-chapter" onclick="app.switchAdminTab('chapter')">Tambah Chapter</button>
+      <button class="tab-btn" id="tab-btn-delete" onclick="app.switchAdminTab('delete')">Menu Hapus</button>
+    </div>
+
+    <div id="panel-tab-novel" class="admin-sub-tab">
+      <label style="font-size:0.75rem; color:var(--ink-dim);">ID UNIQUE NOVEL (Gunakan Huruf Kecil & Tanda Strip)</label>
+      <input type="text" id="add-novel-id" class="admin-input" placeholder="Contoh: novel-baru-keren">
+      <label style="font-size:0.75rem; color:var(--ink-dim);">JUDUL NOVEL</label>
+      <input type="text" id="add-novel-title" class="admin-input" placeholder="Masukkan Judul Novel">
+      <label style="font-size:0.75rem; color:var(--ink-dim);">NAMA PENULIS / AUTHOR</label>
+      <input type="text" id="add-novel-author" class="admin-input" placeholder="Contoh: Karya: Dammahum Run NASHKI">
+      <label style="font-size:0.75rem; color:var(--ink-dim);">GENRE (Pisahkan Dengan Koma)</label>
+      <input type="text" id="add-novel-genres" class="admin-input" placeholder="Contoh: Action, Fantasy, Drama">
+      <label style="font-size:0.75rem; color:var(--ink-dim);">FILE COVER (Nama File Gambar)</label>
+      <input type="text" id="add-novel-cover" class="admin-input" placeholder="Contoh: 1000067643.png">
+      <label style="font-size:0.75rem; color:var(--ink-dim);">SINOPSIS CERITA</label>
+      <textarea id="add-novel-synopsis" class="admin-textarea" placeholder="Tulis sinopsis novel di sini..."></textarea>
+      <button class="btn-action btn-blue" onclick="app.createNewNovel()">Simpan Novel Baru</button>
+    </div>
+
+    <div id="panel-tab-chapter" class="admin-sub-tab style="display:none;" class="hidden">
+      <label style="font-size:0.75rem; color:var(--ink-dim);">PILIH NOVEL TUJUAN</label>
+      <select id="select-novel-target" class="admin-input" style="background:var(--void); color:var(--ink);"></select>
+      <label style="font-size:0.75rem; color:var(--ink-dim);">JUDUL CHAPTER</label>
+      <input type="text" id="new-chapter-title" class="admin-input" placeholder="Contoh: CHAPTER 2: Dunia Baru">
+      <label style="font-size:0.75rem; color:var(--ink-dim);">ISI CERITA CHAPTER</label>
+      <textarea id="new-chapter-content" class="admin-textarea" placeholder="Tulis cerita di sini... (Tekan enter dua kali untuk spasi ala Webtoon)"></textarea>
+      <button class="btn-action btn-green" onclick="app.addNewChapter()">Tambah Chapter Ke Novel</button>
+    </div>
+
+    <div id="panel-tab-delete" class="admin-sub-tab style="display:none;" class="hidden">
+      <p style="font-size:0.85rem; color:var(--ink-dim); margin-bottom:15px;">Pilih novel di bawah ini untuk menghapus data chapter terakhir yang ada di dalamnya.</p>
+      <label style="font-size:0.75rem; color:var(--ink-dim);">PILIH NOVEL</label>
+      <select id="select-novel-delete" class="admin-input" style="background:var(--void); color:var(--ink);"></select>
+      <button class="btn-action btn-red" onclick="app.deleteCurrentChapter()">Hapus Chapter Terakhir</button>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  /* --- LOGIC SYSTEM --- */
+  const backupData = [
+    {
+      id: "ushinawareta-ryu",
+      title: "失われた龍の記憶の 天界の美德",
+      author: "Karya: Dammahum Run NASHKI",
+      synopsis: "Kisah Sang Naga legendaris Ryuu Ren yang terbangun kembali setelah seribu tahun lamanya di dunia baru. Membawa kekuatan dahsyat 'Gyakusatsu no Ken' (Pedang Pembantai) demi mengembalikan kebajikan surga.",
+      genres: ["Epic Dark Fantasy", "Adventure", "Action", "Drama", "Romance", "Mystery"],
+      coverUrl: "1000067643.png",
+      chapters: [
+        {
+          title: "CHAPTER 1: Kebangkitan Setelah Seribu Tahun",
+          paragraphs: [
+            "Suara angin. Itulah hal pertama yang terdengar.",
+            "Bukan suara manusia. Bukan suara perang. Bukan suara pedang.",
+            "Hanya suara alam yang sudah lama mengambil kembali tempatnya."
+          ]
+        }
+      ]
+    }
+  ];
+
+  const app = {
+    novels: [], devClicks: 0,
+    state: { currentNovelId: null, currentChapterIdx: 0, fontSizeLevel: 0 },
+
+    init() {
+      let stored = localStorage.getItem('aumi_novels_db');
+      if (!stored || stored === "[]" || stored === null) {
+        localStorage.setItem('aumi_novels_db', JSON.stringify(backupData));
+        this.novels = backupData;
+      } else {
+        this.novels = JSON.parse(stored);
+      }
+      this.renderLibrary();
+      this.applyFontSize();
+      this.updateAdminSelectors();
+      this.switchAdminTab('novel');
+    },
+
+    renderLibrary() {
+      const shelf = document.getElementById('library-shelf');
+      if (!shelf) return;
+      shelf.innerHTML = this.novels.map(novel => `
+        <article class="card">
+          <button class="btn-del-card" onclick="event.stopPropagation(); app.deleteWholeNovel('${novel.id}')">Hapus</button>
+          <div onclick="app.showView('novel', {novelId: '${novel.id}'})">
+            <div class="cover" style="background-image: url('${novel.coverUrl}')"></div>
+            <div style="padding:12px;"><h3 style="font-size:0.9rem;">${novel.title}</h3></div>
+          </div>
+        </article>
+      `).join('');
+    },
+
+    showView(viewName, params = {}) {
+      document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(`view-${viewName}`);
+      if (target) target.classList.add('active');
+
+      if (viewName === 'novel') this.renderNovelDetail(params.novelId);
+      if (viewName === 'reader') this.renderReader(params.novelId, params.chapterIdx);
+      if (viewName === 'admin') this.updateAdminSelectors();
+    },
+
+    renderNovelDetail(novelId) {
+      const novel = this.novels.find(n => n.id === novelId);
+      if (!novel) return;
+      this.state.currentNovelId = novelId;
+
+      document.getElementById('detail-title').textContent = novel.title;
+      document.getElementById('detail-author').textContent = novel.author;
+      document.getElementById('detail-synopsis').textContent = novel.synopsis;
+      document.getElementById('detail-genres').innerHTML = novel.genres.map(g => `<span class="tag">${g}</span>`).join('');
+      document.getElementById('novel-main-cover').style.backgroundImage = `url('${novel.coverUrl}')`;
+
+      const container = document.getElementById('chapter-list-container');
+      container.innerHTML = novel.chapters.map((ch, idx) => `
+        <div class="chapter-row" onclick="app.showView('reader', {novelId:'${novelId}', chapterIdx:${idx}})">
+          <span>${ch.title}</span><span style="color:var(--gold);">Baca →</span>
+        </div>
+      `).join('');
+    },
+
+    renderReader(novelId, chapterIdx) {
+      const novel = this.novels.find(n => n.id === novelId);
+      if (!novel || !novel.chapters[chapterIdx]) return;
+      this.state.currentChapterIdx = chapterIdx;
+      
+      document.getElementById('reader-bar-title').textContent = novel.chapters[chapterIdx].title;
+      document.getElementById('prose-content').innerHTML = novel.chapters[chapterIdx].paragraphs.map(p => `<p>${p}</p>`).join('');
+      
+      document.getElementById('prev-btn').disabled = (chapterIdx === 0);
+      document.getElementById('next-btn').disabled = (chapterIdx === novel.chapters.length - 1);
+    },
+
+    navChapter(dir) { this.showView('reader', { novelId: this.state.currentNovelId, chapterIdx: this.state.currentChapterIdx + dir }); },
+    toggleSettingsPanel() { document.getElementById('settingsPanel').classList.toggle('active'); },
+    setReaderTheme(th) { document.body.setAttribute('data-reader-theme', th); },
+    changeFontSize(dir) { this.state.fontSizeLevel = Math.max(-2, Math.min(3, this.state.fontSizeLevel + dir)); this.applyFontSize(); },
+    applyFontSize() { document.documentElement.style.setProperty('--reader-fs', ['0.95rem', '1.05rem', '1.15rem', '1.25rem', '1.35rem'][this.state.fontSizeLevel + 2]); },
+
+    /* --- ADMIN SEPARATE LOGIC --- */
+    switchAdminTab(tabName) {
+      document.querySelectorAll('.admin-sub-tab').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(`panel-tab-${tabName}`).style.display = 'block';
+      document.getElementById(`tab-btn-${tabName}`).classList.add('active');
+    },
+
+    updateAdminSelectors() {
+      const targetSel = document.getElementById('select-novel-target');
+      const deleteSel = document.getElementById('select-novel-delete');
+      const optionsHtml = this.novels.map(n => `<option value="${n.id}">${n.title}</option>`).join('');
+      if(targetSel) targetSel.innerHTML = optionsHtml;
+      if(deleteSel) deleteSel.innerHTML = optionsHtml;
+    },
+
+    createNewNovel() {
+      const id = document.getElementById('add-novel-id').value.trim();
+      const title = document.getElementById('add-novel-title').value.trim();
+      const author = document.getElementById('add-novel-author').value.trim();
+      const genresInput = document.getElementById('add-novel-genres').value.trim();
+      const cover = document.getElementById('add-novel-cover').value.trim();
+      const synopsis = document.getElementById('add-novel-synopsis').value.trim();
+
+      if(!id || !title || !author) return alert("Mohon lengkapi ID, Judul, dan Author!");
+
+      const newNovel = {
+        id: id,
+        title: title,
+        author: author,
+        synopsis: synopsis || "Belum ada sinopsis.",
+        genres: genresInput ? genresInput.split(',').map(g => g.trim()) : ["Fantasy"],
+        coverUrl: cover || "1000067643.png",
+        chapters: []
+      };
+
+      this.novels.push(newNovel);
+      localStorage.setItem('aumi_novels_db', JSON.stringify(this.novels));
+      alert("Novel baru berhasil terdaftar di Pustaka!");
+      this.renderLibrary();
+      this.showView('home');
+    },
+
+    addNewChapter() {
+      const targetId = document.getElementById('select-novel-target').value;
+      const novel = this.novels.find(n => n.id === targetId);
+      const title = document.getElementById('new-chapter-title').value.trim();
+      const content = document.getElementById('new-chapter-content').value;
+
+      if (!novel || !title || !content) return alert("Isi judul dan konten chapter!");
+
+      novel.chapters.push({
+        title: title,
+        paragraphs: content.split('\n').map(p => p.trim()).filter(p => p !== '')
+      });
+
+      localStorage.setItem('aumi_novels_db', JSON.stringify(this.novels));
+      alert(`Chapter baru berhasil ditambahkan ke novel ${novel.title}!`);
+      this.showView('novel', { novelId: novel.id });
+    },
+
+    deleteCurrentChapter() {
+      const targetId = document.getElementById('select-novel-delete').value;
+      const novel = this.novels.find(n => n.id === targetId);
+      
+      if (!novel || novel.chapters.length === 0) return alert("Tidak ada chapter di dalam novel ini.");
+
+      if (confirm(`Apakah Anda yakin ingin menghapus chapter terakhir dari novel: ${novel.title}?`)) {
+        novel.chapters.pop();
+        localStorage.setItem('aumi_novels_db', JSON.stringify(this.novels));
+        alert("Chapter terakhir berhasil dihapus.");
+        this.showView('novel', { novelId: novel.id });
+      }
+    },
+
+    deleteWholeNovel(novelId) {
+      if(confirm("Apakah kamu benar-benar ingin menghapus novel ini beserta seluruh isinya dari Pustaka?ini nashki")) {
+        this.novels = this.novels.filter(n => n.id !== novelId);
+        localStorage.setItem('aumi_novels_db', JSON.stringify(this.novels));
+        this.renderLibrary();
+      }
+    },
+
+    devTap() { this.devClicks++; if (this.devClicks >= 5) { this.devClicks = 0; this.showView('admin'); } }
+  };
+
+  document.addEventListener('DOMContentLoaded', () => app.init());
+</script>
+</body>
+</html>
