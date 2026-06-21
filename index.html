@@ -51,7 +51,7 @@
     body { background: var(--void); color: var(--ink); font-family: 'Inter', sans-serif; overflow-x: hidden; }
     button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-    /* FITUR KOSMETIK: ANIMASI TRANSISI HALAMAN */
+    /* ANIMASI TRANSISI HALAMAN */
     .view { display: none; opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s ease; }
     .view.active { display: block; opacity: 1; transform: translateY(0); }
 
@@ -60,9 +60,16 @@
       padding: 16px 6vw; background: rgba(10, 13, 19, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--hair);
     }
     .brand { font-family: 'Shippori Mincho B1', serif; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.1em; color: var(--gold); cursor: pointer; }
+    
+    .nav-buttons { display: flex; gap: 12px; }
+    .nav-btn-link { color: var(--ink-dim); font-size: 0.85rem; font-weight: 500; cursor: pointer; padding: 6px 12px; border-radius: 4px; border: 1px solid var(--hair); }
+    .nav-btn-link:hover { color: var(--gold); background: var(--surface-2); }
 
     .hero { padding: 4vh 6vw; text-align: center; max-width: 1100px; margin: 0 auto; }
     .hero h1 { font-family: 'Shippori Mincho B1', serif; font-size: 1.8rem; margin-bottom: 8px; color: var(--gold); }
+    
+    .badge-status-box { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 12px; margin: 15px auto 0; max-width: 500px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.8rem; }
+
     .shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; padding: 2vh 6vw; max-width: 1100px; margin: 0 auto; }
 
     .card { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; overflow: hidden; cursor: pointer; position: relative; transition: transform 0.2s; }
@@ -85,11 +92,11 @@
     .reader-bar { position: sticky; top: 0; z-index: 90; display: flex; align-items: center; justify-content: space-between; padding: 14px 6vw; background: var(--surface); border-bottom: 1px solid var(--hair); }
     .rb-left { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
     .rb-title { font-size: 0.8rem; color: var(--ink-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
-    .rb-right-buttons { display: flex; gap: 8px; }
+    .rb-right-buttons { display: flex; gap: 8px; align-items: center; }
     .settings-btn { width: 36px; height: 36px; border-radius: 4px; border: 1px solid var(--hair); color: var(--ink); display: flex; align-items: center; justify-content: center; }
     .settings-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; }
+    .settings-btn.bgm-on { border-color: var(--gold); color: var(--gold); background: rgba(201,162,75,0.1); }
 
-    /* FITUR NAVIGASI: MODE RINGKAS DAFTAR ISI DI HALAMAN BACA */
     .compact-chapters-panel { display: none; position: absolute; top: 60px; right: 6vw; z-index: 110; width: 280px; max-height: 350px; overflow-y: auto; background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
     .compact-chapters-panel.active { display: block !important; }
     .compact-row { padding: 10px 6px; font-size: 0.8rem; border-bottom: 1px solid var(--hair); cursor: pointer; color: var(--ink-dim); }
@@ -107,7 +114,6 @@
     .fs-controls { display: flex; gap: 6px; }
     .fs-btn { flex: 1; height: 32px; border-radius: 4px; border: 1px solid var(--hair); color: var(--ink); background: rgba(0,0,0,0.2); font-weight: bold; }
 
-    /* FITUR UX: ESTIMASI WAKTU BACA */
     .reading-time-badge { font-size: 0.75rem; color: var(--gold); text-align: center; margin-bottom: 25px; font-style: italic; letter-spacing: 0.02em; }
 
     .prose-wrap { max-width: 680px; margin: 0 auto; padding: 2vh 6vw 4vh; }
@@ -137,18 +143,29 @@
     .comment-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--gold); margin-bottom: 4px; font-weight: 600; }
     .comment-body { font-size: 0.85rem; color: var(--ink); line-height: 1.5; }
 
+    /* VIEW: GRIMORI PUSTAKA */
+    .lore-wrap { max-width: 800px; margin: 0 auto; padding: 4vh 6vw; }
+    .lore-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 20px; }
+    .lore-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 16px; position: relative; }
+    .lore-term { font-family: 'Shippori Mincho B1', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 6px; }
+    .lore-desc { font-size: 0.9rem; color: var(--ink-dim); line-height: 1.5; }
+
+    /* ADMIN GRIMORI LIST */
+    .adm-grimori-item { display: flex; justify-content: space-between; align-items: start; background: var(--void); border: 1px solid var(--hair); padding: 12px; border-radius: 4px; margin-bottom: 10px; }
+
     /* --- ADMIN SYSTEM --- */
     .admin-panel { max-width: 700px; margin: 30px auto; padding: 20px 6vw; background: var(--surface); border: 1px solid var(--hair); border-radius: 8px; }
     .admin-input, .admin-textarea { width: 100%; background: var(--void); color: var(--ink); border: 1px solid var(--hair); padding: 12px; border-radius: 4px; margin-bottom: 14px; font-family: inherit; }
     .admin-textarea { min-height: 120px; }
-    .admin-nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--hair); padding-bottom: 10px; }
-    .tab-btn { padding: 8px 16px; color: var(--ink-dim); font-size: 0.85rem; border-radius: 4px; }
+    .admin-nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--hair); padding-bottom: 10px; overflow-x: auto; }
+    .tab-btn { padding: 8px 16px; color: var(--ink-dim); font-size: 0.85rem; border-radius: 4px; white-space: nowrap; }
     .tab-btn.active { background: var(--gold-soft); color: #fff; }
     
     .btn-action { color: #fff; padding: 10px 20px; border-radius: 4px; font-weight: 600; width: 100%; margin-top: 5px; }
     .btn-green { background: #2ecc71; }
     .btn-blue { background: #3498db; }
     .btn-red { background: var(--crimson); }
+    .btn-small-red { background: var(--crimson); color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
     
     .btn-del-card { position: absolute; top: 8px; right: 8px; background: rgba(155, 53, 64, 0.8); color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; z-index: 10; }
 
@@ -160,16 +177,37 @@
 </head>
 <body>
 
+<audio id="bgm-player" loop src="https://assets.mixkit.co/music/preview/mixkit-japan-981.mp3"></audio>
+
 <header class="topbar">
   <div class="brand" onclick="app.devTap()">AUMI</div>
+  <div class="nav-buttons">
+    <button class="nav-btn-link" onclick="app.showView('home')">Pustaka</button>
+    <button class="nav-btn-link" onclick="app.showView('lore')">Grimori Pustaka</button>
+  </div>
 </header>
 
 <main id="view-home" class="view active">
   <section class="hero">
     <h1>失われた龍 di 記憶</h1>
     <p style="color: var(--ink-dim); font-size: 0.9rem;">Pustaka Gerbang Multi-Dimensi Kisah Epik Fantasi (Cloud Powered).</p>
+    
+    <div class="badge-status-box">
+      <span>🏅 Gelar Pembaca:</span>
+      <strong id="user-badge-title" style="color: var(--gold);">Telur Naga (Mulai Membaca)</strong>
+    </div>
   </section>
   <section class="shelf" id="library-shelf"></section>
+</main>
+
+<main id="view-lore" class="view">
+  <div class="lore-wrap">
+    <div class="back-link" onclick="app.showView('home')">← Kembali ke Pustaka</div>
+    <h1 style="font-family:'Shippori Mincho B1', serif; color:var(--gold); margin-bottom:10px;">Grimori Pustaka</h1>
+    <p style="color:var(--ink-dim); font-size:0.9rem; margin-bottom:20px;">Kumpulan catatan kuno multisemesta, istilah mistis, dan sejarah takdir dunia.</p>
+    
+    <div class="lore-grid" id="grimori-display-container"></div>
+  </div>
 </main>
 
 <main id="view-novel" class="view">
@@ -197,10 +235,10 @@
     </div>
     
     <div class="rb-right-buttons">
+      <button class="settings-btn" id="btn-bgm-toggle" onclick="app.toggleBGM()" title="Nyalakan Musik Latar">🎵</button>
       <button class="settings-btn" onclick="app.toggleCompactChaptersPanel()" title="Daftar Chapter">
         <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="fill:none; stroke:currentColor;"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
       </button>
-      
       <button class="settings-btn" onclick="app.toggleSettingsPanel()" title="Pengaturan Tampilan">
         <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
       </button>
@@ -214,9 +252,7 @@
       
       <div class="set-group">
         <div class="set-label">Gulir Otomatis (Scroll)</div>
-        <div class="set-options" style="margin-bottom:6px;">
-          <button class="set-opt-btn" id="btn-scroll-toggle" onclick="app.toggleAutoScroll()">Mulai</button>
-        </div>
+        <div class="set-options" style="margin-bottom:6px;"><button class="set-opt-btn" id="btn-scroll-toggle" onclick="app.toggleAutoScroll()">Mulai</button></div>
         <div class="set-options" id="scroll-speeds" style="display:none;">
           <button class="set-opt-btn active" onclick="app.setScrollSpeed(1)">Lambat</button>
           <button class="set-opt-btn" onclick="app.setScrollSpeed(2)">Sedang</button>
@@ -246,12 +282,7 @@
   </div>
 
   <section class="interaction-section">
-    <div class="like-box">
-      <button class="btn-like" onclick="app.addLike()">
-        ❤️ Suka Cerita Ini (<span id="like-count">0</span>)
-      </button>
-    </div>
-
+    <div class="like-box"><button class="btn-like" onclick="app.addLike()">❤️ Suka Cerita Ini (<span id="like-count">0</span>)</button></div>
     <div class="comment-box">
       <h3>Kolom Komentar Pembaca</h3>
       <div class="comment-input-grid">
@@ -272,37 +303,38 @@
     <div class="admin-nav-tabs">
       <button class="tab-btn active" id="tab-btn-novel" onclick="app.switchAdminTab('novel')">Tambah Novel</button>
       <button class="tab-btn" id="tab-btn-chapter" onclick="app.switchAdminTab('chapter')">Tambah Chapter</button>
-      <button class="tab-btn" id="tab-btn-delete" onclick="app.switchAdminTab('delete')">Menu Hapus</button>
+      <button class="tab-btn" id="tab-btn-grimori" onclick="app.switchAdminTab('grimori')">Kelola Grimori Pustaka</button>
+      <button class="tab-btn" id="tab-btn-delete" onclick="app.switchAdminTab('delete')">Menu Hapus Novel</button>
     </div>
 
     <div id="panel-tab-novel" class="admin-sub-tab">
-      <label style="font-size:0.75rem; color:var(--ink-dim);">ID UNIQUE NOVEL</label>
-      <input type="text" id="add-novel-id" class="admin-input" placeholder="Contoh: ushinawareta-ryu">
-      <label style="font-size:0.75rem; color:var(--ink-dim);">JUDUL NOVEL</label>
-      <input type="text" id="add-novel-title" class="admin-input" placeholder="Masukkan Judul Novel">
-      <label style="font-size:0.75rem; color:var(--ink-dim);">NAMA PENULIS / AUTHOR</label>
-      <input type="text" id="add-novel-author" class="admin-input" placeholder="Karya: Dammahum Run NASHKI">
-      <label style="font-size:0.75rem; color:var(--ink-dim);">GENRE</label>
-      <input type="text" id="add-novel-genres" class="admin-input" placeholder="Action, Fantasy, Drama">
-      <label style="font-size:0.75rem; color:var(--ink-dim);">FILE COVER</label>
-      <input type="text" id="add-novel-cover" class="admin-input" placeholder="Contoh: 1000067643.png">
-      <label style="font-size:0.75rem; color:var(--ink-dim);">SINOPSIS CERITA</label>
+      <input type="text" id="add-novel-id" class="admin-input" placeholder="Unique ID (contoh: ushinawareta-ryu)">
+      <input type="text" id="add-novel-title" class="admin-input" placeholder="Judul Novel">
+      <input type="text" id="add-novel-author" class="admin-input" placeholder="Karya: Penulis">
+      <input type="text" id="add-novel-genres" class="admin-input" placeholder="Genre (Pisahkan koma, contoh: Fantasy, Drama)">
+      <input type="text" id="add-novel-cover" class="admin-input" placeholder="File Cover Gambar (contoh: cover.png)">
       <textarea id="add-novel-synopsis" class="admin-textarea" placeholder="Tulis sinopsis novel..."></textarea>
-      <button class="btn-action btn-blue" onclick="app.createNewNovel()">Simpan Novel Baru ke Cloud</button>
+      <button class="btn-action btn-blue" onclick="app.createNewNovel()">Simpan Novel ke Cloud</button>
     </div>
 
     <div id="panel-tab-chapter" class="admin-sub-tab" style="display:none;">
-      <label style="font-size:0.75rem; color:var(--ink-dim);">PILIH NOVEL TUJUAN</label>
       <select id="select-novel-target" class="admin-input" style="background:var(--void); color:var(--ink);"></select>
-      <label style="font-size:0.75rem; color:var(--ink-dim);">JUDUL CHAPTER</label>
       <input type="text" id="new-chapter-title" class="admin-input" placeholder="Contoh: CHAPTER 1: Kebangkitan">
-      <label style="font-size:0.75rem; color:var(--ink-dim);">ISI CERITA CHAPTER</label>
-      <textarea id="new-chapter-content" class="admin-textarea" placeholder="Tulis teks cerita..."></textarea>
+      <textarea id="new-chapter-content" class="admin-textarea" placeholder="Tulis teks cerita di sini..."></textarea>
       <button class="btn-action btn-green" onclick="app.addNewChapter()">Tambah Chapter ke Cloud</button>
     </div>
 
+    <div id="panel-tab-grimori" class="admin-sub-tab" style="display:none;">
+      <h3 style="color: var(--gold); font-size:0.9rem; margin-bottom:10px;">Tambah Istilah / Lore Baru</h3>
+      <input type="text" id="add-lore-term" class="admin-input" placeholder="Nama Istilah (Contoh: Ryuu Ren (龍蓮))">
+      <textarea id="add-lore-desc" class="admin-textarea" placeholder="Penjelasan lengkap mengenai istilah fantasi ini..."></textarea>
+      <button class="btn-action btn-green" onclick="app.addGrimoriLore()">Simpan ke Grimori Cloud</button>
+      
+      <h3 style="color: var(--ink-dim); font-size:0.85rem; text-transform:uppercase; margin:20px 0 10px; border-top:1px solid var(--hair); padding-top:15px;">Daftar Istilah Terpajang</h3>
+      <div id="admin-grimori-list"></div>
+    </div>
+
     <div id="panel-tab-delete" class="admin-sub-tab" style="display:none;">
-      <label style="font-size:0.75rem; color:var(--ink-dim);">PILIH NOVEL</label>
       <select id="select-novel-delete" class="admin-input" style="background:var(--void); color:var(--ink);"></select>
       <button class="btn-action btn-red" onclick="app.deleteCurrentChapter()">Hapus Chapter Terakhir dari Cloud</button>
     </div>
@@ -311,7 +343,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+  import { getDatabase, ref, set, onValue, push, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyApHB-eoNojbupy2vY0aVBVl_zeeKpgy2o",
@@ -339,40 +371,93 @@
     }
   ];
 
+  const defaultGrimori = {
+    "init_1": { term: "Ryuu Ren (龍蓮)", desc: "Sang Naga Legendaris kuno pencipta dimensi langit timur yang tertidur selama seribu tahun." },
+    "init_2": { term: "AUMI (オーミ)", desc: "Gerbang rahasia atau substansi multi-dimensi purba penjaga takdir multisemesta." }
+  };
+
   window.app = {
-    novels: [], devClicks: 0,
+    novels: [], grimori: {}, devClicks: 0,
     state: { currentNovelId: null, currentChapterIdx: 0, fontSizeLevel: 0 },
     scrollInterval: null, scrollSpeed: 1, isScrolling: false,
     ttsUtterance: null, ttsParagraphs: [], currentTtsIdx: 0, isTtsPaused: false,
+    isBgmPlaying: false,
 
     init() {
       this.applyFontSize();
-      const dbRef = ref(db, 'pustaka_novels');
-      onValue(dbRef, (snapshot) => {
+      this.checkAndRenderBadge();
+      
+      // Sinkronisasi data Novel
+      onValue(ref(db, 'pustaka_novels'), (snapshot) => {
         const data = snapshot.val();
-        if (!data) {
-          set(dbRef, defaultInitialData);
-          this.novels = defaultInitialData;
-        } else {
-          this.novels = Object.values(data).map(n => {
-            if (!n.chapters) n.chapters = [];
-            if (!n.genres) n.genres = [];
-            return n;
-          });
-        }
-        this.renderLibrary();
-        this.updateAdminSelectors();
+        if (!data) { set(ref(db, 'pustaka_novels'), defaultInitialData); this.novels = defaultInitialData; } 
+        else { this.novels = Object.values(data).map(n => { if(!n.chapters) n.chapters = []; if(!n.genres) n.genres = []; return n; }); }
+        this.renderLibrary(); this.updateAdminSelectors();
         if (this.state.currentNovelId) this.renderNovelDetail(this.state.currentNovelId);
-        if (document.getElementById('view-reader').classList.contains('active')) {
-          this.loadInteractions();
-          this.renderCompactChaptersPanel();
-        }
+      });
+
+      // Sinkronisasi data Grimori Pustaka dari Cloud
+      onValue(ref(db, 'grimori_pustaka'), (snapshot) => {
+        const data = snapshot.val();
+        if (!data) { set(ref(db, 'grimori_pustaka'), defaultGrimori); this.grimori = defaultGrimori; }
+        else { this.grimori = data; }
+        this.renderGrimori();
       });
     },
 
+    renderGrimori() {
+      const container = document.getElementById('grimori-display-container');
+      const adminContainer = document.getElementById('admin-grimori-list');
+      
+      let html = ""; let admHtml = "";
+      Object.keys(this.grimori).forEach(key => {
+        const item = this.grimori[key];
+        html += `<div class="lore-card"><div class="lore-term">${item.term}</div><div class="lore-desc">${item.desc}</div></div>`;
+        admHtml += `<div class="adm-grimori-item"><div><strong>${item.term}</strong><p style="font-size:0.8rem; color:var(--ink-dim);">${item.desc}</p></div><button class="btn-small-red" onclick="app.deleteGrimoriLore('${key}')">Hapus</button></div>`;
+      });
+
+      if(container) container.innerHTML = html || "<p style='color:var(--ink-dim);'>Grimori kosong.</p>";
+      if(adminContainer) adminContainer.innerHTML = admHtml || "<p style='color:var(--ink-dim);'>Belum ada istilah.</p>";
+    },
+
+    addGrimoriLore() {
+      const term = document.getElementById('add-lore-term').value.trim();
+      const desc = document.getElementById('add-lore-desc').value.trim();
+      if(!term || !desc) return alert("Harap isi nama istilah dan penjelasannya!");
+      
+      const newLoreRef = push(ref(db, 'grimori_pustaka'));
+      set(newLoreRef, { term, desc }).then(() => {
+        alert("Istilah berhasil disimpan ke Grimori Pustaka!");
+        document.getElementById('add-lore-term').value = "";
+        document.getElementById('add-lore-desc').value = "";
+      });
+    },
+
+    deleteGrimoriLore(key) {
+      if(confirm("Hapus istilah ini dari Grimori Pustaka?")) {
+        remove(ref(db, `grimori_pustaka/${key}`)).then(() => alert("Terhapus!"));
+      }
+    },
+
+    checkAndRenderBadge() {
+      let readChapters = JSON.parse(localStorage.getItem('read_chapters_count') || '0');
+      let likedChapters = JSON.parse(localStorage.getItem('liked_chapters_count') || '0');
+      let badgeText = "Telur Naga (Mulai Membaca)";
+      if (readChapters >= 1) badgeText = "Bayi naga: 子龍 / 小龍 (Koryū / Shōryū)";
+      if (readChapters >= 3) badgeText = "Naga remaja: 若龍 (Wakaryū)";
+      if (readChapters >= 5) badgeText = "Naga dewasa: 成龍 (Seiryū)";
+      if (likedChapters >= 2) badgeText = "Kolektor naga: 龍の収集家 (Ryū no Shūshūka)";
+      const labelEl = document.getElementById('user-badge-title'); if (labelEl) labelEl.textContent = badgeText;
+    },
+
+    toggleBGM() {
+      const audio = document.getElementById('bgm-player'); const btn = document.getElementById('btn-bgm-toggle'); if (!audio || !btn) return;
+      if (this.isBgmPlaying) { audio.pause(); this.isBgmPlaying = false; btn.classList.remove('bgm-on'); btn.title = "Nyalakan Musik"; } 
+      else { audio.play().catch(e => console.log("Izin audio browser dibutuhkan")); this.isBgmPlaying = true; btn.classList.add('bgm-on'); btn.title = "Matikan Musik"; }
+    },
+
     renderLibrary() {
-      const shelf = document.getElementById('library-shelf');
-      if (!shelf) return;
+      const shelf = document.getElementById('library-shelf'); if (!shelf) return;
       shelf.innerHTML = this.novels.map(novel => `
         <article class="card">
           <button class="btn-del-card" onclick="event.stopPropagation(); app.deleteWholeNovel('${novel.id}')">Hapus</button>
@@ -385,185 +470,94 @@
     },
 
     showView(viewName, params = {}) {
-      this.stopAutoScroll();
-      this.stopTTS();
+      this.stopAutoScroll(); this.stopTTS();
       document.getElementById('settingsPanel').classList.remove('active');
       document.getElementById('compactChaptersPanel').classList.remove('active');
-      
-      // Ambil semua halaman
-      const views = document.querySelectorAll('.view');
-      views.forEach(el => el.classList.remove('active'));
-      
-      const target = document.getElementById(`view-${viewName}`);
-      if (target) {
-        target.classList.add('active');
-      }
-
+      document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(`view-${viewName}`); if (target) target.classList.add('active');
+      if (viewName === 'home') this.checkAndRenderBadge();
       if (viewName === 'novel') this.renderNovelDetail(params.novelId);
       if (viewName === 'reader') this.renderReader(params.novelId, params.chapterIdx);
     },
 
     renderNovelDetail(novelId) {
-      const novel = this.novels.find(n => n.id === novelId);
-      if (!novel) return;
-      this.state.currentNovelId = novelId;
+      const novel = this.novels.find(n => n.id === novelId); if (!novel) return; this.state.currentNovelId = novelId;
       document.getElementById('detail-title').textContent = novel.title;
       document.getElementById('detail-author').textContent = novel.author;
       document.getElementById('detail-synopsis').textContent = novel.synopsis;
       document.getElementById('detail-genres').innerHTML = novel.genres.map(g => `<span class="tag">${g}</span>`).join('');
       document.getElementById('novel-main-cover').style.backgroundImage = `url('${novel.coverUrl}')`;
-
       const container = document.getElementById('chapter-list-container');
       if (novel.chapters && novel.chapters.length > 0) {
-        container.innerHTML = novel.chapters.map((ch, idx) => `
-          <div class="chapter-row" onclick="app.showView('reader', {novelId:'${novelId}', chapterIdx:${idx}})">
-            <span>${ch.title}</span><span style="color:var(--gold);">Baca →</span>
-          </div>
-        `).join('');
-      } else {
-        container.innerHTML = `<p style="padding:15px; color:var(--ink-dim);">Belum ada chapter.</p>`;
-      }
+        container.innerHTML = novel.chapters.map((ch, idx) => `<div class="chapter-row" onclick="app.showView('reader', {novelId:'${novelId}', chapterIdx:${idx}})"><span>${ch.title}</span><span style="color:var(--gold);">Baca →</span></div>`).join('');
+      } else { container.innerHTML = `<p style="padding:15px; color:var(--ink-dim);">Belum ada chapter.</p>`; }
     },
 
     renderReader(novelId, chapterIdx) {
-      const novel = this.novels.find(n => n.id === novelId);
-      if (!novel || !novel.chapters || !novel.chapters[chapterIdx]) return;
+      const novel = this.novels.find(n => n.id === novelId); if (!novel || !novel.chapters || !novel.chapters[chapterIdx]) return;
       this.state.currentChapterIdx = chapterIdx;
-      
       document.getElementById('reader-bar-title').textContent = novel.chapters[chapterIdx].title;
-      
       this.ttsParagraphs = novel.chapters[chapterIdx].paragraphs;
       document.getElementById('prose-content').innerHTML = this.ttsParagraphs.map((p, idx) => `<p id="p-text-${idx}">${p}</p>`).join('');
       
-      // FITUR UX: MENGHITUNG ESTIMASI WAKTU BACA (Asumsi rata-rata kecepatan baca 200 kata per menit)
+      let history = JSON.parse(localStorage.getItem('read_history_keys') || '[]'); const currentKey = `${novelId}_ch_${chapterIdx}`;
+      if (!history.includes(currentKey)) { history.push(currentKey); localStorage.setItem('read_history_keys', JSON.stringify(history)); localStorage.setItem('read_chapters_count', JSON.stringify(history.length)); }
       const totalWords = this.ttsParagraphs.join(' ').split(/\s+/).length;
-      const readingTime = Math.max(1, Math.ceil(totalWords / 200));
-      document.getElementById('reading-time-display').textContent = `Waktu baca: ~${readingTime} menit`;
-
-      document.getElementById('prev-btn').disabled = (chapterIdx === 0);
-      document.getElementById('next-btn').disabled = (chapterIdx === novel.chapters.length - 1);
-      
-      this.loadInteractions();
-      this.renderCompactChaptersPanel();
-      window.scrollTo(0,0);
+      document.getElementById('reading-time-display').textContent = `Waktu baca: ~${Math.max(1, Math.ceil(totalWords / 200))} menit`;
+      document.getElementById('prev-btn').disabled = (chapterIdx === 0); document.getElementById('next-btn').disabled = (chapterIdx === novel.chapters.length - 1);
+      this.loadInteractions(); this.renderCompactChaptersPanel(); window.scrollTo(0,0);
     },
 
-    // FITUR NAVIGASI: MEMBUAT DAFTAR ISI DI PANEL MELAYANG
     renderCompactChaptersPanel() {
-      const novel = this.novels.find(n => n.id === this.state.currentNovelId);
-      const panel = document.getElementById('compactChaptersPanel');
-      if (!novel || !panel) return;
-
-      panel.innerHTML = novel.chapters.map((ch, idx) => `
-        <div class="compact-row ${idx === this.state.currentChapterIdx ? 'current' : ''}" 
-             onclick="app.showView('reader', {novelId:'${novel.id}', chapterIdx:${idx}})">
-          ${ch.title}
-        </div>
-      `).join('');
+      const novel = this.novels.find(n => n.id === this.state.currentNovelId); const panel = document.getElementById('compactChaptersPanel'); if (!novel || !panel) return;
+      panel.innerHTML = novel.chapters.map((ch, idx) => `<div class="compact-row ${idx === this.state.currentChapterIdx ? 'current' : ''}" onclick="app.showView('reader', {novelId:'${novel.id}', chapterIdx:${idx}})">${ch.title}</div>`).join('');
     },
 
-    toggleCompactChaptersPanel() {
-      document.getElementById('settingsPanel').classList.remove('active');
-      document.getElementById('compactChaptersPanel').classList.toggle('active');
-    },
-
-    toggleSettingsPanel() { 
-      document.getElementById('compactChaptersPanel').classList.remove('active');
-      document.getElementById('settingsPanel').classList.toggle('active'); 
-    },
+    toggleCompactChaptersPanel() { document.getElementById('settingsPanel').classList.remove('active'); document.getElementById('compactChaptersPanel').classList.toggle('active'); },
+    toggleSettingsPanel() { document.getElementById('compactChaptersPanel').classList.remove('active'); document.getElementById('settingsPanel').classList.toggle('active'); },
 
     loadInteractions() {
       const pathId = `${this.state.currentNovelId}_ch_${this.state.currentChapterIdx}`;
-      onValue(ref(db, `likes/${pathId}`), (snapshot) => {
-        const count = snapshot.val() || 0;
-        document.getElementById('like-count').textContent = count;
-      });
-
-      onValue(ref(db, `comments/${pathId}`), (snapshot) => {
-        const data = snapshot.val();
-        const container = document.getElementById('comments-container');
-        if (!data) {
-          container.innerHTML = `<p style="font-size:0.8rem; color:var(--ink-dim); text-align:center; padding:10px 0;">Belum ada komentar. Jadilah yang pertama!</p>`;
-          return;
-        }
-        const list = Object.values(data).reverse();
-        container.innerHTML = list.map(c => `
-          <div class="comment-item">
-            <div class="comment-meta"><span>${c.name}</span><span>${c.date}</span></div>
-            <div class="comment-body">${c.text}</div>
-          </div>
-        `).join('');
+      onValue(ref(db, `likes/${pathId}`), (s) => { document.getElementById('like-count').textContent = s.val() || 0; });
+      onValue(ref(db, `comments/${pathId}`), (s) => {
+        const data = s.val(); const container = document.getElementById('comments-container');
+        if (!data) { container.innerHTML = `<p style="font-size:0.8rem; color:var(--ink-dim); text-align:center; padding:10px 0;">Belum ada komentar.</p>`; return; }
+        container.innerHTML = Object.values(data).reverse().map(c => `<div class="comment-item"><div class="comment-meta"><span>${c.name}</span><span>${c.date}</span></div><div class="comment-body">${c.text}</div></div>`).join('');
       });
     },
 
     addLike() {
       const pathId = `${this.state.currentNovelId}_ch_${this.state.currentChapterIdx}`;
-      const currentCount = parseInt(document.getElementById('like-count').textContent) || 0;
-      set(ref(db, `likes/${pathId}`), currentCount + 1);
+      const currentCount = parseInt(document.getElementById('like-count').textContent) || 0; set(ref(db, `likes/${pathId}`), currentCount + 1);
+      let likedKeys = JSON.parse(localStorage.getItem('liked_history_keys') || '[]');
+      if (!likedKeys.includes(pathId)) { likedKeys.push(pathId); localStorage.setItem('liked_history_keys', JSON.stringify(likedKeys)); localStorage.setItem('liked_chapters_count', JSON.stringify(likedKeys.length)); }
     },
 
     submitComment() {
-      const nameInp = document.getElementById('input-comment-name');
-      const textInp = document.getElementById('input-comment-text');
-      const name = nameInp.value.trim() || "Pembaca Misterius";
-      const text = textInp.value.trim();
-
-      if (!text) return alert("Tulis isi komentar terlebih dahulu!");
-
-      const pathId = `${this.state.currentNovelId}_ch_${this.state.currentChapterIdx}`;
-      const newCommentRef = push(ref(db, `comments/${pathId}`));
-      
-      const now = new Date();
-      const dateString = `${now.getDate()}/${now.getMonth()+1} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-
-      set(newCommentRef, { name, text, date: dateString }).then(() => {
-        textInp.value = "";
-      });
+      const name = document.getElementById('input-comment-name').value.trim() || "Pembaca Misterius"; const text = document.getElementById('input-comment-text').value.trim(); if (!text) return alert("Komentar kosong!");
+      const now = new Date(); const dateString = `${now.getDate()}/${now.getMonth()+1} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+      set(push(ref(db, `comments/${pathId}`)), { name, text, date: dateString }).then(() => { document.getElementById('input-comment-text').value = ""; });
     },
 
     toggleAutoScroll() {
-      const btn = document.getElementById('btn-scroll-toggle');
-      const speedPanel = document.getElementById('scroll-speeds');
-      if (this.isScrolling) { this.stopAutoScroll(); } else {
-        this.isScrolling = true; btn.textContent = "Berhenti"; btn.style.borderColor = "var(--crimson)"; speedPanel.style.display = "flex";
-        this.scrollInterval = setInterval(() => { window.scrollBy(0, this.scrollSpeed); }, 40);
-      }
+      const btn = document.getElementById('btn-scroll-toggle'); const speedPanel = document.getElementById('scroll-speeds');
+      if (this.isScrolling) { this.stopAutoScroll(); } else { this.isScrolling = true; btn.textContent = "Berhenti"; btn.style.borderColor = "var(--crimson)"; speedPanel.style.display = "flex"; this.scrollInterval = setInterval(() => { window.scrollBy(0, this.scrollSpeed); }, 40); }
     },
-    stopAutoScroll() {
-      this.isScrolling = false; clearInterval(this.scrollInterval);
-      const btn = document.getElementById('btn-scroll-toggle'); if(btn) { btn.textContent = "Mulai"; btn.style.borderColor = "var(--hair)"; }
-      const speedPanel = document.getElementById('scroll-speeds'); if(speedPanel) speedPanel.style.display = "none";
-    },
-    setScrollSpeed(sp) {
-      this.scrollSpeed = sp; const btns = document.querySelectorAll('#scroll-speeds button');
-      btns.forEach(b => b.classList.remove('active')); event.target.classList.add('active');
-    },
+    stopAutoScroll() { this.isScrolling = false; clearInterval(this.scrollInterval); const btn = document.getElementById('btn-scroll-toggle'); if(btn) { btn.textContent = "Mulai"; btn.style.borderColor = "var(--hair)"; } const speedPanel = document.getElementById('scroll-speeds'); if(speedPanel) speedPanel.style.display = "none"; },
+    setScrollSpeed(sp) { this.scrollSpeed = sp; document.querySelectorAll('#scroll-speeds button').forEach(b => b.classList.remove('active')); event.target.classList.add('active'); },
 
-    playTTS() {
-      if (this.isTtsPaused) { window.speechSynthesis.resume(); this.isTtsPaused = false; this.toggleTtsButtons(true, true, true); return; }
-      window.speechSynthesis.cancel(); this.currentTtsIdx = 0; this.speakParagraph();
-    },
+    playTTS() { if (this.isTtsPaused) { window.speechSynthesis.resume(); this.isTtsPaused = false; this.toggleTtsButtons(true, true, true); return; } window.speechSynthesis.cancel(); this.currentTtsIdx = 0; this.speakParagraph(); },
     speakParagraph() {
       if (this.currentTtsIdx >= this.ttsParagraphs.length) { this.stopTTS(); return; }
-      document.querySelectorAll('.prose p').forEach(p => p.classList.remove('tts-active'));
-      const activeP = document.getElementById(`p-text-${this.currentTtsIdx}`);
+      document.querySelectorAll('.prose p').forEach(p => p.classList.remove('tts-active')); const activeP = document.getElementById(`p-text-${this.currentTtsIdx}`);
       if(activeP) { activeP.classList.add('tts-active'); activeP.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-      this.ttsUtterance = new SpeechSynthesisUtterance(this.ttsParagraphs[this.currentTtsIdx]);
-      this.ttsUtterance.lang = 'id-ID';
-      this.ttsUtterance.onend = () => { this.currentTtsIdx++; this.speakParagraph(); };
-      this.ttsUtterance.onerror = () => this.stopTTS();
+      this.ttsUtterance = new SpeechSynthesisUtterance(this.ttsParagraphs[this.currentTtsIdx]); this.ttsUtterance.lang = 'id-ID';
+      this.ttsUtterance.onend = () => { this.currentTtsIdx++; this.speakParagraph(); }; this.ttsUtterance.onerror = () => this.stopTTS();
       window.speechSynthesis.speak(this.ttsUtterance); this.toggleTtsButtons(false, true, true);
     },
     pauseTTS() { window.speechSynthesis.pause(); this.isTtsPaused = true; this.toggleTtsButtons(true, false, true); },
-    stopTTS() {
-      window.speechSynthesis.cancel(); this.isTtsPaused = false; this.currentTtsIdx = 0;
-      document.querySelectorAll('.prose p').forEach(p => p.classList.remove('tts-active')); this.toggleTtsButtons(true, false, false);
-    },
-    toggleTtsButtons(play, pause, stop) {
-      document.getElementById('btn-tts-play').style.display = play ? 'block' : 'none';
-      document.getElementById('btn-tts-pause').style.display = pause ? 'block' : 'none';
-      document.getElementById('btn-tts-stop').style.display = stop ? 'block' : 'none';
-    },
+    stopTTS() { window.speechSynthesis.cancel(); this.isTtsPaused = false; this.currentTtsIdx = 0; document.querySelectorAll('.prose p').forEach(p => p.classList.remove('tts-active')); this.toggleTtsButtons(true, false, false); },
+    toggleTtsButtons(play, pause, stop) { document.getElementById('btn-tts-play').style.display = play ? 'block' : 'none'; document.getElementById('btn-tts-pause').style.display = pause ? 'block' : 'none'; document.getElementById('btn-tts-stop').style.display = stop ? 'block' : 'none'; },
 
     navChapter(dir) { this.showView('reader', { novelId: this.state.currentNovelId, chapterIdx: this.state.currentChapterIdx + dir }); },
     setReaderTheme(th) { document.body.setAttribute('data-reader-theme', th); },
@@ -575,47 +569,32 @@
       document.getElementById(`panel-tab-${tabName}`).style.display = 'block'; document.getElementById(`tab-btn-${tabName}`).classList.add('active');
     },
     updateAdminSelectors() {
-      const targetSel = document.getElementById('select-novel-target'); const deleteSel = document.getElementById('select-novel-delete');
       const optionsHtml = this.novels.map(n => `<option value="${n.id}">${n.title}</option>`).join('');
-      if(targetSel) targetSel.innerHTML = optionsHtml; if(deleteSel) deleteSel.innerHTML = optionsHtml;
+      if(document.getElementById('select-novel-target')) document.getElementById('select-novel-target').innerHTML = optionsHtml;
+      if(document.getElementById('select-novel-delete')) document.getElementById('select-novel-delete').innerHTML = optionsHtml;
     },
     createNewNovel() {
       const id = document.getElementById('add-novel-id').value.trim(); const title = document.getElementById('add-novel-title').value.trim(); const author = document.getElementById('add-novel-author').value.trim();
       const genresInput = document.getElementById('add-novel-genres').value.trim(); const cover = document.getElementById('add-novel-cover').value.trim(); const synopsis = document.getElementById('add-novel-synopsis').value.trim();
       if(!id || !title || !author) return alert("Lengkapi data!");
       const newNovel = { id, title, author, synopsis: synopsis || "Belum ada sinopsis.", genres: genresInput ? genresInput.split(',').map(g => g.trim()) : ["Fantasy"], coverUrl: cover || "1000067643.png", chapters: [] };
-      this.novels.push(newNovel); set(ref(db, 'pustaka_novels'), this.novels).then(() => { alert("Novel tersimpan di Cloud!"); this.showView('home'); });
+      this.novels.push(newNovel); set(ref(db, 'pustaka_novels'), this.novels).then(() => { alert("Novel disimpan!"); this.showView('home'); });
     },
     addNewChapter() {
-      const targetId = document.getElementById('select-novel-target').value; const novel = this.novels.find(n => n.id === targetId);
+      const novel = this.novels.find(n => n.id === document.getElementById('select-novel-target').value);
       const title = document.getElementById('new-chapter-title').value.trim(); const content = document.getElementById('new-chapter-content').value;
       if (!novel || !title || !content) return alert("Isi data!"); if(!novel.chapters) novel.chapters = [];
       novel.chapters.push({ title, paragraphs: content.split('\n').map(p => p.trim()).filter(p => p !== '') });
       set(ref(db, 'pustaka_novels'), this.novels).then(() => { alert("Chapter ditambahkan!"); this.showView('novel', { novelId: novel.id }); });
     },
     deleteCurrentChapter() {
-      const targetId = document.getElementById('select-novel-delete').value; const novel = this.novels.find(n => n.id === targetId);
+      const novel = this.novels.find(n => n.id === document.getElementById('select-novel-delete').value);
       if (!novel || !novel.chapters || novel.chapters.length === 0) return alert("Kosong.");
-      if (confirm("Hapus chapter terakhir?")) {
-        novel.chapters.pop(); set(ref(db, 'pustaka_novels'), this.novels).then(() => { alert("Terhapus!"); this.showView('novel', { novelId: novel.id }); });
-      }
+      if (confirm("Hapus chapter terakhir?")) { novel.chapters.pop(); set(ref(db, 'pustaka_novels'), this.novels).then(() => { alert("Terhapus!"); this.showView('novel', { novelId: novel.id }); }); }
     },
-    deleteWholeNovel(novelId) {
-      if(confirm("Hapus seluruh novel dari Cloud?")) { this.novels = this.novels.filter(n => n.id !== novelId); set(ref(db, 'pustaka_novels'), this.novels); }
-    },
+    deleteWholeNovel(novelId) { if(confirm("Hapus seluruh novel dari Cloud?")) { this.novels = this.novels.filter(n => n.id !== novelId); set(ref(db, 'pustaka_novels'), this.novels); } },
 
-    devTap() { 
-      this.devClicks++; 
-      if (this.devClicks >= 5) { 
-        this.devClicks = 0; 
-        const pinInput = prompt("🔑 Ruang Terkunci. Masukkan PIN Admin:");
-        if (pinInput === "😎") { 
-          this.showView('admin'); 
-        } else { 
-          alert("❌ PIN Salah! Akses ditolak."); 
-        } 
-      } 
-    }
+    devTap() { this.devClicks++; if (this.devClicks >= 5) { this.devClicks = 0; const pin = prompt("🔑 Masukkan PIN Admin:"); if (pin === "😎") this.showView('admin'); else alert("❌ Salah!"); } }
   };
 
   document.addEventListener('DOMContentLoaded', () => app.init());
