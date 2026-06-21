@@ -235,7 +235,26 @@
     </div>
     
     <div class="rb-right-buttons">
-      <button class="settings-btn" id="btn-bgm-toggle" onclick="app.toggleBGM()" title="Nyalakan Musik Latar">🎵</button>
+        <div class="prose-wrap">
+    <div class="reading-time-badge" id="reading-time-display">Waktu baca: ~0 menit</div>
+    <article class="prose" id="prose-content"></article>
+  </div>
+  
+  <div class="reader-footer">
+    <button class="btn-nav" id="prev-btn" onclick="app.navChapter(-1)">← Prev</button>
+    <button class="btn-nav" id="next-btn" onclick="app.navChapter(1)">Next →</button>
+  </div>
+
+  <div style="max-width: 680px; margin: 20px auto; padding: 0 6vw;">
+    <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DX7bpf0v5wG79" 
+            width="100%" height="152" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius: 12px;">
+    </iframe>
+  </div>
+
+  <section class="interaction-section">
+    <div class="like-box"><button class="btn-like" onclick="app.addLike()">❤️ Suka Cerita Ini (<span id="like-count">0</span>)</button></div>
+
       <button class="settings-btn" onclick="app.toggleCompactChaptersPanel()" title="Daftar Chapter">
         <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="fill:none; stroke:currentColor;"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
       </button>
