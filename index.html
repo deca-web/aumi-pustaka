@@ -86,23 +86,44 @@
     .settings-btn { width: 36px; height: 36px; border-radius: 4px; border: 1px solid var(--hair); color: var(--ink); display: flex; align-items: center; justify-content: center; }
     .settings-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; }
 
-    .reader-settings-panel { display: none; position: absolute; top: 60px; right: 6vw; z-index: 110; width: 280px; background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .reader-settings-panel { display: none; position: absolute; top: 60px; right: 6vw; z-index: 110; width: 300px; background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
     .reader-settings-panel.active { display: block !important; }
-    .set-group { margin-bottom: 14px; }
-    .set-label { font-size: 0.7rem; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 6px; }
+    .set-group { margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(234, 230, 218, 0.05); }
+    .set-group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .set-label { font-size: 0.7rem; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 8px; font-weight: 600; letter-spacing: 0.05em; }
     .set-options { display: flex; gap: 6px; }
-    .set-opt-btn { flex: 1; padding: 6px; border: 1px solid var(--hair); font-size: 0.78rem; border-radius: 4px; color: var(--ink); text-align: center; background: rgba(0,0,0,0.2); }
+    .set-opt-btn { flex: 1; padding: 7px; border: 1px solid var(--hair); font-size: 0.75rem; border-radius: 4px; color: var(--ink); text-align: center; background: rgba(0,0,0,0.2); }
     .set-opt-btn.active { border-color: var(--gold); background: var(--gold-soft); color: #fff; }
     .fs-controls { display: flex; gap: 6px; }
-    .fs-btn { flex: 1; height: 32px; border-radius: 4px; border: 1px solid var(--hair); color: var(--ink); background: rgba(0,0,0,0.2); }
+    .fs-btn { flex: 1; height: 32px; border-radius: 4px; border: 1px solid var(--hair); color: var(--ink); background: rgba(0,0,0,0.2); font-weight: bold; }
 
     .prose-wrap { max-width: 680px; margin: 0 auto; padding: 4vh 6vw; }
     .prose { font-family: 'Source Serif 4', serif; font-size: var(--reader-fs); line-height: var(--reader-lh); color: var(--ink); text-align: center; }
-    .prose p { margin-bottom: 2.5em; word-wrap: break-word; }
+    .prose p { margin-bottom: 2.5em; word-wrap: break-word; transition: background 0.3s; padding: 4px; border-radius: 4px; }
+    .prose p.tts-active { background: rgba(201, 162, 75, 0.25); color: var(--gold); }
 
-    .reader-footer { max-width: 680px; margin: 20px auto; padding: 20px 6vw 6vh; display: flex; justify-content: space-between; border-top: 1px solid var(--hair); }
+    .reader-footer { max-width: 680px; margin: 20px auto; padding: 20px 6vw; display: flex; justify-content: space-between; border-top: 1px solid var(--hair); }
     .btn-nav { border: 1px solid var(--hair); color: var(--ink); padding: 8px 16px; border-radius: 4px; font-size: 0.8rem; background: var(--surface); }
     .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    /* --- STYLE BARU: INTERAKSI (LIKE & KOMENTAR) --- */
+    .interaction-section { max-width: 680px; margin: 0 auto; padding: 0 6vw 8vh; }
+    .like-box { text-align: center; margin: 30px 0; padding: 20px; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+    .btn-like { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--gold); color: var(--gold); padding: 10px 24px; border-radius: 30px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
+    .btn-like:active { transform: scale(0.95); }
+    
+    .comment-box { background: var(--surface); border: 1px solid var(--hair); border-radius: 8px; padding: 20px; margin-top: 30px; }
+    .comment-box h3 { font-size: 1rem; color: var(--gold); margin-bottom: 15px; }
+    .comment-input-grid { display: flex; flex-direction: column; gap: 10px; }
+    .comment-name { background: var(--void); color: var(--ink); border: 1px solid var(--hair); padding: 10px; border-radius: 4px; font-size: 0.85rem; width: 100%; max-width: 200px; }
+    .comment-text { background: var(--void); color: var(--ink); border: 1px solid var(--hair); padding: 12px; border-radius: 4px; font-size: 0.88rem; min-height: 70px; resize: none; width: 100%; }
+    .btn-comment-submit { background: var(--gold); color: #fff; border-radius: 4px; padding: 8px 16px; font-size: 0.85rem; font-weight: 600; align-self: flex-end; }
+    
+    .comment-list { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+    .comment-item { border-bottom: 1px solid var(--hair); padding-bottom: 12px; }
+    .comment-item:last-child { border-bottom: none; }
+    .comment-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--gold); margin-bottom: 4px; font-weight: 600; }
+    .comment-body { font-size: 0.85rem; color: var(--ink); line-height: 1.5; }
 
     /* --- ADMIN SYSTEM --- */
     .admin-panel { max-width: 700px; margin: 30px auto; padding: 20px 6vw; background: var(--surface); border: 1px solid var(--hair); border-radius: 8px; }
@@ -165,16 +186,58 @@
     <button class="settings-btn" onclick="app.toggleSettingsPanel()">
       <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
     </button>
+    
     <div class="reader-settings-panel" id="settingsPanel">
       <div class="set-group"><div class="set-label">Ukuran Huruf</div><div class="fs-controls"><button class="fs-btn" onclick="app.changeFontSize(-1)">A−</button><button class="fs-btn" onclick="app.changeFontSize(1)">A+</button></div></div>
       <div class="set-group"><div class="set-label">Warna Kertas</div><div class="set-options"><button class="set-opt-btn active" id="opt-th-dark" onclick="app.setReaderTheme('dark')">Gelap</button><button class="set-opt-btn" id="opt-th-sepia" onclick="app.setReaderTheme('sepia')">Sepia</button><button class="set-opt-btn" id="opt-th-light" onclick="app.setReaderTheme('light')">Terang</button></div></div>
+      
+      <div class="set-group">
+        <div class="set-label">Gulir Otomatis (Scroll)</div>
+        <div class="set-options" style="margin-bottom:6px;">
+          <button class="set-opt-btn" id="btn-scroll-toggle" onclick="app.toggleAutoScroll()">Mulai</button>
+        </div>
+        <div class="set-options" id="scroll-speeds" style="display:none;">
+          <button class="set-opt-btn active" onclick="app.setScrollSpeed(1)">Lambat</button>
+          <button class="set-opt-btn" onclick="app.setScrollSpeed(2)">Sedang</button>
+          <button class="set-opt-btn" onclick="app.setScrollSpeed(4)">Cepat</button>
+        </div>
+      </div>
+
+      <div class="set-group">
+        <div class="set-label">Suara Cerita (Audio AI)</div>
+        <div class="set-options">
+          <button class="set-opt-btn" id="btn-tts-play" onclick="app.playTTS()">Baca</button>
+          <button class="set-opt-btn" id="btn-tts-pause" onclick="app.pauseTTS()" style="display:none;">Jeda</button>
+          <button class="set-opt-btn" id="btn-tts-stop" onclick="app.stopTTS()" style="display:none;">Stop</button>
+        </div>
+      </div>
     </div>
   </div>
+
   <div class="prose-wrap"><article class="prose" id="prose-content"></article></div>
+  
   <div class="reader-footer">
     <button class="btn-nav" id="prev-btn" onclick="app.navChapter(-1)">← Prev</button>
     <button class="btn-nav" id="next-btn" onclick="app.navChapter(1)">Next →</button>
   </div>
+
+  <section class="interaction-section">
+    <div class="like-box">
+      <button class="btn-like" onclick="app.addLike()">
+        ❤️ Suka Cerita Ini (<span id="like-count">0</span>)
+      </button>
+    </div>
+
+    <div class="comment-box">
+      <h3>Kolom Komentar Pembaca</h3>
+      <div class="comment-input-grid">
+        <input type="text" id="input-comment-name" class="comment-name" placeholder="Nama Panggilan...">
+        <textarea id="input-comment-text" class="comment-text" placeholder="Tulis tanggapan atau opinimu tentang chapter ini..."></textarea>
+        <button class="btn-comment-submit" onclick="app.submitComment()">Kirim Komentar</button>
+      </div>
+      <div class="comment-list" id="comments-container"></div>
+    </div>
+  </section>
 </main>
 
 <main id="view-admin" class="view">
@@ -189,15 +252,15 @@
     </div>
 
     <div id="panel-tab-novel" class="admin-sub-tab">
-      <label style="font-size:0.75rem; color:var(--ink-dim);">ID UNIQUE NOVEL (Huruf kecil & tanda strip)</label>
+      <label style="font-size:0.75rem; color:var(--ink-dim);">ID UNIQUE NOVEL</label>
       <input type="text" id="add-novel-id" class="admin-input" placeholder="Contoh: ushinawareta-ryu">
       <label style="font-size:0.75rem; color:var(--ink-dim);">JUDUL NOVEL</label>
       <input type="text" id="add-novel-title" class="admin-input" placeholder="Masukkan Judul Novel">
       <label style="font-size:0.75rem; color:var(--ink-dim);">NAMA PENULIS / AUTHOR</label>
       <input type="text" id="add-novel-author" class="admin-input" placeholder="Karya: Dammahum Run NASHKI">
-      <label style="font-size:0.75rem; color:var(--ink-dim);">GENRE (Pisahkan dengan koma)</label>
+      <label style="font-size:0.75rem; color:var(--ink-dim);">GENRE</label>
       <input type="text" id="add-novel-genres" class="admin-input" placeholder="Action, Fantasy, Drama">
-      <label style="font-size:0.75rem; color:var(--ink-dim);">FILE COVER (Nama file gambar)</label>
+      <label style="font-size:0.75rem; color:var(--ink-dim);">FILE COVER</label>
       <input type="text" id="add-novel-cover" class="admin-input" placeholder="Contoh: 1000067643.png">
       <label style="font-size:0.75rem; color:var(--ink-dim);">SINOPSIS CERITA</label>
       <textarea id="add-novel-synopsis" class="admin-textarea" placeholder="Tulis sinopsis novel..."></textarea>
@@ -210,12 +273,11 @@
       <label style="font-size:0.75rem; color:var(--ink-dim);">JUDUL CHAPTER</label>
       <input type="text" id="new-chapter-title" class="admin-input" placeholder="Contoh: CHAPTER 1: Kebangkitan">
       <label style="font-size:0.75rem; color:var(--ink-dim);">ISI CERITA CHAPTER</label>
-      <textarea id="new-chapter-content" class="admin-textarea" placeholder="Tulis teks cerita di sini... (Gunakan enter dua kali untuk spasi paragraf)"></textarea>
+      <textarea id="new-chapter-content" class="admin-textarea" placeholder="Tulis teks cerita..."></textarea>
       <button class="btn-action btn-green" onclick="app.addNewChapter()">Tambah Chapter ke Cloud</button>
     </div>
 
     <div id="panel-tab-delete" class="admin-sub-tab" style="display:none;">
-      <p style="font-size:0.85rem; color:var(--ink-dim); margin-bottom:15px;">Pilih novel untuk menghapus data chapter paling terakhir.</p>
       <label style="font-size:0.75rem; color:var(--ink-dim);">PILIH NOVEL</label>
       <select id="select-novel-delete" class="admin-input" style="background:var(--void); color:var(--ink);"></select>
       <button class="btn-action btn-red" onclick="app.deleteCurrentChapter()">Hapus Chapter Terakhir dari Cloud</button>
@@ -225,9 +287,8 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+  import { getDatabase, ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-  // Menggunakan konfigurasi Firebase asli milikmu
   const firebaseConfig = {
     apiKey: "AIzaSyApHB-eoNojbupy2vY0aVBVl_zeeKpgy2o",
     authDomain: "aumi-database.firebaseapp.com",
@@ -242,45 +303,33 @@
   const fApp = initializeApp(firebaseConfig);
   const db = getDatabase(fApp);
 
-  // Data awal jika Database Cloud masih kosong total
   const defaultInitialData = [
     {
       id: "ushinawareta-ryu",
-      title: "失われた龍の記憶の 天界の美德",
+      title: "失われた龍 di 記憶",
       author: "Karya: Dammahum Run NASHKI",
-      synopsis: "Kisah Sang Naga legendaris Ryuu Ren yang terbangun kembali setelah seribu tahun lamanya di dunia baru. Membawa kekuatan dahsyat 'Gyakusatsu no Ken' (Pedang Pembantai) demi mengembalikan kebajikan surga.",
-      genres: ["Epic Dark Fantasy", "Adventure", "Action", "Drama", "Romance", "Mystery"],
+      synopsis: "Kisah Sang Naga legendaris Ryuu Ren yang terbangun kembali setelah seribu tahun lamanya di dunia baru.",
+      genres: ["Epic Dark Fantasy", "Adventure"],
       coverUrl: "1000067643.png",
-      chapters: [
-        {
-          title: "CHAPTER 1: Kebangkitan Setelah Seribu Tahun",
-          paragraphs: [
-            "Suara angin. Itulah hal pertama yang terdengar.",
-            "Bukan suara manusia. Bukan suara perang. Bukan suara pedang.",
-            "Hanya suara alam yang sudah lama mengambil kembali tempatnya."
-          ]
-        }
-      ]
+      chapters: [{ title: "CHAPTER 1: Kebangkitan Setelah Seribu Tahun", paragraphs: ["Suara angin. Itulah hal pertama yang terdengar.", "Hanya suara alam yang mengambil kembali tempatnya."] }]
     }
   ];
 
   window.app = {
     novels: [], devClicks: 0,
     state: { currentNovelId: null, currentChapterIdx: 0, fontSizeLevel: 0 },
+    scrollInterval: null, scrollSpeed: 1, isScrolling: false,
+    ttsUtterance: null, ttsParagraphs: [], currentTtsIdx: 0, isTtsPaused: false,
 
     init() {
       this.applyFontSize();
-      
-      // Sinkronisasi data dari Cloud Firebase secara Real-time
       const dbRef = ref(db, 'pustaka_novels');
       onValue(dbRef, (snapshot) => {
         const data = snapshot.val();
         if (!data) {
-          // Jika cloud kosong, isi dengan data default naga
           set(dbRef, defaultInitialData);
           this.novels = defaultInitialData;
         } else {
-          // Firebase menyimpan array tanpa index kosong, pastikan formatnya aman
           this.novels = Object.values(data).map(n => {
             if (!n.chapters) n.chapters = [];
             if (!n.genres) n.genres = [];
@@ -289,10 +338,10 @@
         }
         this.renderLibrary();
         this.updateAdminSelectors();
-        
-        // Refresh view jika sedang membuka halaman tertentu
-        if (this.state.currentNovelId) {
-          this.renderNovelDetail(this.state.currentNovelId);
+        if (this.state.currentNovelId) this.renderNovelDetail(this.state.currentNovelId);
+        // Refresh live interactions jika pembaca sedang di halaman baca
+        if (document.getElementById('view-reader').classList.contains('active')) {
+          this.loadInteractions();
         }
       });
     },
@@ -312,6 +361,9 @@
     },
 
     showView(viewName, params = {}) {
+      this.stopAutoScroll();
+      this.stopTTS();
+      document.getElementById('settingsPanel').classList.remove('active');
       document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
       const target = document.getElementById(`view-${viewName}`);
       if (target) target.classList.add('active');
@@ -324,7 +376,6 @@
       const novel = this.novels.find(n => n.id === novelId);
       if (!novel) return;
       this.state.currentNovelId = novelId;
-
       document.getElementById('detail-title').textContent = novel.title;
       document.getElementById('detail-author').textContent = novel.author;
       document.getElementById('detail-synopsis').textContent = novel.synopsis;
@@ -339,7 +390,7 @@
           </div>
         `).join('');
       } else {
-        container.innerHTML = `<p style="padding:15px; color:var(--ink-dim); font-size:0.85rem;">Belum ada chapter.</p>`;
+        container.innerHTML = `<p style="padding:15px; color:var(--ink-dim);">Belum ada chapter.</p>`;
       }
     },
 
@@ -349,10 +400,115 @@
       this.state.currentChapterIdx = chapterIdx;
       
       document.getElementById('reader-bar-title').textContent = novel.chapters[chapterIdx].title;
-      document.getElementById('prose-content').innerHTML = novel.chapters[chapterIdx].paragraphs.map(p => `<p>${p}</p>`).join('');
+      
+      this.ttsParagraphs = novel.chapters[chapterIdx].paragraphs;
+      document.getElementById('prose-content').innerHTML = this.ttsParagraphs.map((p, idx) => `<p id="p-text-${idx}">${p}</p>`).join('');
       
       document.getElementById('prev-btn').disabled = (chapterIdx === 0);
       document.getElementById('next-btn').disabled = (chapterIdx === novel.chapters.length - 1);
+      
+      // Ambil data Like dan Komentar khusus untuk chapter ini
+      this.loadInteractions();
+      window.scrollTo(0,0);
+    },
+
+    /* --- REALTIME ENGINE: LIKES & COMMENTS --- */
+    loadInteractions() {
+      const pathId = `${this.state.currentNovelId}_ch_${this.state.currentChapterIdx}`;
+      
+      // Listen jumlah Likes
+      onValue(ref(db, `likes/${pathId}`), (snapshot) => {
+        const count = snapshot.val() || 0;
+        document.getElementById('like-count').textContent = count;
+      });
+
+      // Listen List Komentar
+      onValue(ref(db, `comments/${pathId}`), (snapshot) => {
+        const data = snapshot.val();
+        const container = document.getElementById('comments-container');
+        if (!data) {
+          container.innerHTML = `<p style="font-size:0.8rem; color:var(--ink-dim); text-align:center; padding:10px 0;">Belum ada komentar. Jadilah yang pertama!</p>`;
+          return;
+        }
+        const list = Object.values(data).reverse(); // Komentar terbaru di atas
+        container.innerHTML = list.map(c => `
+          <div class="comment-item">
+            <div class="comment-meta"><span>${c.name}</span><span>${c.date}</span></div>
+            <div class="comment-body">${c.text}</div>
+          </div>
+        `).join('');
+      });
+    },
+
+    addLike() {
+      const pathId = `${this.state.currentNovelId}_ch_${this.state.currentChapterIdx}`;
+      const currentCount = parseInt(document.getElementById('like-count').textContent) || 0;
+      set(ref(db, `likes/${pathId}`), currentCount + 1);
+    },
+
+    submitComment() {
+      const nameInp = document.getElementById('input-comment-name');
+      const textInp = document.getElementById('input-comment-text');
+      const name = nameInp.value.trim() || "Pembaca Misterius";
+      const text = textInp.value.trim();
+
+      if (!text) return alert("Tulis isi komentar terlebih dahulu!");
+
+      const pathId = `${this.state.currentNovelId}_ch_${this.state.currentChapterIdx}`;
+      const newCommentRef = push(ref(db, `comments/${pathId}`));
+      
+      const now = new Date();
+      const dateString = `${now.getDate()}/${now.getMonth()+1} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+      set(newCommentRef, { name, text, date: dateString }).then(() => {
+        textInp.value = ""; // Bersihkan kolom teks setelah kirim
+      });
+    },
+
+    /* --- AUTO SCROLL ENGINE --- */
+    toggleAutoScroll() {
+      const btn = document.getElementById('btn-scroll-toggle');
+      const speedPanel = document.getElementById('scroll-speeds');
+      if (this.isScrolling) { this.stopAutoScroll(); } else {
+        this.isScrolling = true; btn.textContent = "Berhenti"; btn.style.borderColor = "var(--crimson)"; speedPanel.style.display = "flex";
+        this.scrollInterval = setInterval(() => { window.scrollBy(0, this.scrollSpeed); }, 40);
+      }
+    },
+    stopAutoScroll() {
+      this.isScrolling = false; clearInterval(this.scrollInterval);
+      const btn = document.getElementById('btn-scroll-toggle'); if(btn) { btn.textContent = "Mulai"; btn.style.borderColor = "var(--hair)"; }
+      const speedPanel = document.getElementById('scroll-speeds'); if(speedPanel) speedPanel.style.display = "none";
+    },
+    setScrollSpeed(sp) {
+      this.scrollSpeed = sp; const btns = document.querySelectorAll('#scroll-speeds button');
+      btns.forEach(b => b.classList.remove('active')); event.target.classList.add('active');
+    },
+
+    /* --- TEXT TO SPEECH ENGINE --- */
+    playTTS() {
+      if (this.isTtsPaused) { window.speechSynthesis.resume(); this.isTtsPaused = false; this.toggleTtsButtons(true, true, true); return; }
+      window.speechSynthesis.cancel(); this.currentTtsIdx = 0; this.speakParagraph();
+    },
+    speakParagraph() {
+      if (this.currentTtsIdx >= this.ttsParagraphs.length) { this.stopTTS(); return; }
+      document.querySelectorAll('.prose p').forEach(p => p.classList.remove('tts-active'));
+      const activeP = document.getElementById(`p-text-${this.currentTtsIdx}`);
+      if(activeP) { activeP.classList.add('tts-active'); activeP.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      this.ttsUtterance = new SpeechSynthesisUtterance(this.ttsParagraphs[this.currentTtsIdx]);
+      this.ttsUtterance.lang = 'id-ID';
+      this.ttsUtterance.onend = () => { this.currentTtsIdx++; this.speakParagraph(); };
+      this.ttsUtterance.onerror = () => this.stopTTS();
+      window.speechSynthesis.speak(this.ttsUtterance); this.toggleTtsButtons(false, true, true);
+    },
+    pauseTTS() { window.speechSynthesis.pause(); this.isTtsPaused = true; this.toggleTtsButtons(true, false, true); },
+    stopTTS() {
+      window.speechSynthesis.cancel(); this.isTtsPaused = false; this.currentTtsIdx = 0;
+      document.querySelectorAll('.prose p').forEach(p => p.classList.remove('tts-active')); this.toggleTtsButtons(true, false, false);
+    },
+    toggleTtsButtons(play, pause, stop) {
+      document.getElementById('btn-tts-play').style.display = play ? 'block' : 'none';
+      document.getElementById('btn-tts-pause').style.display = pause ? 'block' : 'none';
+      document.getElementById('btn-tts-stop').style.display = stop ? 'block' : 'none';
     },
 
     navChapter(dir) { this.showView('reader', { novelId: this.state.currentNovelId, chapterIdx: this.state.currentChapterIdx + dir }); },
@@ -361,93 +517,39 @@
     changeFontSize(dir) { this.state.fontSizeLevel = Math.max(-2, Math.min(3, this.state.fontSizeLevel + dir)); this.applyFontSize(); },
     applyFontSize() { document.documentElement.style.setProperty('--reader-fs', ['0.95rem', '1.05rem', '1.15rem', '1.25rem', '1.35rem'][this.state.fontSizeLevel + 2]); },
 
-    /* --- LOGIC ADMIN SEPARATE --- */
     switchAdminTab(tabName) {
-      document.querySelectorAll('.admin-sub-tab').forEach(el => el.style.display = 'none');
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      
-      document.getElementById(`panel-tab-${tabName}`).style.display = 'block';
-      document.getElementById(`tab-btn-${tabName}`).classList.add('active');
+      document.querySelectorAll('.admin-sub-tab').forEach(el => el.style.display = 'none'); document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(`panel-tab-${tabName}`).style.display = 'block'; document.getElementById(`tab-btn-${tabName}`).classList.add('active');
     },
-
     updateAdminSelectors() {
-      const targetSel = document.getElementById('select-novel-target');
-      const deleteSel = document.getElementById('select-novel-delete');
+      const targetSel = document.getElementById('select-novel-target'); const deleteSel = document.getElementById('select-novel-delete');
       const optionsHtml = this.novels.map(n => `<option value="${n.id}">${n.title}</option>`).join('');
-      if(targetSel) targetSel.innerHTML = optionsHtml;
-      if(deleteSel) deleteSel.innerHTML = optionsHtml;
+      if(targetSel) targetSel.innerHTML = optionsHtml; if(deleteSel) deleteSel.innerHTML = optionsHtml;
     },
-
     createNewNovel() {
-      const id = document.getElementById('add-novel-id').value.trim();
-      const title = document.getElementById('add-novel-title').value.trim();
-      const author = document.getElementById('add-novel-author').value.trim();
-      const genresInput = document.getElementById('add-novel-genres').value.trim();
-      const cover = document.getElementById('add-novel-cover').value.trim();
-      const synopsis = document.getElementById('add-novel-synopsis').value.trim();
-
-      if(!id || !title || !author) return alert("Mohon lengkapi ID, Judul, dan Author!");
-
-      const newNovel = {
-        id: id, title: title, author: author, synopsis: synopsis || "Belum ada sinopsis.",
-        genres: genresInput ? genresInput.split(',').map(g => g.trim()) : ["Fantasy"],
-        coverUrl: cover || "1000067643.png",
-        chapters: []
-      };
-
-      this.novels.push(newNovel);
-      set(ref(db, 'pustaka_novels'), this.novels)
-        .then(() => {
-          alert("Novel baru berhasil disimpan ke Cloud!");
-          this.showView('home');
-        }).catch(err => alert("Gagal menyimpan: " + err.message));
+      const id = document.getElementById('add-novel-id').value.trim(); const title = document.getElementById('add-novel-title').value.trim(); const author = document.getElementById('add-novel-author').value.trim();
+      const genresInput = document.getElementById('add-novel-genres').value.trim(); const cover = document.getElementById('add-novel-cover').value.trim(); const synopsis = document.getElementById('add-novel-synopsis').value.trim();
+      if(!id || !title || !author) return alert("Lengkapi data!");
+      const newNovel = { id, title, author, synopsis: synopsis || "Belum ada sinopsis.", genres: genresInput ? genresInput.split(',').map(g => g.trim()) : ["Fantasy"], coverUrl: cover || "1000067643.png", chapters: [] };
+      this.novels.push(newNovel); set(ref(db, 'pustaka_novels'), this.novels).then(() => { alert("Novel tersimpan di Cloud!"); this.showView('home'); });
     },
-
     addNewChapter() {
-      const targetId = document.getElementById('select-novel-target').value;
-      const novel = this.novels.find(n => n.id === targetId);
-      const title = document.getElementById('new-chapter-title').value.trim();
-      const content = document.getElementById('new-chapter-content').value;
-
-      if (!novel || !title || !content) return alert("Isi judul dan konten chapter!");
-
-      if(!novel.chapters) novel.chapters = [];
-      novel.chapters.push({
-        title: title,
-        paragraphs: content.split('\n').map(p => p.trim()).filter(p => p !== '')
-      });
-
-      set(ref(db, 'pustaka_novels'), this.novels)
-        .then(() => {
-          alert(`Chapter baru sukses ditambahkan ke novel ${novel.title}!`);
-          this.showView('novel', { novelId: novel.id });
-        }).catch(err => alert("Gagal menyimpan chapter: " + err.message));
+      const targetId = document.getElementById('select-novel-target').value; const novel = this.novels.find(n => n.id === targetId);
+      const title = document.getElementById('new-chapter-title').value.trim(); const content = document.getElementById('new-chapter-content').value;
+      if (!novel || !title || !content) return alert("Isi data!"); if(!novel.chapters) novel.chapters = [];
+      novel.chapters.push({ title, paragraphs: content.split('\n').map(p => p.trim()).filter(p => p !== '') });
+      set(ref(db, 'pustaka_novels'), this.novels).then(() => { alert("Chapter ditambahkan!"); this.showView('novel', { novelId: novel.id }); });
     },
-
     deleteCurrentChapter() {
-      const targetId = document.getElementById('select-novel-delete').value;
-      const novel = this.novels.find(n => n.id === targetId);
-      
-      if (!novel || !novel.chapters || novel.chapters.length === 0) return alert("Tidak ada chapter di novel ini.");
-
-      if (confirm(`Hapus chapter terakhir dari novel: ${novel.title}?`)) {
-        novel.chapters.pop();
-        set(ref(db, 'pustaka_novels'), this.novels)
-          .then(() => {
-            alert("Chapter terakhir berhasil dihapus!");
-            this.showView('novel', { novelId: novel.id });
-          });
+      const targetId = document.getElementById('select-novel-delete').value; const novel = this.novels.find(n => n.id === targetId);
+      if (!novel || !novel.chapters || novel.chapters.length === 0) return alert("Kosong.");
+      if (confirm("Hapus chapter terakhir?")) {
+        novel.chapters.pop(); set(ref(db, 'pustaka_novels'), this.novels).then(() => { alert("Terhapus!"); this.showView('novel', { novelId: novel.id }); });
       }
     },
-
     deleteWholeNovel(novelId) {
-      if(confirm("Apakah kamu yakin ingin menghapus seluruh novel ini dari Cloud?")) {
-        this.novels = this.novels.filter(n => n.id !== novelId);
-        set(ref(db, 'pustaka_novels'), this.novels)
-          .then(() => alert("Novel berhasil dihapus dari Cloud."));
-      }
+      if(confirm("Hapus seluruh novel dari Cloud?")) { this.novels = this.novels.filter(n => n.id !== novelId); set(ref(db, 'pustaka_novels'), this.novels); }
     },
-
     devTap() { this.devClicks++; if (this.devClicks >= 5) { this.devClicks = 0; this.showView('admin'); } }
   };
 
