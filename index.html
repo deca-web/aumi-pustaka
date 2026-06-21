@@ -6,7 +6,7 @@
   <title>AUMI — Pustaka Kisah</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700&family=Source+Serif+4:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght=700&family=Source+Serif+4:wght=400;600&family=Inter:wght=400;500;600&display=swap" rel="stylesheet">
   
   <style>
     /* --- STYLE SYSTEM --- */
@@ -21,7 +21,7 @@
       --crimson: #9b3540;
       --hair: rgba(234, 230, 218, 0.09);
       --reader-fs: 1.125rem;
-      --reader-lh: 1.9;
+      --reader-lh: 1.8;
     }
 
     [data-theme="light"] {
@@ -95,7 +95,6 @@
     .rb-right-buttons { display: flex; gap: 8px; align-items: center; }
     .settings-btn { width: 36px; height: 36px; border-radius: 4px; border: 1px solid var(--hair); color: var(--ink); display: flex; align-items: center; justify-content: center; }
     .settings-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; }
-    .settings-btn.bgm-on { border-color: var(--gold); color: var(--gold); background: rgba(201,162,75,0.1); }
 
     .compact-chapters-panel { display: none; position: absolute; top: 60px; right: 6vw; z-index: 110; width: 280px; max-height: 350px; overflow-y: auto; background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
     .compact-chapters-panel.active { display: block !important; }
@@ -116,12 +115,16 @@
 
     .reading-time-badge { font-size: 0.75rem; color: var(--gold); text-align: center; margin-bottom: 25px; font-style: italic; letter-spacing: 0.02em; }
 
-    .prose-wrap { max-width: 680px; margin: 0 auto; padding: 2vh 6vw 4vh; }
+    /* PERBAIKAN: JARAK PARAGRAF DIATUR AGAR LEBIH RAPAT DAN NYAMAN BACA */
+    .prose-wrap { max-width: 680px; margin: 0 auto; padding: 2vh 6vw 2vh; }
     .prose { font-family: 'Source Serif 4', serif; font-size: var(--reader-fs); line-height: var(--reader-lh); color: var(--ink); text-align: center; }
-    .prose p { margin-bottom: 2.5em; word-wrap: break-word; transition: background 0.3s; padding: 4px; border-radius: 4px; }
+    .prose p { margin-bottom: 1.4em; word-wrap: break-word; transition: background 0.3s; padding: 4px; border-radius: 4px; }
     .prose p.tts-active { background: rgba(201, 162, 75, 0.25); color: var(--gold); }
 
-    .reader-footer { max-width: 680px; margin: 20px auto; padding: 20px 6vw; display: flex; justify-content: space-between; border-top: 1px solid var(--hair); }
+    /* SPOTIFY CONTAINER STYLE */
+    .spotify-container { max-width: 680px; margin: 25px auto 15px; padding: 0 6vw; }
+
+    .reader-footer { max-width: 680px; margin: 10px auto 20px; padding: 20px 6vw; display: flex; justify-content: space-between; border-top: 1px solid var(--hair); }
     .btn-nav { border: 1px solid var(--hair); color: var(--ink); padding: 8px 16px; border-radius: 4px; font-size: 0.8rem; background: var(--surface); }
     .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
 
@@ -143,17 +146,14 @@
     .comment-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--gold); margin-bottom: 4px; font-weight: 600; }
     .comment-body { font-size: 0.85rem; color: var(--ink); line-height: 1.5; }
 
-    /* VIEW: GRIMORI PUSTAKA */
     .lore-wrap { max-width: 800px; margin: 0 auto; padding: 4vh 6vw; }
     .lore-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 20px; }
     .lore-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 16px; position: relative; }
     .lore-term { font-family: 'Shippori Mincho B1', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 6px; }
     .lore-desc { font-size: 0.9rem; color: var(--ink-dim); line-height: 1.5; }
 
-    /* ADMIN GRIMORI LIST */
     .adm-grimori-item { display: flex; justify-content: space-between; align-items: start; background: var(--void); border: 1px solid var(--hair); padding: 12px; border-radius: 4px; margin-bottom: 10px; }
 
-    /* --- ADMIN SYSTEM --- */
     .admin-panel { max-width: 700px; margin: 30px auto; padding: 20px 6vw; background: var(--surface); border: 1px solid var(--hair); border-radius: 8px; }
     .admin-input, .admin-textarea { width: 100%; background: var(--void); color: var(--ink); border: 1px solid var(--hair); padding: 12px; border-radius: 4px; margin-bottom: 14px; font-family: inherit; }
     .admin-textarea { min-height: 120px; }
@@ -176,8 +176,6 @@
   </style>
 </head>
 <body>
-
-<audio id="bgm-player" loop src="https://assets.mixkit.co/music/preview/mixkit-japan-981.mp3"></audio>
 
 <header class="topbar">
   <div class="brand" onclick="app.devTap()">AUMI</div>
@@ -205,7 +203,6 @@
     <div class="back-link" onclick="app.showView('home')">← Kembali ke Pustaka</div>
     <h1 style="font-family:'Shippori Mincho B1', serif; color:var(--gold); margin-bottom:10px;">Grimori Pustaka</h1>
     <p style="color:var(--ink-dim); font-size:0.9rem; margin-bottom:20px;">Kumpulan catatan kuno multisemesta, istilah mistis, dan sejarah takdir dunia.</p>
-    
     <div class="lore-grid" id="grimori-display-container"></div>
   </div>
 </main>
@@ -235,26 +232,6 @@
     </div>
     
     <div class="rb-right-buttons">
-        <div class="prose-wrap">
-    <div class="reading-time-badge" id="reading-time-display">Waktu baca: ~0 menit</div>
-    <article class="prose" id="prose-content"></article>
-  </div>
-  
-  <div class="reader-footer">
-    <button class="btn-nav" id="prev-btn" onclick="app.navChapter(-1)">← Prev</button>
-    <button class="btn-nav" id="next-btn" onclick="app.navChapter(1)">Next →</button>
-  </div>
-
-  <div style="max-width: 680px; margin: 20px auto; padding: 0 6vw;">
-    <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DX7bpf0v5wG79" 
-            width="100%" height="152" frameBorder="0" allowfullscreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius: 12px;">
-    </iframe>
-  </div>
-
-  <section class="interaction-section">
-    <div class="like-box"><button class="btn-like" onclick="app.addLike()">❤️ Suka Cerita Ini (<span id="like-count">0</span>)</button></div>
-
       <button class="settings-btn" onclick="app.toggleCompactChaptersPanel()" title="Daftar Chapter">
         <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="fill:none; stroke:currentColor;"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
       </button>
@@ -295,6 +272,16 @@
     <article class="prose" id="prose-content"></article>
   </div>
   
+  <div class="spotify-container">
+    <p style="font-size: 0.75rem; color: var(--gold); margin-bottom: 8px; font-weight: bold; text-align: center; letter-spacing: 0.05em;">
+      🎵 PUTAR MUSIK LATAR JEPANG TRADISIONAL
+    </p>
+    <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1wWtZorVwWh6Z9?utm_source=generator&theme=0" 
+            width="100%" height="152" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border-radius: 8px; border: 1px solid var(--hair);">
+    </iframe>
+  </div>
+
   <div class="reader-footer">
     <button class="btn-nav" id="prev-btn" onclick="app.navChapter(-1)">← Prev</button>
     <button class="btn-nav" id="next-btn" onclick="app.navChapter(1)">Next →</button>
@@ -400,13 +387,11 @@
     state: { currentNovelId: null, currentChapterIdx: 0, fontSizeLevel: 0 },
     scrollInterval: null, scrollSpeed: 1, isScrolling: false,
     ttsUtterance: null, ttsParagraphs: [], currentTtsIdx: 0, isTtsPaused: false,
-    isBgmPlaying: false,
 
     init() {
       this.applyFontSize();
       this.checkAndRenderBadge();
       
-      // Sinkronisasi data Novel
       onValue(ref(db, 'pustaka_novels'), (snapshot) => {
         const data = snapshot.val();
         if (!data) { set(ref(db, 'pustaka_novels'), defaultInitialData); this.novels = defaultInitialData; } 
@@ -415,7 +400,6 @@
         if (this.state.currentNovelId) this.renderNovelDetail(this.state.currentNovelId);
       });
 
-      // Sinkronisasi data Grimori Pustaka dari Cloud
       onValue(ref(db, 'grimori_pustaka'), (snapshot) => {
         const data = snapshot.val();
         if (!data) { set(ref(db, 'grimori_pustaka'), defaultGrimori); this.grimori = defaultGrimori; }
@@ -427,14 +411,12 @@
     renderGrimori() {
       const container = document.getElementById('grimori-display-container');
       const adminContainer = document.getElementById('admin-grimori-list');
-      
       let html = ""; let admHtml = "";
       Object.keys(this.grimori).forEach(key => {
         const item = this.grimori[key];
         html += `<div class="lore-card"><div class="lore-term">${item.term}</div><div class="lore-desc">${item.desc}</div></div>`;
         admHtml += `<div class="adm-grimori-item"><div><strong>${item.term}</strong><p style="font-size:0.8rem; color:var(--ink-dim);">${item.desc}</p></div><button class="btn-small-red" onclick="app.deleteGrimoriLore('${key}')">Hapus</button></div>`;
       });
-
       if(container) container.innerHTML = html || "<p style='color:var(--ink-dim);'>Grimori kosong.</p>";
       if(adminContainer) adminContainer.innerHTML = admHtml || "<p style='color:var(--ink-dim);'>Belum ada istilah.</p>";
     },
@@ -443,7 +425,6 @@
       const term = document.getElementById('add-lore-term').value.trim();
       const desc = document.getElementById('add-lore-desc').value.trim();
       if(!term || !desc) return alert("Harap isi nama istilah dan penjelasannya!");
-      
       const newLoreRef = push(ref(db, 'grimori_pustaka'));
       set(newLoreRef, { term, desc }).then(() => {
         alert("Istilah berhasil disimpan ke Grimori Pustaka!");
@@ -465,14 +446,8 @@
       if (readChapters >= 1) badgeText = "Bayi naga: 子龍 / 小龍 (Koryū / Shōryū)";
       if (readChapters >= 3) badgeText = "Naga remaja: 若龍 (Wakaryū)";
       if (readChapters >= 5) badgeText = "Naga dewasa: 成龍 (Seiryū)";
-      if (likedChapters >= 2) badgeText = "Kolektor naga: 龍の収集家 (Ryū no Shūshūka)";
+      if (likedChapters >= 2) badgeText = "Kolektor naga: 龍ের সংগ্রহকারী";
       const labelEl = document.getElementById('user-badge-title'); if (labelEl) labelEl.textContent = badgeText;
-    },
-
-    toggleBGM() {
-      const audio = document.getElementById('bgm-player'); const btn = document.getElementById('btn-bgm-toggle'); if (!audio || !btn) return;
-      if (this.isBgmPlaying) { audio.pause(); this.isBgmPlaying = false; btn.classList.remove('bgm-on'); btn.title = "Nyalakan Musik"; } 
-      else { audio.play().catch(e => console.log("Izin audio browser dibutuhkan")); this.isBgmPlaying = true; btn.classList.add('bgm-on'); btn.title = "Matikan Musik"; }
     },
 
     renderLibrary() {
@@ -553,6 +528,7 @@
     },
 
     submitComment() {
+      const pathId = `${this.state.currentNovelId}_ch_${this.state.currentChapterIdx}`;
       const name = document.getElementById('input-comment-name').value.trim() || "Pembaca Misterius"; const text = document.getElementById('input-comment-text').value.trim(); if (!text) return alert("Komentar kosong!");
       const now = new Date(); const dateString = `${now.getDate()}/${now.getMonth()+1} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
       set(push(ref(db, `comments/${pathId}`)), { name, text, date: dateString }).then(() => { document.getElementById('input-comment-text').value = ""; });
