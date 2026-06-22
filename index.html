@@ -61,20 +61,35 @@
     }
     .brand { font-family: 'Shippori Mincho B1', serif; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.1em; color: var(--gold); cursor: pointer; }
     
-    .nav-buttons { display: flex; gap: 12px; }
+    .nav-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
     .nav-btn-link { color: var(--ink-dim); font-size: 0.85rem; font-weight: 500; cursor: pointer; padding: 6px 12px; border-radius: 4px; border: 1px solid var(--hair); }
     .nav-btn-link:hover { color: var(--gold); background: var(--surface-2); }
 
     .hero { padding: 4vh 6vw; text-align: center; max-width: 1100px; margin: 0 auto; }
     .hero h1 { font-family: 'Shippori Mincho B1', serif; font-size: 1.8rem; margin-bottom: 8px; color: var(--gold); }
     
-    .badge-status-box { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 12px; margin: 15px auto 0; max-width: 500px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.8rem; }
+    .badge-status-box { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 12px; margin: 15px auto 0; max-width: 500px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.8rem; cursor: pointer; }
 
     .shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; padding: 2vh 6vw; max-width: 1100px; margin: 0 auto; }
 
     .card { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; overflow: hidden; cursor: pointer; position: relative; transition: transform 0.2s; }
     .card:hover { transform: translateY(-4px); }
     .cover { height: 260px; background-size: cover; background-position: center; background-color: #111; }
+
+    /* STYLE KARTU PROFIL */
+    .profile-wrap { max-width: 600px; margin: 4vh auto; padding: 0 6vw; }
+    .profile-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 12px; padding: 24px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+    .profile-avatar { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; background: var(--surface-2); }
+    .profile-name-input { background: transparent; border: 1px dashed var(--gold-soft); color: var(--ink); text-align: center; font-size: 1.2rem; font-weight: bold; padding: 4px 10px; border-radius: 4px; margin-bottom: 5px; width: 80%; max-width: 250px; }
+    .profile-name-input:focus { outline: none; border-style: solid; border-color: var(--gold); background: var(--void); }
+    .profile-badge-title { font-size: 0.95rem; color: var(--gold); font-weight: 600; margin-bottom: 15px; }
+    .xp-bar-container { background: var(--void); border: 1px solid var(--hair); height: 16px; border-radius: 10px; overflow: hidden; margin-bottom: 20px; position: relative; }
+    .xp-bar-fill { background: linear-gradient(90deg, var(--gold), #f39c12); height: 100%; width: 0%; transition: width 0.5s ease; }
+    .xp-text { position: absolute; width: 100%; text-align: center; font-size: 0.68rem; font-weight: bold; color: #fff; line-height: 14px; top: 0; left: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+    .profile-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+    .stat-item { background: var(--surface-2); border: 1px solid var(--hair); padding: 12px; border-radius: 6px; }
+    .stat-val { font-size: 1.2rem; font-weight: bold; color: var(--gold); }
+    .stat-lbl { font-size: 0.72rem; color: var(--ink-dim); text-transform: uppercase; margin-top: 2px; }
 
     .detail-wrap { max-width: 880px; margin: 0 auto; padding: 4vh 6vw; }
     .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-dim); font-size: 0.85rem; margin-bottom: 20px; cursor: pointer; }
@@ -181,6 +196,7 @@
   <div class="nav-buttons">
     <button class="nav-btn-link" onclick="app.showView('home')">Pustaka</button>
     <button class="nav-btn-link" onclick="app.showView('lore')">Grimori Pustaka</button>
+    <button class="nav-btn-link" onclick="app.showView('profile')" style="border-color: var(--gold-soft); color: var(--gold);">Profilku</button>
   </div>
 </header>
 
@@ -189,12 +205,41 @@
     <h1>失われた龍 di 記憶</h1>
     <p style="color: var(--ink-dim); font-size: 0.9rem;">Pustaka Gerbang Multi-Dimensi Kisah Epik Fantasi (Cloud Powered).</p>
     
-    <div class="badge-status-box">
+    <div class="badge-status-box" onclick="app.showView('profile')">
       <span>🏅 Gelar Pembaca:</span>
       <strong id="user-badge-title" style="color: var(--gold);">Telur Naga (Mulai Membaca)</strong>
     </div>
   </section>
   <section class="shelf" id="library-shelf"></section>
+</main>
+
+<main id="view-profile" class="view">
+  <section class="profile-wrap">
+    <div class="back-link" onclick="app.showView('home')">← Kembali ke Pustaka</div>
+    <div class="profile-card">
+      <div class="profile-avatar" id="prof-avatar">🥚</div>
+      <div>
+        <input type="text" id="profile-user-name" class="profile-name-input" value="Pembaca Naga" onchange="app.saveProfileName(this.value)" placeholder="Ubah Nama...">
+      </div>
+      <div class="profile-badge-title" id="prof-badge-text">Level 1: Telur Naga</div>
+      
+      <div class="xp-bar-container">
+        <div class="xp-bar-fill" id="prof-xp-fill"></div>
+        <div class="xp-text" id="prof-xp-text">0 / 100 XP</div>
+      </div>
+
+      <div class="profile-stats">
+        <div class="stat-item">
+          <div class="stat-val" id="prof-stat-chapters">0</div>
+          <div class="stat-lbl">Chapter Dibaca</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val" id="prof-stat-likes">0</div>
+          <div class="stat-lbl">Menyukai Cerita</div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <main id="view-lore" class="view">
@@ -276,7 +321,7 @@
       🎵 MUSIK LATAR REKOMENDASI PENULIS (Golden Brown x Love Story)
     </p>
     <iframe style="border-radius:12px" 
-            src="https://open.spotify.com/embed/track/303KOn476Zp3O5vN0gB9S6?utm_source=generator&theme=0" 
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO?utm_source=generator8" 
             width="100%" height="152" frameBorder="0" allowfullscreen="" 
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
     </iframe>
@@ -391,6 +436,7 @@
     init() {
       this.applyFontSize();
       this.checkAndRenderBadge();
+      this.loadProfileData();
       
       onValue(ref(db, 'pustaka_novels'), (snapshot) => {
         const data = snapshot.val();
@@ -406,6 +452,16 @@
         else { this.grimori = data; }
         this.renderGrimori();
       });
+    },
+
+    loadProfileData() {
+      const savedName = localStorage.getItem('user_profile_name') || "Pembaca Naga";
+      const nameInput = document.getElementById('profile-user-name');
+      if (nameInput) nameInput.value = savedName;
+    },
+
+    saveProfileName(name) {
+      localStorage.setItem('user_profile_name', name.trim() || "Pembaca Naga");
     },
 
     renderGrimori() {
@@ -442,12 +498,46 @@
     checkAndRenderBadge() {
       let readChapters = JSON.parse(localStorage.getItem('read_chapters_count') || '0');
       let likedChapters = JSON.parse(localStorage.getItem('liked_chapters_count') || '0');
+      
+      let totalXp = readChapters * 10;
       let badgeText = "Telur Naga (Mulai Membaca)";
-      if (readChapters >= 1) badgeText = "Bayi naga: 子龍 / 小龍 (Koryū / Shōryū)";
-      if (readChapters >= 3) badgeText = "Naga remaja: 若龍 (Wakaryū)";
-      if (readChapters >= 5) badgeText = "Naga dewasa: 成龍 (Seiryū)";
-      if (likedChapters >= 2) badgeText = "Kolektor naga: 龍ের সংগ্রহকারী";
-      const labelEl = document.getElementById('user-badge-title'); if (labelEl) labelEl.textContent = badgeText;
+      let avatar = "🥚";
+      let nextXpTarget = 100;
+      let prevXpTarget = 0;
+
+      if (totalXp >= 100) { badgeText = "Level 2: Bayi Naga (Koryū)"; avatar = "🐲"; prevXpTarget = 100; nextXpTarget = 300; }
+      if (totalXp >= 300) { badgeText = "Level 3: Naga Muda (Wakaryū)"; avatar = "🐉"; prevXpTarget = 300; nextXpTarget = 600; }
+      if (totalXp >= 600) { badgeText = "Level 4: Naga Prajurit (Senshi-ryū)"; avatar = "⚔️"; prevXpTarget = 600; nextXpTarget = 1000; }
+      if (totalXp >= 1000) { badgeText = "Level 5: Naga Dewasa (Seiryū)"; avatar = "👑"; prevXpTarget = 1000; nextXpTarget = 1500; }
+      if (totalXp >= 1500) { badgeText = "Level 6: Penebus Takdir (Destiny Redeemer)"; avatar = "🔮"; prevXpTarget = 1500; nextXpTarget = 2200; }
+      if (totalXp >= 2200) { badgeText = "Level 7: Penguasa Arc (Arc Master)"; avatar = "🌌"; prevXpTarget = 2200; nextXpTarget = 3000; }
+      if (totalXp >= 3000) { badgeText = "Level 8: Dewa Naga Kuno (Ancient Ryū)"; avatar = "🐲✨"; prevXpTarget = 3000; nextXpTarget = 3500; }
+
+      // Update Tampilan Beranda
+      const labelEl = document.getElementById('user-badge-title'); 
+      if (labelEl) { 
+        labelEl.innerHTML = `${avatar} ${badgeText} <br> <span style="font-size:0.75rem; color:var(--ink-dim); font-weight:normal;">Total Energi: ${totalXp} XP (${readChapters} Chapter Dibaca)</span>`; 
+      }
+
+      // Update Tampilan Menu Profil
+      const profAvatar = document.getElementById('prof-avatar');
+      const profBadgeText = document.getElementById('prof-badge-text');
+      const profXpText = document.getElementById('prof-xp-text');
+      const profXpFill = document.getElementById('prof-xp-fill');
+      const statChapters = document.getElementById('prof-stat-chapters');
+      const statLikes = document.getElementById('prof-stat-likes');
+
+      if (profAvatar) profAvatar.textContent = avatar;
+      if (profBadgeText) profBadgeText.textContent = badgeText;
+      if (statChapters) statChapters.textContent = readChapters;
+      if (statLikes) statLikes.textContent = likedChapters;
+      
+      if (profXpText && profXpFill) {
+        profXpText.textContent = `${totalXp} / ${nextXpTarget} XP`;
+        let progressPercent = ((totalXp - prevXpTarget) / (nextXpTarget - prevXpTarget)) * 100;
+        if (totalXp >= 3500) progressPercent = 100;
+        profXpFill.style.width = `${Math.min(100, Math.max(0, progressPercent))}%`;
+      }
     },
 
     renderLibrary() {
@@ -469,7 +559,8 @@
       document.getElementById('compactChaptersPanel').classList.remove('active');
       document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
       const target = document.getElementById(`view-${viewName}`); if (target) target.classList.add('active');
-      if (viewName === 'home') this.checkAndRenderBadge();
+      
+      this.checkAndRenderBadge();
       if (viewName === 'novel') this.renderNovelDetail(params.novelId);
       if (viewName === 'reader') this.renderReader(params.novelId, params.chapterIdx);
     },
