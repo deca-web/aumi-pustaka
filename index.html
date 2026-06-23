@@ -65,7 +65,7 @@
     .nav-btn-link:hover { color: var(--gold); background: var(--surface-2); }
 
     .hero { padding: 4vh 4vw; text-align: center; max-width: 100%; margin: 0 auto; }
-    .hero h1 { font-family: 'Shippori Mincho B1', serif; font-size: 1.6rem; margin-bottom: 8px; color: var(--gold); }
+    .hero h1 { font-family: 'Shippori Mincho B1', serif; font-size: 1.6rem; margin-bottom: 8px; color: var(--gold); line-height: 1.3; }
     
     .badge-status-box { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 12px; margin: 15px auto 0; max-width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.8rem; cursor: pointer; }
 
@@ -100,16 +100,65 @@
     .stat-val { font-size: 1.1rem; font-weight: bold; color: var(--gold); }
     .stat-lbl { font-size: 0.7rem; color: var(--ink-dim); }
 
-    /* Perbaikan Panel Admin agar tidak melebar keluar layar */
-    .admin-panel { max-width: 100%; margin: 15px auto; padding: 15px 4vw; background: var(--surface); border: 1px solid var(--hair); border-radius: 8px; }
-    .admin-input, .admin-textarea { width: 100%; background: var(--void); color: var(--ink); border: 1px solid var(--hair); padding: 10px; border-radius: 4px; margin-bottom: 12px; font-family: inherit; font-size: 0.85rem; }
-    .admin-textarea { min-height: 100px; }
-    .admin-nav-tabs { display: flex; gap: 6px; margin-bottom: 15px; border-bottom: 1px solid var(--hair); padding-bottom: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .tab-btn { padding: 6px 12px; color: var(--ink-dim); font-size: 0.75rem; border-radius: 4px; white-space: nowrap; background: var(--surface-2); }
-    .tab-btn.active { background: var(--gold); color: #fff; }
+    /* Perbaikan Bar Pembaca & Pengaturan */
+    .reader-bar {
+      position: sticky; top: 57px; z-index: 90; display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 4vw; background: var(--surface); border-bottom: 1px solid var(--hair);
+    }
+    .rb-left { display: flex; align-items: center; gap: 12px; max-width: 75%; }
+    .rb-title { font-size: 0.9rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ink); }
+    .settings-btn { font-size: 1.1rem; padding: 4px 8px; border-radius: 4px; background: var(--surface-2); border: 1px solid var(--hair); color: var(--ink); }
+
+    .reader-settings-panel {
+      display: none; position: absolute; top: 100%; right: 4vw; background: var(--surface-2); 
+      border: 1px solid var(--gold-soft); border-radius: 8px; padding: 16px; width: 280px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 110;
+    }
+    .reader-settings-panel.active { display: block; }
+    .set-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+    .set-group:last-child { margin-bottom: 0; }
+    .set-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); }
     
+    .fs-controls, .set-options { display: flex; gap: 6px; width: 100%; }
+    .fs-btn, .set-opt-btn { flex: 1; text-align: center; background: var(--void); border: 1px solid var(--hair); color: var(--ink); padding: 8px; font-size: 0.8rem; font-weight: 500; border-radius: 4px; transition: all 0.2s; }
+    .fs-btn:active, .set-opt-btn:active { transform: scale(0.97); }
+    .set-opt-btn.active { background: var(--gold); color: var(--void); border-color: var(--gold); font-weight: 600; }
+
+    /* Perbaikan Panel Admin & Form Kontras */
+    .admin-panel { max-width: 100%; margin: 15px auto; padding: 20px 4vw; background: var(--surface); border: 1px solid var(--hair); border-radius: 8px; }
+    .admin-input, .admin-textarea { 
+      width: 100%; background: var(--void); color: #ffffff; border: 1px solid #3a4454; padding: 12px; 
+      border-radius: 6px; margin-bottom: 16px; font-family: inherit; font-size: 0.9rem; transition: border-color 0.2s;
+    }
+    .admin-input::placeholder, .admin-textarea::placeholder { color: #6b778d; }
+    .admin-input:focus, .admin-textarea:focus { border-color: var(--gold); outline: none; }
+    .admin-textarea { min-height: 120px; resize: vertical; }
+    
+    .admin-nav-tabs { display: flex; gap: 6px; margin-bottom: 20px; border-bottom: 1px solid var(--hair); padding-bottom: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tab-btn { padding: 8px 14px; color: var(--ink-dim); font-size: 0.8rem; font-weight: 500; border-radius: 4px; white-space: nowrap; background: var(--surface-2); border: 1px solid var(--hair); }
+    .tab-btn.active { background: var(--gold); color: var(--void); border-color: var(--gold); font-weight: 600; }
+    
+    .btn-action { width: 100%; padding: 12px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; color: #fff; text-align: center; }
+    .btn-blue { background: #2980b9; border: 1px solid #3498db; }
+    .btn-green { background: #27ae60; border: 1px solid #2ecc71; }
+
+    .admin-ch-manage-item { display: flex; justify-content: space-between; align-items: center; background: var(--void); padding: 12px; border-radius: 6px; border: 1px solid var(--hair); margin-bottom: 8px; font-size: 0.85rem; }
+    .btn-del-small { background: var(--crimson); color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; }
+
     .detail-wrap, .lore-wrap, .prose-wrap, .spotify-container, .interaction-section { padding: 3vh 4vw; width: 100%; max-width: 100%; }
-    .chapter-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 6px; border-bottom: 1px solid var(--hair); font-size: 0.9rem; }
+    .chapter-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 6px; border-bottom: 1px solid var(--hair); font-size: 0.9rem; cursor: pointer; }
+    .back-link { color: var(--gold); font-size: 0.85rem; margin-bottom: 15px; cursor: pointer; display: inline-block; }
+
+    /* Prose / Reader Teks */
+    .prose p { font-family: 'Source Serif 4', serif; font-size: var(--reader-fs); line-height: var(--reader-lh); margin-bottom: 1.5rem; text-align: justify; }
+    .reader-footer { display: flex; justify-content: space-between; padding: 2vh 4vw; gap: 12px; }
+    .btn-nav { flex: 1; background: var(--surface-2); border: 1px solid var(--hair); color: var(--ink); padding: 12px; text-align: center; border-radius: 6px; font-weight: 500; }
+    .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Grimori */
+    .lore-grid { display: flex; flex-direction: column; gap: 12px; }
+    .lore-card { background: var(--surface); border: 1px solid var(--hair); padding: 16px; border-radius: 8px; }
+    .lore-term { font-family: 'Shippori Mincho B1', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
+    .lore-desc { font-size: 0.88rem; color: var(--ink-dim); line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -125,8 +174,8 @@
 
 <main id="view-home" class="view active">
   <section class="hero">
-    <h1>失われた龍 di 記憶</h1>
-    <p style="color: var(--ink-dim); font-size: 0.9rem;">Pustaka Gerbang Multi-Dimensi Kisah Epik Fantasi (Cloud Powered).</p>
+    <h1>失われた龍の記憶</h1>
+    <p style="color: var(--ink-dim); font-size: 0.9rem; margin-top: 4px;">Pustaka Gerbang Multi-Dimensi Kisah Epik Fantasi.</p>
     <div class="badge-status-box" onclick="app.showView('profile')">
       <span>🏅 Pendamping Naga:</span>
       <strong id="user-badge-title" style="color: var(--gold);">Mengambil status...</strong>
@@ -184,14 +233,13 @@
   <div class="detail-wrap">
     <div class="back-link" onclick="app.showView('home')">← Pustaka</div>
     <div class="detail-head">
-      <div class="detail-cover" id="novel-main-cover"></div>
       <div class="detail-info">
-        <h1 id="detail-title"></h1>
-        <p style="color: var(--gold); font-size: 0.85rem;" id="detail-author"></p>
-        <p id="detail-synopsis" style="margin-top:15px; font-size: 0.92rem; line-height: 1.6; color: var(--ink-dim);"></p>
+        <h1 id="detail-title" style="font-family:'Shippori Mincho B1', serif; color:var(--gold); font-size:1.4rem;"></h1>
+        <p style="color: var(--ink-dim); font-size: 0.85rem; margin-top:4px;" id="detail-author"></p>
+        <p id="detail-synopsis" style="margin-top:15px; font-size: 0.92rem; line-height: 1.6; color: var(--ink-dim); text-align: justify;"></p>
       </div>
     </div>
-    <div class="chapter-list-title">Daftar Chapter Cerita</div>
+    <div class="chapter-list-title" style="margin-top:25px; font-weight:600; font-size:0.95rem; color:var(--gold); border-bottom:1px solid var(--hair); padding-bottom:8px;">Daftar Chapter Cerita</div>
     <div id="chapter-list-container"></div>
   </div>
 </main>
@@ -199,50 +247,49 @@
 <main id="view-reader" class="view">
   <div class="reader-bar">
     <div class="rb-left">
-      <div class="back-link" style="margin:0" onclick="app.showView('novel', {novelId: app.state.currentNovelId})">← Detail</div>
+      <div class="back-link" style="margin:0" onclick="app.showView('novel', {novelId: app.state.currentNovelId})">←</div>
       <span class="rb-title" id="reader-bar-title"></span>
     </div>
     <div class="rb-right-buttons">
       <button class="settings-btn" onclick="app.toggleSettingsPanel()">⚙️</button>
     </div>
     <div class="reader-settings-panel" id="settingsPanel">
-      <div class="set-group"><div class="set-label">Ukuran Huruf</div><div class="fs-controls"><button class="fs-btn" onclick="app.changeFontSize(-1)">A−</button><button class="fs-btn" onclick="app.changeFontSize(1)">A+</button></div></div>
-      <div class="set-group"><div class="set-label">Warna Kertas</div><div class="set-options"><button class="set-opt-btn active" id="opt-th-dark" onclick="app.setReaderTheme('dark')">Gelap</button><button class="set-opt-btn" id="opt-th-sepia" onclick="app.setReaderTheme('sepia')">Sepia</button><button class="set-opt-btn" id="opt-th-light" onclick="app.setReaderTheme('light')">Terang</button></div></div>
+      <div class="set-group">
+        <div class="set-label">Ukuran Huruf</div>
+        <div class="fs-controls">
+          <button class="fs-btn" onclick="app.changeFontSize(-1)">A−</button>
+          <button class="fs-btn" onclick="app.changeFontSize(1)">A+</button>
+        </div>
+      </div>
+      <div class="set-group">
+        <div class="set-label">Warna Kertas</div>
+        <div class="set-options">
+          <button class="set-opt-btn active" id="opt-th-dark" onclick="app.setReaderTheme('dark')">Gelap</button>
+          <button class="set-opt-btn" id="opt-th-sepia" onclick="app.setReaderTheme('sepia')">Sepia</button>
+          <button class="set-opt-btn" id="opt-th-light" onclick="app.setReaderTheme('light')">Terang</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="prose-wrap">
-    <div class="reading-time-badge" id="reading-time-display">Waktu baca: ~0 menit</div>
     <article class="prose" id="prose-content"></article>
   </div>
   
-  <div class="spotify-container">
-    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2Y0iGv6mB6OirTUM7XvE9g?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-  </div>
-
   <div class="reader-footer">
     <button class="btn-nav" id="prev-btn" onclick="app.navChapter(-1)">← Prev</button>
     <button class="btn-nav" id="next-btn" onclick="app.navChapter(1)">Next →</button>
   </div>
 
   <section class="interaction-section">
-    <div class="like-box"><button class="btn-like" onclick="app.addLike()">❤️ Suka Cerita Ini (<span id="like-count">0</span>)</button></div>
-    <div class="comment-box">
-      <h3>Kolom Komentar</h3>
-      <div class="comment-input-grid">
-        <input type="text" id="input-comment-name" class="comment-name" placeholder="Nama Panggilan...">
-        <textarea id="input-comment-text" class="comment-text" placeholder="Tulis komentar..."></textarea>
-        <button class="btn-comment-submit" onclick="app.submitComment()">Kirim</button>
-      </div>
-      <div class="comment-list" id="comments-container"></div>
-    </div>
+    <div class="like-box" style="text-align:center; margin-bottom: 20px;"><button class="btn-pet" style="padding: 10px 20px;" onclick="app.addLike()">❤️ Suka Cerita Ini (<span id="like-count">0</span>)</button></div>
   </section>
 </main>
 
 <main id="view-admin" class="view">
   <div class="admin-panel">
     <div class="back-link" onclick="app.showView('home')">← Keluar Admin</div>
-    <h2 style="color:var(--gold); margin-bottom:15px;">Panel Kontrol Admin</h2>
+    <h2 style="color:var(--gold); margin-bottom:15px; font-family:'Shippori Mincho B1', serif;">Panel Kontrol Admin</h2>
     
     <div class="admin-nav-tabs">
       <button class="tab-btn active" id="tab-btn-novel" onclick="app.switchAdminTab('novel')">Tambah Novel</button>
@@ -260,7 +307,7 @@
     </div>
 
     <div id="panel-tab-chapter" class="admin-sub-tab" style="display:none;">
-      <label style="font-size:0.8rem; color:var(--gold);">Pilih Novel Target:</label>
+      <label style="font-size:0.8rem; color:var(--gold); display:block; margin-bottom:6px;">Pilih Novel Target:</label>
       <select id="select-novel-target" class="admin-input"></select>
       <input type="text" id="new-chapter-title" class="admin-input" placeholder="Judul Chapter (contoh: Bab 1: Kebangkitan)">
       <textarea id="new-chapter-content" class="admin-textarea" placeholder="Isi cerita di sini..."></textarea>
@@ -275,7 +322,7 @@
     </div>
 
     <div id="panel-tab-manage" class="admin-sub-tab" style="display:none;">
-      <label style="font-size:0.8rem; color:var(--gold);">Pilih Novel:</label>
+      <label style="font-size:0.8rem; color:var(--gold); display:block; margin-bottom:6px;">Pilih Novel:</label>
       <select id="select-novel-manage" class="admin-input" onchange="app.renderManageChaptersList()"></select>
       <div id="manage-chapters-list" style="margin-top:15px;"></div>
     </div>
@@ -454,6 +501,11 @@
     showView(viewName, params = {}) {
       document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
       const target = document.getElementById(`view-${viewName}`); if (target) target.classList.add('active');
+      
+      // Otomatis menutup panel settings jika pindah halaman
+      const settingsPanel = document.getElementById('settingsPanel');
+      if (settingsPanel) settingsPanel.classList.remove('active');
+
       this.checkAndRenderBadge();
       if (viewName === 'novel') this.renderNovelDetail(params.novelId);
       if (viewName === 'reader') this.renderReader(params.novelId, params.chapterIdx);
@@ -490,6 +542,11 @@
       this.loadInteractions(); window.scrollTo(0,0);
     },
 
+    toggleSettingsPanel() {
+      const panel = document.getElementById('settingsPanel');
+      if (panel) panel.classList.toggle('active');
+    },
+
     loadInteractions() {
       const pathId = `${this.state.currentNovelId}_ch_${this.state.currentChapterIdx}`;
       onValue(ref(db, `likes/${pathId}`), (s) => { document.getElementById('like-count').textContent = s.val() || 0; });
@@ -500,9 +557,14 @@
       set(ref(db, `likes/${pathId}`), currentCount + 1);
     },
     navChapter(dir) { this.showView('reader', { novelId: this.state.currentNovelId, chapterIdx: this.state.currentChapterIdx + dir }); },
-    changeFontSize(dir) { this.state.fontSizeLevel = Math.max(-2, Math.min(3, this.state.fontSizeLevel + dir)); this.applyFontSize(); },
+    changeFontSize(dir) { this.state.fontSizeLevel = Math.max(-2, Math.min(2, this.state.fontSizeLevel + dir)); this.applyFontSize(); },
     applyFontSize() { document.documentElement.style.setProperty('--reader-fs', ['0.95rem', '1.05rem', '1.15rem', '1.25rem', '1.35rem'][this.state.fontSizeLevel + 2]); },
-    setReaderTheme(th) { document.body.setAttribute('data-reader-theme', th); },
+    setReaderTheme(th) { 
+      document.body.setAttribute('data-reader-theme', th); 
+      document.querySelectorAll('.set-opt-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`opt-th-${th}`);
+      if (activeBtn) activeBtn.classList.add('active');
+    },
     
     devTap() { this.devClicks++; if (this.devClicks >= 5) { this.devClicks = 0; const pin = prompt("🔑 PIN:"); if (pin === "😎") this.showView('admin'); } },
     switchAdminTab(tabName) {
