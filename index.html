@@ -192,7 +192,7 @@
 
 <main id="view-home" class="view active">
   <section class="hero">
-    <h1>失われた龍 ど 記憶</h1>
+    <h1>失われた龍 di 記憶</h1>
     <p style="color: var(--ink-dim); font-size: 0.9rem;">Pustaka Gerbang Multi-Dimensi Kisah Epik Fantasi (Cloud Powered).</p>
     <div class="badge-status-box" onclick="app.showView('profile')">
       <span>🏅 Pendamping Naga:</span>
@@ -316,6 +316,7 @@
       <button class="tab-btn" id="tab-btn-chapter" onclick="app.switchAdminTab('chapter')">Tambah Chapter</button>
       <button class="tab-btn" id="tab-btn-grimori" onclick="app.switchAdminTab('grimori')">Tambah Grimori</button>
       <button class="tab-btn" id="tab-btn-manage" onclick="app.switchAdminTab('manage')">Hapus Chapter</button>
+      <button class="tab-btn" id="tab-btn-deletenovel" onclick="app.switchAdminTab('deletenovel')">Hapus Novel 🗑️</button>
     </div>
 
     <div id="panel-tab-novel" class="admin-sub-tab">
@@ -346,12 +347,17 @@
       <select id="select-novel-manage" class="admin-input" onchange="app.renderManageChaptersList()"></select>
       <div id="manage-chapters-list" style="margin-top:15px;"></div>
     </div>
+
+    <div id="panel-tab-deletenovel" class="admin-sub-tab" style="display:none;">
+      <label style="font-size:0.8rem; color:var(--gold);">Daftar Novel Tersedia:</label>
+      <div id="manage-novels-list" style="margin-top:15px;"></div>
+    </div>
   </div>
 </main>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+  import { getDatabase, ref, set, onValue, push, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyApHB-eoNojbupy2vY0aVBVl_zeeKpgy2o",
@@ -382,6 +388,8 @@
         this.renderLibrary(); 
         this.updateAdminSelectors();
         if (this.state.currentNovelId) this.renderNovelDetail(this.state.currentNovelId);
+        // Selalu render list novel jika admin sedang membuka tab hapus novel
+        this.renderManageNovelsList();
       });
 
       onValue(ref(db, 'grimori_data'), (snapshot) => {
@@ -578,6 +586,7 @@
       document.getElementById(`panel-tab-${tabName}`).style.display = 'block';
       document.getElementById(`tab-btn-${tabName}`).classList.add('active');
       if (tabName === 'manage') this.renderManageChaptersList();
+      if (tabName === 'deletenovel') this.renderManageNovelsList();
     },
     updateAdminSelectors() {
       const optionsHtml = this.novels.map(n => `<option value="${n.id}">${n.title}</option>`).join('');
@@ -666,6 +675,35 @@
         alert("Chapter Dihapus!");
         this.renderManageChaptersList();
       });
+    },
+
+    renderManageNovelsList() {
+      const container = document.getElementById('manage-novels-list');
+      if (!container) return;
+      if (this.novels.length === 0) {
+        container.innerHTML = `<p style="color:var(--ink-dim); font-size:0.8rem;">Tidak ada novel di pustaka.</p>`;
+        return;
+      }
+      container.innerHTML = this.novels.map(novel => `
+        <div class="admin-ch-manage-item">
+          <span><strong>${novel.title}</strong> (${novel.id})</span>
+          <button class="btn-del-small" onclick="app.deleteNovel('${novel.id}')">Hapus Novel</button>
+        </div>
+      `).join('');
+    },
+
+    deleteNovel(novelId) {
+      if (!confirm(`⚠️ PERINGATAN KELAS TINGGI!\n\nApakah kamu yakin ingin menghapus novel "${novelId}" beserta seluruh chapternya secara permanen dari Cloud?`)) return;
+      
+      remove(ref(db, `pustaka_novels/${novelId}`))
+        .then(() => {
+          alert("💥 Novel berhasil dihapus secara permanen dari database cloud!");
+          this.showView('home');
+        })
+        .catch((error) => {
+          console.error("Gagal menghapus novel:", error);
+          alert("Terjadi kesalahan saat mencoba menghapus novel.");
+        });
     }
   };
 
