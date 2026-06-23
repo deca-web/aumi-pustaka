@@ -47,136 +47,69 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: var(--void); color: var(--ink); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+    body { background: var(--void); color: var(--ink); font-family: 'Inter', sans-serif; overflow-x: hidden; width: 100%; }
     button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-    .view { display: none; opacity: 0; transform: translateY(8px); transition: opacity 0.4s ease, transform 0.4s ease; }
-    .view.active { display: block; opacity: 1; transform: translateY(0); }
+    /* Perbaikan tumpukan view */
+    .view { display: none; width: 100%; opacity: 0; transition: opacity 0.3s ease; }
+    .view.active { display: block; opacity: 1; }
 
     .topbar {
       position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between;
-      padding: 16px 6vw; background: rgba(10, 13, 19, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--hair);
+      padding: 16px 4vw; background: rgba(10, 13, 19, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--hair);
     }
     .brand { font-family: 'Shippori Mincho B1', serif; font-weight: 700; font-size: 1.2rem; letter-spacing: 0.1em; color: var(--gold); cursor: pointer; }
     
-    .nav-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
-    .nav-btn-link { color: var(--ink-dim); font-size: 0.85rem; font-weight: 500; cursor: pointer; padding: 6px 12px; border-radius: 4px; border: 1px solid var(--hair); }
+    .nav-buttons { display: flex; gap: 8px; }
+    .nav-btn-link { color: var(--ink-dim); font-size: 0.8rem; font-weight: 500; cursor: pointer; padding: 6px 10px; border-radius: 4px; border: 1px solid var(--hair); white-space: nowrap; }
     .nav-btn-link:hover { color: var(--gold); background: var(--surface-2); }
 
-    .hero { padding: 4vh 6vw; text-align: center; max-width: 1100px; margin: 0 auto; }
-    .hero h1 { font-family: 'Shippori Mincho B1', serif; font-size: 1.8rem; margin-bottom: 8px; color: var(--gold); }
+    .hero { padding: 4vh 4vw; text-align: center; max-width: 100%; margin: 0 auto; }
+    .hero h1 { font-family: 'Shippori Mincho B1', serif; font-size: 1.6rem; margin-bottom: 8px; color: var(--gold); }
     
-    .badge-status-box { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 12px; margin: 15px auto 0; max-width: 500px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.8rem; cursor: pointer; }
+    .badge-status-box { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 12px; margin: 15px auto 0; max-width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.8rem; cursor: pointer; }
 
-    .shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; padding: 2vh 6vw; max-width: 1100px; margin: 0 auto; }
+    .shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; padding: 2vh 4vw; max-width: 1100px; margin: 0 auto; }
     .card { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; overflow: hidden; cursor: pointer; position: relative; transition: transform 0.2s; }
-    .card:hover { transform: translateY(-4px); }
-    .cover { height: 260px; background-size: cover; background-position: center; background-color: #111; }
+    .cover { height: 200px; background-size: cover; background-position: center; background-color: #111; }
 
     /* STYLE KARTU PROFIL & PET GAME */
-    .profile-wrap { max-width: 600px; margin: 4vh auto; padding: 0 6vw; }
-    .profile-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 12px; padding: 24px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.3); margin-bottom: 20px; }
+    .profile-wrap { max-width: 100%; margin: 2vh auto; padding: 0 4vw; }
+    .profile-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.3); margin-bottom: 20px; }
     .profile-avatar { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; background: var(--surface-2); position: relative; }
     
-    .happy-indicator { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); padding: 2px 8px; border-radius: 10px; font-size: 0.65rem; color: #2ecc71; font-weight: bold; border: 1px solid #2ecc71; white-space: nowrap; }
+    .happy-indicator { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); padding: 2px 8px; border-radius: 10px; font-size: 0.65rem; color: #2ecc71; font-weight: bold; border: 1px solid #2ecc71; white-space: nowrap; }
     .happy-indicator.sad { color: var(--crimson); border-color: var(--crimson); }
 
-    .profile-name-input { background: transparent; border: 1px dashed var(--gold-soft); color: var(--ink); text-align: center; font-size: 1.2rem; font-weight: bold; padding: 4px 10px; border-radius: 4px; margin-bottom: 5px; width: 80%; max-width: 250px; }
-    .profile-name-input:focus { outline: none; border-style: solid; border-color: var(--gold); background: var(--void); }
+    .profile-name-input { background: transparent; border: 1px dashed var(--gold-soft); color: var(--ink); text-align: center; font-size: 1.2rem; font-weight: bold; padding: 4px 10px; border-radius: 4px; margin-bottom: 5px; width: 80%; }
     .profile-badge-title { font-size: 0.95rem; color: var(--gold); font-weight: 600; margin-bottom: 15px; }
     .xp-bar-container { background: var(--void); border: 1px solid var(--hair); height: 16px; border-radius: 10px; overflow: hidden; margin-bottom: 20px; position: relative; }
     .xp-bar-fill { background: linear-gradient(90deg, var(--gold), #f39c12); height: 100%; width: 0%; transition: width 0.5s ease; }
-    .xp-text { position: absolute; width: 100%; text-align: center; font-size: 0.68rem; font-weight: bold; color: #fff; line-height: 14px; top: 0; left: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+    .xp-text { position: absolute; width: 100%; text-align: center; font-size: 0.68rem; font-weight: bold; color: #fff; line-height: 14px; top: 0; left: 0; }
     
     .battle-stats-box { background: var(--void); border: 1px solid var(--hair); padding: 12px; border-radius: 8px; margin-bottom: 15px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .b-stat { text-align: center; }
-    .b-stat-val { font-size: 1.1rem; font-weight: bold; color: #eae6da; }
-    .b-stat-lbl { font-size: 0.65rem; color: var(--ink-dim); text-transform: uppercase; margin-top: 2px; letter-spacing: 0.05em; }
+    .b-stat-val { font-size: 1rem; font-weight: bold; }
+    .b-stat-lbl { font-size: 0.6rem; color: var(--ink-dim); text-transform: uppercase; }
 
     .pet-actions { display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; }
-    .btn-pet { background: var(--surface-2); border: 1px solid var(--gold-soft); color: var(--gold); padding: 6px 14px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
-    .btn-pet:hover { background: var(--gold-soft); color: #fff; }
+    .btn-pet { background: var(--surface-2); border: 1px solid var(--gold-soft); color: var(--gold); padding: 8px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
     .btn-revive { background: var(--crimson); color: white; border: 1px solid #ff4d4d; }
-    .btn-revive:hover { background: #ff4d4d; }
 
     .profile-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
     .stat-item { background: var(--surface-2); border: 1px solid var(--hair); padding: 12px; border-radius: 6px; }
-    .stat-val { font-size: 1.2rem; font-weight: bold; color: var(--gold); }
-    .stat-lbl { font-size: 0.72rem; color: var(--ink-dim); text-transform: uppercase; margin-top: 2px; }
+    .stat-val { font-size: 1.1rem; font-weight: bold; color: var(--gold); }
+    .stat-lbl { font-size: 0.7rem; color: var(--ink-dim); }
 
-    .detail-wrap { max-width: 880px; margin: 0 auto; padding: 4vh 6vw; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-dim); font-size: 0.85rem; margin-bottom: 20px; cursor: pointer; }
-    .detail-head { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 30px; }
-    .detail-cover { flex: 0 0 220px; height: 310px; border-radius: 6px; border: 1px solid var(--hair); background-size: cover; background-position: center; }
-    .detail-info { flex: 1; min-width: 280px; }
-    .detail-info h1 { font-family: 'Shippori Mincho B1', serif; font-size: 1.6rem; margin-bottom: 8px; }
-
-    .chapter-list-title { font-size: 0.85rem; text-transform: uppercase; color: var(--ink-dim); border-bottom: 1px solid var(--hair); padding-bottom: 10px; margin: 25px 0 10px; }
-    .chapter-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 8px; border-bottom: 1px solid var(--hair); cursor: pointer; }
-    .chapter-row:hover { background: var(--surface-2); color: var(--gold); }
-
-    /* VIEW GRIMORI */
-    .lore-wrap { max-width: 800px; margin: 0 auto; padding: 4vh 6vw; }
-    .lore-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 20px; }
-    .lore-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 16px; position: relative; }
-    .lore-term { font-family: 'Shippori Mincho B1', serif; font-size: 1.1rem; color: var(--gold); margin-bottom: 6px; }
-    .lore-desc { font-size: 0.9rem; color: var(--ink-dim); line-height: 1.5; }
-
-    .reader-bar { position: sticky; top: 0; z-index: 90; display: flex; align-items: center; justify-content: space-between; padding: 14px 6vw; background: var(--surface); border-bottom: 1px solid var(--hair); }
-    .rb-left { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
-    .rb-title { font-size: 0.8rem; color: var(--ink-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
-    .rb-right-buttons { display: flex; gap: 8px; align-items: center; }
-    .settings-btn { width: 36px; height: 36px; border-radius: 4px; border: 1px solid var(--hair); color: var(--ink); display: flex; align-items: center; justify-content: center; }
-    
-    .reader-settings-panel { display: none; position: absolute; top: 60px; right: 6vw; z-index: 110; width: 300px; background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-    .reader-settings-panel.active { display: block !important; }
-    .set-group { margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(234, 230, 218, 0.05); }
-    .set-options { display: flex; gap: 6px; }
-    .set-opt-btn { flex: 1; padding: 7px; border: 1px solid var(--hair); font-size: 0.75rem; border-radius: 4px; color: var(--ink); text-align: center; background: rgba(0,0,0,0.2); }
-    .set-opt-btn.active { border-color: var(--gold); background: var(--gold-soft); color: #fff; }
-
-    .reading-time-badge { font-size: 0.75rem; color: var(--gold); text-align: center; margin-bottom: 25px; font-style: italic; letter-spacing: 0.02em; }
-
-    .prose-wrap { max-width: 680px; margin: 0 auto; padding: 2vh 6vw 2vh; }
-    .prose { font-family: 'Source Serif 4', serif; font-size: var(--reader-fs); line-height: var(--reader-lh); color: var(--ink); text-align: center; }
-    .prose p { margin-bottom: 1.4em; word-wrap: break-word; padding: 4px; border-radius: 4px; }
-
-    .spotify-container { max-width: 680px; margin: 25px auto 15px; padding: 0 6vw; }
-
-    .reader-footer { max-width: 680px; margin: 10px auto 20px; padding: 20px 6vw; display: flex; justify-content: space-between; border-top: 1px solid var(--hair); }
-    .btn-nav { border: 1px solid var(--hair); color: var(--ink); padding: 8px 16px; border-radius: 4px; font-size: 0.8rem; background: var(--surface); }
-    .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
-
-    .interaction-section { max-width: 680px; margin: 0 auto; padding: 0 6vw 8vh; }
-    .like-box { text-align: center; margin: 30px 0; padding: 20px; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
-    .btn-like { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--gold); color: var(--gold); padding: 10px 24px; border-radius: 30px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
-    
-    .comment-box { background: var(--surface); border: 1px solid var(--hair); border-radius: 8px; padding: 20px; margin-top: 30px; }
-    .comment-box h3 { font-size: 1rem; color: var(--gold); margin-bottom: 15px; }
-    .comment-input-grid { display: flex; flex-direction: column; gap: 10px; }
-    .comment-name { background: var(--void); color: var(--ink); border: 1px solid var(--hair); padding: 10px; border-radius: 4px; font-size: 0.85rem; width: 100%; max-width: 200px; }
-    .comment-text { background: var(--void); color: var(--ink); border: 1px solid var(--hair); padding: 12px; border-radius: 4px; font-size: 0.88rem; min-height: 70px; resize: none; width: 100%; }
-    .btn-comment-submit { background: var(--gold); color: #fff; border-radius: 4px; padding: 8px 16px; font-size: 0.85rem; font-weight: 600; align-self: flex-end; }
-    
-    .comment-list { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
-    .comment-item { border-bottom: 1px solid var(--hair); padding-bottom: 12px; }
-    .comment-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--gold); margin-bottom: 4px; font-weight: 600; }
-    .comment-body { font-size: 0.85rem; color: var(--ink); line-height: 1.5; }
-
-    /* ADMIN SYSTEM */
-    .admin-panel { max-width: 700px; margin: 30px auto; padding: 20px 6vw; background: var(--surface); border: 1px solid var(--hair); border-radius: 8px; }
-    .admin-input, .admin-textarea { width: 100%; background: var(--void); color: var(--ink); border: 1px solid var(--hair); padding: 12px; border-radius: 4px; margin-bottom: 14px; font-family: inherit; }
-    .admin-textarea { min-height: 120px; }
-    .admin-nav-tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--hair); padding-bottom: 10px; overflow-x: auto; }
-    .tab-btn { padding: 8px 14px; color: var(--ink-dim); font-size: 0.8rem; border-radius: 4px; white-space: nowrap; background: var(--surface-2); }
+    /* Perbaikan Panel Admin agar tidak melebar keluar layar */
+    .admin-panel { max-width: 100%; margin: 15px auto; padding: 15px 4vw; background: var(--surface); border: 1px solid var(--hair); border-radius: 8px; }
+    .admin-input, .admin-textarea { width: 100%; background: var(--void); color: var(--ink); border: 1px solid var(--hair); padding: 10px; border-radius: 4px; margin-bottom: 12px; font-family: inherit; font-size: 0.85rem; }
+    .admin-textarea { min-height: 100px; }
+    .admin-nav-tabs { display: flex; gap: 6px; margin-bottom: 15px; border-bottom: 1px solid var(--hair); padding-bottom: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tab-btn { padding: 6px 12px; color: var(--ink-dim); font-size: 0.75rem; border-radius: 4px; white-space: nowrap; background: var(--surface-2); }
     .tab-btn.active { background: var(--gold); color: #fff; }
-    .btn-action { color: #fff; padding: 10px 20px; border-radius: 4px; font-weight: 600; width: 100%; margin-top: 5px; }
-    .btn-green { background: #2ecc71; }
-    .btn-blue { background: #3498db; }
-    .btn-crimson { background: var(--crimson); }
     
-    .admin-ch-manage-item { display: flex; justify-content: space-between; align-items: center; background: var(--void); padding: 10px; border-radius: 4px; margin-bottom: 6px; font-size: 0.85rem; border: 1px solid var(--hair); }
-    .btn-del-small { background: var(--crimson); color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+    .detail-wrap, .lore-wrap, .prose-wrap, .spotify-container, .interaction-section { padding: 3vh 4vw; width: 100%; max-width: 100%; }
+    .chapter-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 6px; border-bottom: 1px solid var(--hair); font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -418,21 +351,19 @@
       let petAtkBonus = parseInt(localStorage.getItem('pet_atk_bonus') ?? '0');
       let petHpBonus = parseInt(localStorage.getItem('pet_hp_bonus') ?? '0');
 
-      // Logika kalau naga mati/sekarat (Kebahagiaan = 0)
       if (happiness <= 0) {
         if (pellets < 25) {
           return alert("Nagamu mati! Dibutuhkan ritual 'Revive' menggunakan 25 pelet sekaligus untuk menghidupkannya.");
         }
         pellets -= 25;
-        happiness = 100; // Hidup kembali dengan kebahagiaan penuh
+        happiness = 100; 
         alert("✨ Ritual berhasil! Nagamu bangkit kembali dari kematian!");
       } else {
-        // Logika makan normal biasa
         if (pellets <= 0) return alert("Pelet habis! Selesaikan membaca chapter novel.");
         pellets -= 1;
         happiness = Math.min(100, happiness + 15);
         petAtkBonus += 2;
-        petHpBonus += 20; // Makan biasa meningkatkan max HP dasar +20
+        petHpBonus += 20; 
       }
 
       localStorage.setItem('pet_pellets', pellets.toString());
@@ -643,4 +574,24 @@
       container.innerHTML = novel.chapters.map((ch, idx) => `
         <div class="admin-ch-manage-item">
           <span>${ch.title}</span>
-          <button class="btn-del-small" onclick="app.deleteChapter('${
+          <button class="btn-del-small" onclick="app.deleteChapter('${novel.id}', ${idx})">Hapus</button>
+        </div>
+      `).join('');
+    },
+
+    deleteChapter(novelId, idx) {
+      if (!confirm("Hapus chapter ini?")) return;
+      const novel = this.novels.find(n => n.id === novelId);
+      if (!novel || !novel.chapters) return;
+      novel.chapters.splice(idx, 1);
+      set(ref(db, `pustaka_novels/${novelId}`), novel).then(() => {
+        alert("Chapter Dihapus!");
+        this.renderManageChaptersList();
+      });
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', () => app.init());
+</script>
+</body>
+</html>
