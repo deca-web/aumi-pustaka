@@ -532,20 +532,26 @@
       this.checkAndRenderBadge();
       if (viewName === 'novel') this.renderNovelDetail(params.novelId);
       if (viewName === 'reader') this.renderReader(params.novelId, params.chapterIdx);
-    },
-
-    renderNovelDetail(novelId) {
+    }, 
+          renderNovelDetail(novelId) {
       const novel = this.novels.find(n => n.id === novelId); if (!novel) return; this.state.currentNovelId = novelId;
       document.getElementById('detail-title').textContent = novel.title;
       document.getElementById('detail-author').textContent = novel.author;
       document.getElementById('detail-synopsis').textContent = novel.synopsis;
+      
+      // TAMBAHKAN BARIS INI UNTUK MENAMPILKAN GAMBAR SAMPUL
+      const mainCover = document.getElementById('novel-main-cover');
+      if (mainCover) {
+        mainCover.style.backgroundImage = `url('${novel.coverUrl || '1000067643.png'}')`;
+      }
+
       const container = document.getElementById('chapter-list-container');
       if (novel.chapters && novel.chapters.length > 0) {
         container.innerHTML = novel.chapters.map((ch, idx) => `<div class="chapter-row" onclick="app.showView('reader', {novelId:'${novelId}', chapterIdx:${idx}})"><span>${ch.title}</span><span style="color:var(--gold);">Baca →</span></div>`).join('');
       } else { container.innerHTML = `<p style="font-size:0.85rem; color:var(--ink-dim); text-align:center; padding:20px 0;">Belum ada chapter.</p>`; }
     },
-
-    renderReader(novelId, chapterIdx) {
+     
+     renderReader(novelId, chapterIdx) {
       const novel = this.novels.find(n => n.id === novelId); if (!novel || !novel.chapters[chapterIdx]) return;
       this.state.currentChapterIdx = chapterIdx;
       document.getElementById('reader-bar-title').textContent = novel.chapters[chapterIdx].title;
