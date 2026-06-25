@@ -1,3 +1,5 @@
+
+     
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -73,10 +75,33 @@
     .card:hover { transform: translateY(-4px); }
     .cover { height: 260px; background-size: cover; background-position: center; background-color: #111; }
 
-    /* STYLE KARTU PROFIL & PET GAME */
-    .profile-wrap { max-width: 600px; margin: 4vh auto; padding: 0 6vw; }
-    .profile-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 12px; padding: 24px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.3); margin-bottom: 20px; }
-    .profile-avatar { width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; background: var(--surface-2); position: relative; }
+    /* STYLE KARTU PROFIL & ANIMASI PET GAME */
+    .profile-wrap { max-width: 600px; margin: 4vh auto; padding: 0 6vw; position: relative; }
+    .profile-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 12px; padding: 24px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.3); margin-bottom: 20px; position: relative; }
+    
+    .profile-avatar { 
+      width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 15px; 
+      display: flex; align-items: center; justify-content: center; font-size: 2.5rem; background: var(--surface-2); 
+      position: relative; transition: transform 0.15s ease-in-out; 
+    }
+    
+    .profile-avatar.bounce-animation { animation: petBounce 0.4s ease-out; }
+    @keyframes petBounce {
+      0%, 100% { transform: scale(1) translateY(0); }
+      30% { transform: scale(1.15, 0.85) translateY(0); }
+      50% { transform: scale(0.9, 1.1) translateY(-15px); }
+      70% { transform: scale(1.05, 0.95) translateY(0); }
+    }
+
+    .floating-text {
+      position: absolute; font-size: 0.9rem; font-weight: bold; color: #2ecc71;
+      animation: floatUp 1s ease-out forwards; pointer-events: none; z-index: 10;
+    }
+    @keyframes floatUp {
+      0% { opacity: 0; transform: translate(-50%, 0); }
+      20% { opacity: 1; transform: translate(-50%, -20px); }
+      100% { opacity: 0; transform: translate(-50%, -60px); }
+    }
     
     .happy-indicator { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); padding: 2px 8px; border-radius: 10px; font-size: 0.65rem; color: #2ecc71; font-weight: bold; border: 1px solid #2ecc71; white-space: nowrap; }
     .happy-indicator.sad { color: var(--crimson); border-color: var(--crimson); }
@@ -115,7 +140,6 @@
     .chapter-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 8px; border-bottom: 1px solid var(--hair); cursor: pointer; }
     .chapter-row:hover { background: var(--surface-2); color: var(--gold); }
 
-    /* VIEW GRIMORI */
     .lore-wrap { max-width: 800px; margin: 0 auto; padding: 4vh 6vw; }
     .lore-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 20px; }
     .lore-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 16px; position: relative; }
@@ -175,8 +199,9 @@
     .btn-blue { background: #3498db; }
     .btn-crimson { background: var(--crimson); }
     
-    .admin-ch-manage-item { display: flex; justify-content: space-between; align-items: center; background: var(--void); padding: 10px; border-radius: 4px; margin-bottom: 6px; font-size: 0.85rem; border: 1px solid var(--hair); }
-    .btn-del-small { background: var(--crimson); color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+    .admin-ch-manage-item { display: flex; justify-content: space-between; align-items: center; background: var(--void); padding: 12px; border-radius: 6px; margin-bottom: 8px; font-size: 0.85rem; border: 1px solid var(--hair); }
+    .btn-del-small { background: var(--crimson); color: #fff; padding: 6px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; }
+    .btn-del-small:hover { background: #ff4d4d; }
   </style>
 </head>
 <body>
@@ -211,7 +236,7 @@
 </main>
 
 <main id="view-profile" class="view">
-  <section class="profile-wrap">
+  <section class="profile-wrap" id="profile-area">
     <div class="back-link" onclick="app.showView('home')">← Kembali</div>
     <div class="profile-card">
       <div class="profile-avatar" id="prof-avatar">
@@ -284,7 +309,7 @@
   </div>
   
   <div class="spotify-container">
-    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3LiO?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXdfvPEwBv64m" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
   </div>
 
   <div class="reader-footer">
@@ -315,7 +340,7 @@
       <button class="tab-btn active" id="tab-btn-novel" onclick="app.switchAdminTab('novel')">Tambah Novel</button>
       <button class="tab-btn" id="tab-btn-chapter" onclick="app.switchAdminTab('chapter')">Tambah Chapter</button>
       <button class="tab-btn" id="tab-btn-grimori" onclick="app.switchAdminTab('grimori')">Tambah Grimori</button>
-      <button class="tab-btn" id="tab-btn-manage" onclick="app.switchAdminTab('manage')">Hapus Chapter</button>
+      <button class="tab-btn" id="tab-btn-manage" onclick="app.switchAdminTab('manage')">🛡️ Kelola Pustaka</button>
     </div>
 
     <div id="panel-tab-novel" class="admin-sub-tab">
@@ -329,7 +354,7 @@
     <div id="panel-tab-chapter" class="admin-sub-tab" style="display:none;">
       <label style="font-size:0.8rem; color:var(--gold);">Pilih Novel Target:</label>
       <select id="select-novel-target" class="admin-input"></select>
-      <input type="text" id="new-chapter-title" class="admin-input" placeholder="Judul Chapter (contoh: Bab 1: Kebangkitan)">
+      <input type="text" id="new-chapter-title" class="admin-input" placeholder="Judul Chapter (contoh: Bab 1: Kebangkitan)"></input>
       <textarea id="new-chapter-content" class="admin-textarea" placeholder="Isi cerita di sini..."></textarea>
       <button class="btn-action btn-green" onclick="app.addNewChapter()">🔥 Publikasikan Chapter</button>
     </div>
@@ -342,7 +367,15 @@
     </div>
 
     <div id="panel-tab-manage" class="admin-sub-tab" style="display:none;">
-      <label style="font-size:0.8rem; color:var(--gold);">Pilih Novel:</label>
+      <div style="border: 1px dashed var(--crimson); padding: 14px; border-radius: 6px; margin-bottom: 20px; background: rgba(155, 53, 64, 0.05);">
+        <label style="font-size:0.85rem; color:var(--crimson); font-weight: bold; display:block; margin-bottom: 6px;">Opsi Bahaya: Hapus Satu Judul Novel</label>
+        <select id="select-novel-delete-target" class="admin-input" style="border-color: var(--crimson);"></select>
+        <button class="btn-action btn-crimson" onclick="app.deleteWholeNovel()">🚨 Hapus Total Novel Terpilih</button>
+      </div>
+
+      <hr style="border:none; border-top:1px solid var(--hair); margin: 20px 0;">
+
+      <label style="font-size:0.85rem; color:var(--gold); font-weight:bold; display:block; margin-bottom:6px;">Kelola Isi Chapter:</label>
       <select id="select-novel-manage" class="admin-input" onchange="app.renderManageChaptersList()"></select>
       <div id="manage-chapters-list" style="margin-top:15px;"></div>
     </div>
@@ -351,7 +384,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+  import { getDatabase, ref, set, onValue, push, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyApHB-eoNojbupy2vY0aVBVl_zeeKpgy2o",
@@ -367,7 +400,7 @@
   const db = getDatabase(fApp);
 
   window.app = {
-    novels: [], grimoriList: [], devClicks: 0,
+    novelsObject: {}, grimoriList: [], devClicks: 0,
     state: { currentNovelId: null, currentChapterIdx: 0, fontSizeLevel: 0 },
 
     init() {
@@ -378,7 +411,7 @@
       
       onValue(ref(db, 'pustaka_novels'), (snapshot) => {
         const data = snapshot.val();
-        this.novels = data ? Object.values(data).map(n => { if(!n.chapters) n.chapters = []; return n; }) : [];
+        this.novelsObject = data || {};
         this.renderLibrary(); 
         this.updateAdminSelectors();
         if (this.state.currentNovelId) this.renderNovelDetail(this.state.currentNovelId);
@@ -388,6 +421,13 @@
         const data = snapshot.val();
         this.grimoriList = data ? Object.values(data) : [];
         this.renderGrimori();
+      });
+    },
+
+    getNovelsArray() {
+      return Object.values(this.novelsObject).map(n => {
+        if (!n.chapters) n.chapters = [];
+        return n;
       });
     },
 
@@ -412,6 +452,28 @@
       }
     },
 
+    triggerPetAnimation(textEffect, isPositive = true) {
+      const avatarNode = document.getElementById('prof-avatar');
+      if (avatarNode) {
+        avatarNode.classList.remove('bounce-animation');
+        void avatarNode.offsetWidth; 
+        avatarNode.classList.add('bounce-animation');
+      }
+
+      const floatingEl = document.createElement('div');
+      floatingEl.className = 'floating-text';
+      floatingEl.textContent = textEffect;
+      floatingEl.style.color = isPositive ? '#2ecc71' : '#e74c3c';
+      floatingEl.style.left = '50%';
+      floatingEl.style.top = '20%';
+      
+      const card = document.querySelector('.profile-card');
+      if (card) {
+        card.appendChild(floatingEl);
+        setTimeout(() => floatingEl.remove(), 1000);
+      }
+    },
+
     feedPet() {
       let pellets = parseInt(localStorage.getItem('pet_pellets') ?? '0');
       let happiness = parseInt(localStorage.getItem('pet_happiness') ?? '100');
@@ -420,17 +482,18 @@
 
       if (happiness <= 0) {
         if (pellets < 25) {
-          return alert("Nagamu mati! Dibutuhkan ritual 'Revive' menggunakan 25 pelet sekaligus untuk menghidupkannya.");
+          return alert("Nagamu mati! Dibutuhkan ritual 'Revive' menggunakan 25 pelet sekaligus.");
         }
         pellets -= 25;
         happiness = 100;
-        alert("✨ Ritual berhasil! Nagamu bangkit kembali dari kematian!");
+        this.triggerPetAnimation("✨ REVIVED! ✨", true);
       } else {
         if (pellets <= 0) return alert("Pelet habis! Selesaikan membaca chapter novel.");
         pellets -= 1;
         happiness = Math.min(100, happiness + 15);
         petAtkBonus += 2;
         petHpBonus += 20;
+        this.triggerPetAnimation("🍖 +15% Happy | +20 Max HP", true);
       }
 
       localStorage.setItem('pet_pellets', pellets.toString());
@@ -442,9 +505,10 @@
 
     playWithPet() {
       let happiness = parseInt(localStorage.getItem('pet_happiness') ?? '100');
-      if (happiness <= 0) return alert("Naga sedang mati! Butuh 25 pelet di menu makan untuk menghidupkannya.");
+      if (happiness <= 0) return alert("Naga sedang mati!");
       happiness = Math.min(100, happiness + 5);
       localStorage.setItem('pet_happiness', happiness.toString());
+      this.triggerPetAnimation("🎮 +5% Happy!", true);
       this.checkAndRenderBadge();
     },
 
@@ -466,9 +530,7 @@
 
       const feedBtn = document.getElementById('btn-feed-action');
       if (happiness <= 0) { 
-        avatar = "💀"; 
-        badgeText = "Naga Mati (Butuh 25 Pelet)"; 
-        baseHp = 0; baseAtk = 0; baseDef = 0;
+        avatar = "💀"; badgeText = "Naga Mati"; baseHp = 0; baseAtk = 0; baseDef = 0;
         if(feedBtn) { feedBtn.textContent = "💉 Revive Naga (25 Pelet)"; feedBtn.className = "btn-pet btn-revive"; }
       } else {
         baseHp = Math.round(baseHp * (happiness / 100));
@@ -479,7 +541,11 @@
       if(document.getElementById('b-stat-atk')) document.getElementById('b-stat-atk').textContent = baseAtk;
       if(document.getElementById('b-stat-def')) document.getElementById('b-stat-def').textContent = baseDef;
       document.getElementById('user-badge-title').innerHTML = `${avatar} ${badgeText} (${totalXp} XP)`;
-      if(document.getElementById('prof-avatar')) document.getElementById('prof-avatar').firstChild.textContent = avatar;
+      if(document.getElementById('prof-avatar')) {
+        const currentHappyTag = document.getElementById('prof-happy-tag');
+        document.getElementById('prof-avatar').innerHTML = avatar;
+        if(currentHappyTag) document.getElementById('prof-avatar').appendChild(currentHappyTag);
+      }
       if(document.getElementById('prof-badge-text')) document.getElementById('prof-badge-text').textContent = badgeText;
       if(document.getElementById('pellet-count')) document.getElementById('pellet-count').textContent = pellets;
       
@@ -499,7 +565,7 @@
 
     renderLibrary() {
       const shelf = document.getElementById('library-shelf'); if (!shelf) return;
-      shelf.innerHTML = this.novels.map(novel => `
+      shelf.innerHTML = this.getNovelsArray().map(novel => `
         <article class="card" onclick="app.showView('novel', {novelId: '${novel.id}'})">
           <div class="cover" style="background-image: url('${novel.coverUrl || '1000067643.png'}')"></div>
           <div style="padding:12px;"><h3 style="font-size:0.9rem;">${novel.title}</h3></div>
@@ -509,7 +575,7 @@
 
     renderGrimori() {
       const container = document.getElementById('grimori-display-container'); if (!container) return;
-      if (this.grimoriList.length === 0) { container.innerHTML = `<p style="color:var(--ink-dim); text-align:center;">Grimori masih kosong.</p>`; return; }
+      if (this.grimoriList.length === 0) { container.innerHTML = `<p style="color:var(--ink-dim); text-align:center;">Grimori kosong.</p>`; return; }
       container.innerHTML = this.grimoriList.map(item => `
         <div class="lore-card">
           <div class="lore-term">${item.term} <span style="font-size:0.7rem; color:var(--ink-dim); border:1px solid var(--hair); padding:2px 6px; border-radius:4px; margin-left:6px;">${item.category}</span></div>
@@ -527,31 +593,35 @@
     },
 
     renderNovelDetail(novelId) {
-      const novel = this.novels.find(n => n.id === novelId); if (!novel) return; this.state.currentNovelId = novelId;
+      const novel = this.novelsObject[novelId]; if (!novel) return; this.state.currentNovelId = novelId;
       document.getElementById('detail-title').textContent = novel.title;
       document.getElementById('detail-author').textContent = novel.author;
       document.getElementById('detail-synopsis').textContent = novel.synopsis;
       const container = document.getElementById('chapter-list-container');
-      if (novel.chapters && novel.chapters.length > 0) {
-        container.innerHTML = novel.chapters.map((ch, idx) => `<div class="chapter-row" onclick="app.showView('reader', {novelId:'${novelId}', chapterIdx:${idx}})"><span>${ch.title}</span><span style="color:var(--gold);">Baca →</span></div>`).join('');
+      
+      const chapters = novel.chapters || [];
+      if (chapters.length > 0) {
+        container.innerHTML = chapters.map((ch, idx) => `<div class="chapter-row" onclick="app.showView('reader', {novelId:'${novelId}', chapterIdx:${idx}})"><span>${ch.title}</span><span style="color:var(--gold);">Baca →</span></div>`).join('');
       } else { container.innerHTML = `<p style="font-size:0.85rem; color:var(--ink-dim); text-align:center; padding:20px 0;">Belum ada chapter.</p>`; }
     },
 
     renderReader(novelId, chapterIdx) {
-      const novel = this.novels.find(n => n.id === novelId); if (!novel || !novel.chapters[chapterIdx]) return;
+      const novel = this.novelsObject[novelId]; if (!novel || !novel.chapters || !novel.chapters[chapterIdx]) return;
       this.state.currentChapterIdx = chapterIdx;
       document.getElementById('reader-bar-title').textContent = novel.chapters[chapterIdx].title;
       document.getElementById('prose-content').innerHTML = novel.chapters[chapterIdx].paragraphs.map(p => `<p>${p}</p>`).join('');
       
+      let currentPellets = parseInt(localStorage.getItem('pet_pellets') ?? '0');
+      localStorage.setItem('pet_pellets', (currentPellets + 5).toString());
+
       let history = JSON.parse(localStorage.getItem('read_history_keys') || '[]');
       const currentKey = `${novelId}_ch_${chapterIdx}`;
       if (!history.includes(currentKey)) {
         history.push(currentKey);
         localStorage.setItem('read_history_keys', JSON.stringify(history));
         localStorage.setItem('read_chapters_count', JSON.stringify(history.length));
-        let currentPellets = parseInt(localStorage.getItem('pet_pellets') ?? '0');
-        localStorage.setItem('pet_pellets', (currentPellets + 5).toString());
       }
+
       document.getElementById('prev-btn').disabled = (chapterIdx === 0);
       document.getElementById('next-btn').disabled = (chapterIdx === novel.chapters.length - 1);
       this.loadInteractions(); window.scrollTo(0,0);
@@ -560,17 +630,45 @@
     loadInteractions() {
       const pathId = `${this.state.currentNovelId}_ch_${this.state.currentChapterIdx}`;
       onValue(ref(db, `likes/${pathId}`), (s) => { document.getElementById('like-count').textContent = s.val() || 0; });
+      
+      onValue(ref(db, `comments/${pathId}`), (snapshot) => {
+        const container = document.getElementById('comments-container'); if(!container) return;
+        const data = snapshot.val();
+        if(!data) { container.innerHTML = `<p style="font-size:0.8rem; color:var(--ink-dim);">Belum ada komentar.</p>`; return; }
+        container.innerHTML = Object.values(data).map(c => `
+          <div class="comment-item">
+            <div class="comment-meta"><span>👤 ${c.name}</span></div>
+            <div class="comment-body">${c.text}</div>
+          </div>
+        `).join('');
+      });
     },
+
+    submitComment() {
+      const pathId = `${this.state.currentNovelId}_ch_${this.state.currentChapterIdx}`;
+      const nameNode = document.getElementById('input-comment-name');
+      const textNode = document.getElementById('input-comment-text');
+      const name = nameNode.value.trim() || "Anonim"; const text = textNode.value.trim();
+      if(!text) return alert("Komentar kosong!");
+      
+      push(ref(db, `comments/${pathId}`), { name, text }).then(() => { textNode.value = ""; });
+    },
+
     addLike() {
       const pathId = `${this.state.currentNovelId}_ch_${this.state.currentChapterIdx}`;
       const currentCount = parseInt(document.getElementById('like-count').textContent) || 0;
       set(ref(db, `likes/${pathId}`), currentCount + 1);
+      let localLikes = parseInt(localStorage.getItem('user_likes_count') || '0');
+      localStorage.setItem('user_likes_count', (localLikes + 1).toString());
+      if(document.getElementById('prof-stat-likes')) document.getElementById('prof-stat-likes').textContent = localLikes + 1;
     },
+
     navChapter(dir) { this.showView('reader', { novelId: this.state.currentNovelId, chapterIdx: this.state.currentChapterIdx + dir }); },
     changeFontSize(dir) { this.state.fontSizeLevel = Math.max(-2, Math.min(3, this.state.fontSizeLevel + dir)); this.applyFontSize(); },
     applyFontSize() { document.documentElement.style.setProperty('--reader-fs', ['0.95rem', '1.05rem', '1.15rem', '1.25rem', '1.35rem'][this.state.fontSizeLevel + 2]); },
     setReaderTheme(th) { document.body.setAttribute('data-reader-theme', th); },
-    
+    toggleSettingsPanel() { document.getElementById('settingsPanel').classList.toggle('active'); },
+
     devTap() { this.devClicks++; if (this.devClicks >= 5) { this.devClicks = 0; const pin = prompt("🔑 PIN:"); if (pin === "😎") this.showView('admin'); } },
     switchAdminTab(tabName) {
       document.querySelectorAll('.admin-sub-tab').forEach(el => el.style.display = 'none');
@@ -579,10 +677,13 @@
       document.getElementById(`tab-btn-${tabName}`).classList.add('active');
       if (tabName === 'manage') this.renderManageChaptersList();
     },
+
     updateAdminSelectors() {
-      const optionsHtml = this.novels.map(n => `<option value="${n.id}">${n.title}</option>`).join('');
+      const novelsArray = this.getNovelsArray();
+      const optionsHtml = novelsArray.map(n => `<option value="${n.id}">${n.title}</option>`).join('');
       if(document.getElementById('select-novel-target')) document.getElementById('select-novel-target').innerHTML = optionsHtml;
       if(document.getElementById('select-novel-manage')) document.getElementById('select-novel-manage').innerHTML = optionsHtml;
+      if(document.getElementById('select-novel-delete-target')) document.getElementById('select-novel-delete-target').innerHTML = optionsHtml;
     },
 
     createNewNovel() {
@@ -598,31 +699,81 @@
 
     addNewChapter() {
       const targetId = document.getElementById('select-novel-target').value;
-      const novel = this.novels.find(n => n.id === targetId);
+      const novel = this.novelsObject[targetId];
       const title = document.getElementById('new-chapter-title').value.trim(); 
       const content = document.getElementById('new-chapter-content').value;
       
-      if (!novel || !title || !content) return alert("Isi semua data!");
+      if (!targetId) return alert("Pilih novel target!");
+      if (!title || !content.trim()) return alert("Judul dan isi tidak boleh kosong!");
+      if (!novel) return alert("Novel tidak ditemukan!");
       
       const currentChapters = novel.chapters || [];
-      const newChapter = { 
-        title, 
-        paragraphs: content.split('\n').map(p => p.trim()).filter(p => p !== '') 
-      };
+      const paragraphs = content.split('\n').map(p => p.trim()).filter(p => p !== '');
       
-      currentChapters.push(newChapter);
+      currentChapters.push({ title, paragraphs });
 
-      set(ref(db, `pustaka_novels/${novel.id}/chapters`), currentChapters)
+      const btn = document.querySelector('#panel-tab-chapter .btn-green');
+      btn.textContent = "⌛ Sinkronisasi Cloud..."; btn.disabled = true;
+
+      set(ref(db, `pustaka_novels/${targetId}/chapters`), currentChapters)
         .then(() => { 
-          alert("🔥 Chapter Berhasil Dipublikasikan ke Cloud!"); 
+          alert("🔥 Chapter Berhasil Dipublikasikan!"); 
           document.getElementById('new-chapter-title').value = "";
           document.getElementById('new-chapter-content').value = "";
-          this.showView('novel', { novelId: novel.id }); 
+          this.showView('novel', { novelId: targetId }); 
         })
-        .catch((error) => {
-          console.error("Firebase Error:", error);
-          alert("Gagal menyimpan bab baru!");
+        .catch(err => alert("Gagal: " + err.message))
+        .finally(() => { btn.textContent = "🔥 Publikasikan Chapter"; btn.disabled = false; });
+    },
+
+    deleteWholeNovel() {
+      const targetId = document.getElementById('select-novel-delete-target').value;
+      if(!targetId) return alert("Pilih novel terlebih dahulu!");
+      const novel = this.novelsObject[targetId];
+      
+      if(confirm(`⚠️ PERINGATAN KERAS!\nApakah kamu yakin ingin menghapus total novel "${novel.title}" beserta seluruh chapter di dalamnya? Tindakan ini permanen.`)) {
+        remove(ref(db, `pustaka_novels/${targetId}`))
+          .then(() => {
+            alert("🚨 Novel beserta seluruh chapter telah berhasil dihapus dari cloud database!");
+            this.state.currentNovelId = null;
+            this.showView('home');
+          })
+          .catch(err => alert("Gagal menghapus: " + err.message));
+      }
+    },
+
+    renderManageChaptersList() {
+      const targetId = document.getElementById('select-novel-manage').value;
+      const novel = this.novelsObject[targetId];
+      const container = document.getElementById('manage-chapters-list');
+      if (!container) return;
+      if (!novel || !novel.chapters || novel.chapters.length === 0) {
+        container.innerHTML = `<p style="color:var(--ink-dim); font-size:0.8rem; padding:10px 0;">Novel ini belum memiliki chapter.</p>`;
+        return;
+      }
+      container.innerHTML = novel.chapters.map((ch, idx) => `
+        <div class="admin-ch-manage-item">
+          <span style="font-weight:500;">${ch.title}</span>
+          <button class="btn-del-small" onclick="app.deleteChapter('${targetId}', ${idx})">Hapus Chapter</button>
+        </div>
+      `).join('');
+    },
+
+    deleteChapter(novelId, idx) {
+      const novel = this.novelsObject[novelId];
+      if (!novel || !novel.chapters) return;
+      
+      if (confirm(`Hapus "${novel.chapters[idx].title}"?`)) {
+        novel.chapters.splice(idx, 1);
+        
+        // Jika setelah dihapus chapternya habis, set array kosong agar database tidak null
+        const updatedChapters = novel.chapters.length === 0 ? [] : novel.chapters;
+        
+        set(ref(db, `pustaka_novels/${novelId}/chapters`), updatedChapters).then(() => {
+          alert("Chapter berhasil dihapus!");
+          this.renderManageChaptersList();
         });
+      }
     },
 
     createNewGrimori() {
@@ -631,40 +782,12 @@
       const desc = document.getElementById('add-grimori-desc').value.trim();
       if(!term || !category || !desc) return alert("Lengkapi Isian Grimori!");
 
-      const newRef = push(ref(db, 'grimori_data'));
-      set(newRef, { term, category, desc }).then(() => {
+      push(ref(db, 'grimori_data'), { term, category, desc }).then(() => {
         alert("Grimori disimpan!");
         document.getElementById('add-grimori-term').value = "";
         document.getElementById('add-grimori-category').value = "";
         document.getElementById('add-grimori-desc').value = "";
         this.showView('lore');
-      });
-    },
-
-    renderManageChaptersList() {
-      const targetId = document.getElementById('select-novel-manage').value;
-      const novel = this.novels.find(n => n.id === targetId);
-      const container = document.getElementById('manage-chapters-list');
-      if (!novel || !novel.chapters || novel.chapters.length === 0) {
-        container.innerHTML = `<p style="color:var(--ink-dim); font-size:0.8rem;">Tidak ada chapter.</p>`;
-        return;
-      }
-      container.innerHTML = novel.chapters.map((ch, idx) => `
-        <div class="admin-ch-manage-item">
-          <span>${ch.title}</span>
-          <button class="btn-del-small" onclick="app.deleteChapter('${novel.id}', ${idx})">Hapus</button>
-        </div>
-      `).join('');
-    },
-
-    deleteChapter(novelId, idx) {
-      if (!confirm("Hapus chapter ini?")) return;
-      const novel = this.novels.find(n => n.id === novelId);
-      if (!novel || !novel.chapters) return;
-      novel.chapters.splice(idx, 1);
-      set(ref(db, `pustaka_novels/${novelId}/chapters`), novel.chapters).then(() => {
-        alert("Chapter Dihapus!");
-        this.renderManageChaptersList();
       });
     }
   };
@@ -673,3 +796,4 @@
 </script>
 </body>
 </html>
+w
