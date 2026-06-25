@@ -394,7 +394,7 @@
   const db = getDatabase(fApp);
 
   window.app = {
-    novels: [], grimoriList: [], devClicks: 0,
+    novelsObject: {}, grimoriList: [], devClicks: 0,
     state: { currentNovelId: null, currentChapterIdx: 0, fontSizeLevel: 0 },
 
     init() {
@@ -405,7 +405,8 @@
       
       onValue(ref(db, 'pustaka_novels'), (snapshot) => {
         const data = snapshot.val();
-        this.novels = data ? Object.values(data).map(n => { if(!n.chapters) n.chapters = []; return n; }) : [];
+        // Simpan data dalam bentuk Object mentah agar ID key-nya tidak hilang menjadi array numerik
+        this.novelsObject = data || {};
         this.renderLibrary(); 
         this.updateAdminSelectors();
         if (this.state.currentNovelId) this.renderNovelDetail(this.state.currentNovelId);
@@ -415,6 +416,13 @@
         const data = snapshot.val();
         this.grimoriList = data ? Object.values(data) : [];
         this.renderGrimori();
+      });
+    },
+
+    getNovelsArray() {
+      return Object.values(this.novelsObject).map(n => {
+        if (!n.chapters) n.chapters = [];
+        return n;
       });
     },
 
@@ -439,16 +447,14 @@
       }
     },
 
-    // Efek Animasi Melompat & Partikel Angka
     triggerPetAnimation(textEffect, isPositive = true) {
       const avatarNode = document.getElementById('prof-avatar');
       if (avatarNode) {
         avatarNode.classList.remove('bounce-animation');
-        void avatarNode.offsetWidth; // Trigger reflow
+        void avatarNode.offsetWidth; 
         avatarNode.classList.add('bounce-animation');
       }
 
-      // Teks mengambang
       const floatingEl = document.createElement('div');
       floatingEl.className = 'floating-text';
       floatingEl.textContent = textEffect;
@@ -534,7 +540,6 @@
       if(document.getElementById('b-stat-def')) document.getElementById('b-stat-def').textContent = baseDef;
       document.getElementById('user-badge-title').innerHTML = `${avatar} ${badgeText} (${totalXp} XP)`;
       if(document.getElementById('prof-avatar')) {
-        // Mengubah icon emoji naga tanpa menghapus tag indikator status
         const currentHappyTag = document.getElementById('prof-happy-tag');
         document.getElementById('prof-avatar').innerHTML = avatar;
         if(currentHappyTag) document.getElementById('prof-avatar').appendChild(currentHappyTag);
@@ -558,7 +563,7 @@
 
     renderLibrary() {
       const shelf = document.getElementById('library-shelf'); if (!shelf) return;
-      shelf.innerHTML = this.novels.map(novel => `
+      shelf.innerHTML = this.getNovelsArray().map(novel => `
         <article class="card" onclick="app.showView('novel', {novelId: '${novel.id}'})">
           <div class="cover" style="background-image: url('${novel.coverUrl || '1000067643.png'}')"></div>
           <div style="padding:12px;"><h3 style="font-size:0.9rem;">${novel.title}</h3></div>
@@ -586,27 +591,27 @@
     },
 
     renderNovelDetail(novelId) {
-      const novel = this.novels.find(n => n.id === novelId); if (!novel) return; this.state.currentNovelId = novelId;
+      const novel = this.novelsObject[novelId]; if (!novel) return; this.state.currentNovelId = novelId;
       document.getElementById('detail-title').textContent = novel.title;
       document.getElementById('detail-author').textContent = novel.author;
       document.getElementById('detail-synopsis').textContent = novel.synopsis;
       const container = document.getElementById('chapter-list-container');
-      if (novel.chapters && novel.chapters.length > 0) {
-        container.innerHTML = novel.chapters.map((ch, idx) => `<div class="chapter-row" onclick="app.showView('reader', {novelId:'${novelId}', chapterIdx:${idx}})"><span>${ch.title}</span><span style="color:var(--gold);">Baca →</span></div>`).join('');
+      
+      const chapters = novel.chapters || [];
+      if (chapters.length > 0) {
+        container.innerHTML = chapters.map((ch, idx) => `<div class="chapter-row" onclick="app.showView('reader', {novelId:'${novelId}', chapterIdx:${idx}})"><span>${ch.title}</span><span style="color:var(--gold);">Baca →</span></div>`).join('');
       } else { container.innerHTML = `<p style="font-size:0.85rem; color:var(--ink-dim); text-align:center; padding:20px 0;">Belum ada chapter.</p>`; }
     },
 
     renderReader(novelId, chapterIdx) {
-      const novel = this.novels.find(n => n.id === novelId); if (!novel || !novel.chapters[chapterIdx]) return;
+      const novel = this.novelsObject[novelId]; if (!novel || !novel.chapters || !novel.chapters[chapterIdx]) return;
       this.state.currentChapterIdx = chapterIdx;
       document.getElementById('reader-bar-title').textContent = novel.chapters[chapterIdx].title;
       document.getElementById('prose-content').innerHTML = novel.chapters[chapterIdx].paragraphs.map(p => `<p>${p}</p>`).join('');
       
-      // SISTEM PELET BARU: Setiap kali buka halaman, otomatis tambah +5 pelet tanpa di-block riwayat!
       let currentPellets = parseInt(localStorage.getItem('pet_pellets') ?? '0');
       localStorage.setItem('pet_pellets', (currentPellets + 5).toString());
 
-      // Riwayat pembacaan stat level tetap disimpan terpisah
       let history = JSON.parse(localStorage.getItem('read_history_keys') || '[]');
       const currentKey = `${novelId}_ch_${chapterIdx}`;
       if (!history.includes(currentKey)) {
@@ -624,7 +629,6 @@
       const pathId = `${this.state.currentNovelId}_ch_${this.state.currentChapterIdx}`;
       onValue(ref(db, `likes/${pathId}`), (s) => { document.getElementById('like-count').textContent = s.val() || 0; });
       
-      // Mengambil data komentar real-time dari cloud
       onValue(ref(db, `comments/${pathId}`), (snapshot) => {
         const container = document.getElementById('comments-container');
         if(!container) return;
@@ -682,7 +686,8 @@
       if (tabName === 'manage') this.renderManageChaptersList();
     },
     updateAdminSelectors() {
-      const optionsHtml = this.novels.map(n => `<option value="${n.id}">${n.title}</option>`).join('');
+      const novelsArray = this.getNovelsArray();
+      const optionsHtml = novelsArray.map(n => `<option value="${n.id}">${n.title}</option>`).join('');
       if(document.getElementById('select-novel-target')) document.getElementById('select-novel-target').innerHTML = optionsHtml;
       if(document.getElementById('select-novel-manage')) document.getElementById('select-novel-manage').innerHTML = optionsHtml;
     },
@@ -700,30 +705,37 @@
 
     addNewChapter() {
       const targetId = document.getElementById('select-novel-target').value;
-      const novel = this.novels.find(n => n.id === targetId);
+      const novel = this.novelsObject[targetId];
       const title = document.getElementById('new-chapter-title').value.trim(); 
       const content = document.getElementById('new-chapter-content').value;
       
-      if (!novel || !title || !content) return alert("Isi semua data!");
+      if (!targetId) return alert("Pilih novel target terlebih dahulu!");
+      if (!title || !content.trim()) return alert("Judul dan isi tidak boleh kosong!");
+      if (!novel) return alert("Novel tidak ditemukan di database!");
       
       const currentChapters = novel.chapters || [];
-      const newChapter = { 
-        title, 
-        paragraphs: content.split('\n').map(p => p.trim()).filter(p => p !== '') 
-      };
+      const paragraphs = content.split('\n').map(p => p.trim()).filter(p => p !== '');
       
+      const newChapter = { title, paragraphs };
       currentChapters.push(newChapter);
 
-      set(ref(db, `pustaka_novels/${novel.id}/chapters`), currentChapters)
+      const btn = document.querySelector('#panel-tab-chapter .btn-green');
+      btn.textContent = "⌛ Sinkronisasi Cloud...";
+      btn.disabled = true;
+
+      set(ref(db, `pustaka_novels/${targetId}/chapters`), currentChapters)
         .then(() => { 
           alert("🔥 Chapter Berhasil Dipublikasikan ke Cloud!"); 
           document.getElementById('new-chapter-title').value = "";
           document.getElementById('new-chapter-content').value = "";
-          this.showView('novel', { novelId: novel.id }); 
+          this.showView('novel', { novelId: targetId }); 
         })
         .catch((error) => {
-          console.error("Firebase Error:", error);
-          alert("Gagal menyimpan bab baru!");
+          alert("Gagal: " + error.message);
+        })
+        .finally(() => {
+          btn.textContent = "🔥 Publikasikan Chapter";
+          btn.disabled = false;
         });
     },
 
@@ -745,7 +757,7 @@
 
     renderManageChaptersList() {
       const targetId = document.getElementById('select-novel-manage').value;
-      const novel = this.novels.find(n => n.id === targetId);
+      const novel = this.novelsObject[targetId];
       const container = document.getElementById('manage-chapters-list');
       if (!novel || !novel.chapters || novel.chapters.length === 0) {
         container.innerHTML = `<p style="color:var(--ink-dim); font-size:0.8rem;">Tidak ada chapter.</p>`;
@@ -754,14 +766,14 @@
       container.innerHTML = novel.chapters.map((ch, idx) => `
         <div class="admin-ch-manage-item">
           <span>${ch.title}</span>
-          <button class="btn-del-small" onclick="app.deleteChapter('${novel.id}', ${idx})">Hapus</button>
+          <button class="btn-del-small" onclick="app.deleteChapter('${targetId}', ${idx})">Hapus</button>
         </div>
       `).join('');
     },
 
     deleteChapter(novelId, idx) {
       if (!confirm("Hapus chapter ini?")) return;
-      const novel = this.novels.find(n => n.id === novelId);
+      const novel = this.novelsObject[novelId];
       if (!novel || !novel.chapters) return;
       novel.chapters.splice(idx, 1);
       set(ref(db, `pustaka_novels/${novelId}/chapters`), novel.chapters).then(() => {
