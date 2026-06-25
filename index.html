@@ -128,7 +128,7 @@
     .stat-val { font-size: 1.2rem; font-weight: bold; color: var(--gold); }
     .stat-lbl { font-size: 0.72rem; color: var(--ink-dim); text-transform: uppercase; margin-top: 2px; }
 
-    /* DETAIL VIEW DENGAN BACKDROP YANG BERBEDA Sesuai Cover */
+    /* DETAIL VIEW */
     .detail-wrap { max-width: 880px; margin: 0 auto; padding: 4vh 6vw; position: relative; z-index: 2; }
     .detail-head { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 30px; background: rgba(18, 22, 31, 0.85); padding: 20px; border-radius: 8px; border: 1px solid var(--hair); backdrop-filter: blur(10px); }
     .detail-cover { flex: 0 0 220px; height: 310px; border-radius: 6px; border: 1px solid var(--hair); background-size: cover; background-position: center; background-color: #1a2030; box-shadow: 0 8px 24px rgba(0,0,0,0.5); position: relative; }
@@ -170,6 +170,9 @@
     .prose-wrap { max-width: 680px; margin: 0 auto; padding: 2vh 6vw 2vh; }
     .prose { font-family: 'Source Serif 4', serif; font-size: var(--reader-fs); line-height: var(--reader-lh); color: var(--ink); text-align: center; }
     .prose p { margin-bottom: 1.4em; word-wrap: break-word; padding: 4px; border-radius: 4px; }
+    
+    /* STYLE UNTUK GAMBAR DI DALAM CERITA (STYLE LN) */
+    .prose-illustration { display: block; max-width: 100%; margin: 30px auto; border-radius: 8px; border: 1px solid var(--gold-soft); box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
 
     .spotify-container { max-width: 680px; margin: 25px auto 15px; padding: 0 6vw; }
 
@@ -365,6 +368,12 @@
       <label style="font-size:0.8rem; color:var(--gold);">Pilih Novel Target:</label>
       <select id="select-novel-target" class="admin-input"></select>
       <input type="text" id="new-chapter-title" class="admin-input" placeholder="Judul Chapter (contoh: Bab 1: Kebangkitan)">
+      
+      <p style="font-size:0.75rem; color:var(--gold); margin-bottom:6px; font-style:italic;">
+        💡 <b>Tips Ilustrasi LN:</b> Untuk menyisipkan gambar di tengah cerita, ketik baris tersendiri dengan format: <br>
+        <code>[img:https://url-gambar-kamu.com/gambar.jpg]</code>
+      </p>
+
       <textarea id="new-chapter-content" class="admin-textarea" placeholder="Isi cerita di sini..."></textarea>
       <button class="btn-action btn-green" onclick="app.addNewChapter()">🔥 Publikasikan Chapter</button>
     </div>
@@ -382,9 +391,7 @@
         <select id="select-novel-delete-target" class="admin-input" style="border-color: var(--crimson);"></select>
         <button class="btn-action btn-crimson" onclick="app.deleteWholeNovel()">🚨 Hapus Total Novel Terpilih</button>
       </div>
-
       <hr style="border:none; border-top:1px solid var(--hair); margin: 20px 0;">
-
       <label style="font-size:0.85rem; color:var(--gold); font-weight:bold; display:block; margin-bottom:6px;">Kelola Isi Chapter:</label>
       <select id="select-novel-manage" class="admin-input" onchange="app.renderManageChaptersList()"></select>
       <div id="manage-chapters-list" style="margin-top:15px;"></div>
@@ -609,7 +616,6 @@
       document.getElementById('detail-author').textContent = novel.author;
       document.getElementById('detail-synopsis').textContent = novel.synopsis || "Belum ada sinopsis.";
       
-      // Menampilkan info Genre di halaman detail
       const genreNode = document.getElementById('detail-genre');
       if (genreNode) {
         genreNode.textContent = novel.genre || "Umum";
@@ -635,7 +641,17 @@
       const novel = this.novelsObject[novelId]; if (!novel || !novel.chapters || !novel.chapters[chapterIdx]) return;
       this.state.currentChapterIdx = chapterIdx;
       document.getElementById('reader-bar-title').textContent = novel.chapters[chapterIdx].title;
-      document.getElementById('prose-content').innerHTML = novel.chapters[chapterIdx].paragraphs.map(p => `<p>${p}</p>`).join('');
+      
+      // PARSER DINAMIS: Mengecek paragraf, jika berupa tag [img:...] maka diubah jadi elemen <img> bergaya LN
+      const parsedParagraphsHtml = novel.chapters[chapterIdx].paragraphs.map(p => {
+        if (p.startsWith('[img:') && p.endsWith(']')) {
+          const imgUrl = p.substring(5, p.length - 1).trim();
+          return `<img src="${imgUrl}" class="prose-illustration" alt="Ilustrasi Kisah">`;
+        }
+        return `<p>${p}</p>`;
+      }).join('');
+
+      document.getElementById('prose-content').innerHTML = parsedParagraphsHtml;
       
       let currentPellets = parseInt(localStorage.getItem('pet_pellets') ?? '0');
       localStorage.setItem('pet_pellets', (currentPellets + 5).toString());
