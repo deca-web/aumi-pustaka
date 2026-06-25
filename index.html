@@ -36,15 +36,14 @@
       --hair: rgba(0, 0, 0, 0.08);
     }
 
-    /* Modifikasi Tema Reader Mengikuti Permintaan User */
-    [data-reader-theme="tiramisu"] #view-reader, [data-reader-theme="tiramisu"] .reader-bar {
-      background: #f4ecd8 !important; color: #4a3728 !important; --ink: #4a3728; --ink-dim: #706553; --hair: rgba(71, 60, 40, 0.15);
+    [data-reader-theme="sepia"] #view-reader, [data-reader-theme="sepia"] .reader-bar, [data-reader-theme="sepia"] .reader-settings-panel {
+      background: #f7f1e3 !important; color: #473c28 !important; --ink: #473c28; --ink-dim: #706553; --hair: rgba(71, 60, 40, 0.15);
     }
-    [data-reader-theme="dark"] #view-reader, [data-reader-theme="dark"] .reader-bar {
-      background: #121212 !important; color: #ffffff !important; --ink: #ffffff; --ink-dim: #888888; --hair: rgba(255, 255, 255, 0.1);
+    [data-reader-theme="dark"] #view-reader, [data-reader-theme="dark"] .reader-bar, [data-reader-theme="dark"] .reader-settings-panel {
+      background: #0a0d13 !important; color: #eae6da !important; --ink: #eae6da; --ink-dim: #878d9c; --hair: rgba(234, 230, 218, 0.09);
     }
-    [data-reader-theme="white"] #view-reader, [data-reader-theme="white"] .reader-bar {
-      background: #ffffff !important; color: #000000 !important; --ink: #000000; --ink-dim: #666666; --hair: rgba(0, 0, 0, 0.08);
+    [data-reader-theme="light"] #view-reader, [data-reader-theme="light"] .reader-bar, [data-reader-theme="light"] .reader-settings-panel {
+      background: #ffffff !important; color: #1a1a1a !important; --ink: #1a1a1a; --ink-dim: #6b6b6b; --hair: rgba(0, 0, 0, 0.08);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -127,37 +126,14 @@
     .rb-left { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
     .rb-title { font-size: 0.8rem; color: var(--ink-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
     .rb-right-buttons { display: flex; gap: 8px; align-items: center; }
-    .settings-btn { width: 36px; height: 36px; border-radius: 4px; border: 1px solid var(--hair); color: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-
-    /* STYLING MODAL WINDOW UNTUK PENGATURAN MEMBACA */
-    .settings-modal {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.7); z-index: 1000;
-      display: flex; justify-content: center; align-items: center;
-    }
-    .settings-content {
-      background: #12161f; border: 2px solid var(--gold); border-radius: 12px;
-      width: 90%; max-width: 340px; padding: 20px; color: #eae6da; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    }
-    .settings-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--hair); padding-bottom: 10px; margin-bottom: 16px; }
-    .settings-header h3 { font-family: 'Shippori Mincho B1', serif; font-size: 1.1rem; color: var(--gold); }
-    .close-settings-btn { font-size: 1.5rem; color: var(--ink-dim); transition: color 0.2s; }
-    .close-settings-btn:hover { color: var(--crimson); }
+    .settings-btn { width: 36px; height: 36px; border-radius: 4px; border: 1px solid var(--hair); color: var(--ink); display: flex; align-items: center; justify-content: center; }
     
-    .setting-item { margin-bottom: 16px; }
-    .setting-item label { display: block; font-size: 0.8rem; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 6px; letter-spacing: 0.05em; }
-    .setting-row { display: flex; align-items: center; justify-content: space-between; background: var(--void); border-radius: 6px; padding: 6px 10px; border: 1px solid var(--hair); }
-    .setting-row button { background: var(--surface-2); border: 1px solid var(--hair); color: var(--ink); padding: 5px 14px; border-radius: 4px; font-weight: bold; }
-    .setting-row button:hover { border-color: var(--gold); }
-    .setting-row-toggle { display: flex; justify-content: space-between; align-items: center; }
-    .setting-row-toggle button { background: var(--gold); color: #0a0d13; padding: 8px 16px; border-radius: 6px; font-weight: bold; font-size: 0.8rem; }
-
-    .theme-options { display: flex; gap: 6px; }
-    .theme-btn { flex: 1; padding: 8px; border: 1px solid var(--hair); border-radius: 6px; font-weight: 600; font-size: 0.75rem; }
-    .theme-btn.theme-dark { background: #121212; color: #ffffff; }
-    .theme-btn.theme-tiramisu { background: #f4ecd8; color: #4a3728; }
-    .theme-btn.theme-white { background: #ffffff; color: #000000; }
-    .theme-btn.active { border: 2px solid var(--gold); box-shadow: 0 0 5px var(--gold); }
+    .reader-settings-panel { display: none; position: absolute; top: 60px; right: 6vw; z-index: 110; width: 300px; background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; padding: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .reader-settings-panel.active { display: block !important; }
+    .set-group { margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(234, 230, 218, 0.05); }
+    .set-options { display: flex; gap: 6px; }
+    .set-opt-btn { flex: 1; padding: 7px; border: 1px solid var(--hair); font-size: 0.75rem; border-radius: 4px; color: var(--ink); text-align: center; background: rgba(0,0,0,0.2); }
+    .set-opt-btn.active { border-color: var(--gold); background: var(--gold-soft); color: #fff; }
 
     .reading-time-badge { font-size: 0.75rem; color: var(--gold); text-align: center; margin-bottom: 25px; font-style: italic; letter-spacing: 0.02em; }
 
@@ -171,7 +147,7 @@
     .btn-nav { border: 1px solid var(--hair); color: var(--ink); padding: 8px 16px; border-radius: 4px; font-size: 0.8rem; background: var(--surface); }
     .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
 
-    .interaction-section { max-width: 680px; margin: 0 auto; padding: 0 6vw; padding-bottom: 8vh; }
+    .interaction-section { max-width: 680px; margin: 0 auto; padding: 0 6vw 8vh; }
     .like-box { text-align: center; margin: 30px 0; padding: 20px; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
     .btn-like { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--gold); color: var(--gold); padding: 10px 24px; border-radius: 30px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
     
@@ -294,48 +270,11 @@
       <span class="rb-title" id="reader-bar-title"></span>
     </div>
     <div class="rb-right-buttons">
-      <button class="settings-btn" onclick="app.toggleCustomSettingsModal()">⚙️</button>
+      <button class="settings-btn" onclick="app.toggleSettingsPanel()">⚙️</button>
     </div>
-  </div>
-
-  <div id="custom-reader-settings-modal" class="settings-modal" style="display: none;">
-    <div class="settings-content">
-      <div class="settings-header">
-        <h3>Pengaturan Membaca</h3>
-        <button onclick="app.toggleCustomSettingsModal()" class="close-settings-btn">&times;</button>
-      </div>
-      
-      <div class="setting-item">
-        <label>Besar / Kecil Huruf</label>
-        <div class="setting-row">
-          <button onclick="app.changeFontSize(-1)">A−</button>
-          <span id="display-font-level" style="font-size: 0.85rem; font-weight: bold;">Normal</span>
-          <button onclick="app.changeFontSize(1)">A+</button>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <label>Ubah Tema Warna</label>
-        <div class="theme-options">
-          <button id="btn-th-dark" onclick="app.setReaderTheme('dark')" class="theme-btn theme-dark">Dark</button>
-          <button id="btn-th-tiramisu" onclick="app.setReaderTheme('tiramisu')" class="theme-btn theme-tiramisu">Tiramisu</button>
-          <button id="btn-th-white" onclick="app.setReaderTheme('white')" class="theme-btn theme-white">Putih</button>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="setting-row-toggle">
-          <label style="margin:0;">Scroll Otomatis</label>
-          <button id="custom-auto-scroll-btn" onclick="app.toggleAutoScroll()">Mulai</button>
-        </div>
-      </div>
-
-      <div class="setting-item">
-        <div class="setting-row-toggle">
-          <label style="margin:0;">Bacakan Cerita (TTS)</label>
-          <button id="custom-tts-btn" onclick="app.toggleTTS()">Putar Suara</button>
-        </div>
-      </div>
+    <div class="reader-settings-panel" id="settingsPanel">
+      <div class="set-group"><div class="set-label">Ukuran Huruf</div><div class="fs-controls"><button class="fs-btn" onclick="app.changeFontSize(-1)">A−</button><button class="fs-btn" onclick="app.changeFontSize(1)">A+</button></div></div>
+      <div class="set-group"><div class="set-label">Warna Kertas</div><div class="set-options"><button class="set-opt-btn active" id="opt-th-dark" onclick="app.setReaderTheme('dark')">Gelap</button><button class="set-opt-btn" id="opt-th-sepia" onclick="app.setReaderTheme('sepia')">Sepia</button><button class="set-opt-btn" id="opt-th-light" onclick="app.setReaderTheme('light')">Terang</button></div></div>
     </div>
   </div>
 
@@ -377,7 +316,6 @@
       <button class="tab-btn" id="tab-btn-chapter" onclick="app.switchAdminTab('chapter')">Tambah Chapter</button>
       <button class="tab-btn" id="tab-btn-grimori" onclick="app.switchAdminTab('grimori')">Tambah Grimori</button>
       <button class="tab-btn" id="tab-btn-manage" onclick="app.switchAdminTab('manage')">Hapus Chapter</button>
-      <button class="tab-btn" id="tab-btn-deletenovel" onclick="app.switchAdminTab('deletenovel')">Hapus Novel 🗑️</button>
     </div>
 
     <div id="panel-tab-novel" class="admin-sub-tab">
@@ -408,17 +346,12 @@
       <select id="select-novel-manage" class="admin-input" onchange="app.renderManageChaptersList()"></select>
       <div id="manage-chapters-list" style="margin-top:15px;"></div>
     </div>
-
-    <div id="panel-tab-deletenovel" class="admin-sub-tab" style="display:none;">
-      <label style="font-size:0.8rem; color:var(--gold);">Daftar Novel Tersedia:</label>
-      <div id="manage-novels-list" style="margin-top:15px;"></div>
-    </div>
   </div>
 </main>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, set, onValue, push, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+  import { getDatabase, ref, set, onValue, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyApHB-eoNojbupy2vY0aVBVl_zeeKpgy2o",
@@ -436,9 +369,6 @@
   window.app = {
     novels: [], grimoriList: [], devClicks: 0,
     state: { currentNovelId: null, currentChapterIdx: 0, fontSizeLevel: 0 },
-    // Variable pembantu fitur baru
-    autoScrollInterval: null,
-    isSpeaking: false,
 
     init() {
       this.applyFontSize();
@@ -452,7 +382,6 @@
         this.renderLibrary(); 
         this.updateAdminSelectors();
         if (this.state.currentNovelId) this.renderNovelDetail(this.state.currentNovelId);
-        this.renderManageNovelsList();
       });
 
       onValue(ref(db, 'grimori_data'), (snapshot) => {
@@ -590,14 +519,6 @@
     },
 
     showView(viewName, params = {}) {
-      // Hentikan fungsi suara & scroll jika pindah halaman pembaca
-      if (viewName !== 'reader') {
-        if(this.autoScrollInterval) { clearInterval(this.autoScrollInterval); this.autoScrollInterval = null; }
-        if(window.speechSynthesis) window.speechSynthesis.cancel();
-        this.isSpeaking = false;
-        const btnTts = document.getElementById('custom-tts-btn'); if(btnTts) btnTts.textContent = "Putar Suara";
-        const btnScroll = document.getElementById('custom-auto-scroll-btn'); if(btnScroll) btnScroll.textContent = "Mulai";
-      }
       document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
       const target = document.getElementById(`view-${viewName}`); if (target) target.classList.add('active');
       this.checkAndRenderBadge();
@@ -610,13 +531,6 @@
       document.getElementById('detail-title').textContent = novel.title;
       document.getElementById('detail-author').textContent = novel.author;
       document.getElementById('detail-synopsis').textContent = novel.synopsis;
-      
-      // PERBAIKAN: Menampilkan gambar cover novel agar tidak hilang saat dipencet
-      const mainCover = document.getElementById('novel-main-cover');
-      if (mainCover) {
-        mainCover.style.backgroundImage = `url('${novel.coverUrl || '1000067643.png'}')`;
-      }
-
       const container = document.getElementById('chapter-list-container');
       if (novel.chapters && novel.chapters.length > 0) {
         container.innerHTML = novel.chapters.map((ch, idx) => `<div class="chapter-row" onclick="app.showView('reader', {novelId:'${novelId}', chapterIdx:${idx}})"><span>${ch.title}</span><span style="color:var(--gold);">Baca →</span></div>`).join('');
@@ -653,65 +567,9 @@
       set(ref(db, `likes/${pathId}`), currentCount + 1);
     },
     navChapter(dir) { this.showView('reader', { novelId: this.state.currentNovelId, chapterIdx: this.state.currentChapterIdx + dir }); },
-    
-    // PERBAIKAN LOGIKA KONTROL UNTUK MODAL MENU PENGATURAN BARU
-    toggleCustomSettingsModal() {
-      const modal = document.getElementById('custom-reader-settings-modal');
-      if (modal) {
-        modal.style.display = modal.style.display === 'none' ? 'flex' : 'none';
-      }
-    },
-    changeFontSize(dir) { 
-      this.state.fontSizeLevel = Math.max(-2, Math.min(2, this.state.fontSizeLevel + dir)); 
-      this.applyFontSize(); 
-      const txtSpan = document.getElementById('display-font-level');
-      if (txtSpan) {
-        const labels = ["Sangat Kecil", "Kecil", "Normal", "Besar", "Sangat Besar"];
-        txtSpan.textContent = labels[this.state.fontSizeLevel + 2];
-      }
-    },
+    changeFontSize(dir) { this.state.fontSizeLevel = Math.max(-2, Math.min(3, this.state.fontSizeLevel + dir)); this.applyFontSize(); },
     applyFontSize() { document.documentElement.style.setProperty('--reader-fs', ['0.95rem', '1.05rem', '1.15rem', '1.25rem', '1.35rem'][this.state.fontSizeLevel + 2]); },
-    setReaderTheme(th) { 
-      document.body.setAttribute('data-reader-theme', th); 
-      document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-      const activeBtn = document.getElementById(`btn-th-${th}`);
-      if(activeBtn) activeBtn.classList.add('active');
-    },
-    toggleAutoScroll() {
-      const btn = document.getElementById('custom-auto-scroll-btn');
-      if (this.autoScrollInterval) {
-        clearInterval(this.autoScrollInterval);
-        this.autoScrollInterval = null;
-        if(btn) btn.textContent = 'Mulai';
-      } else {
-        if(btn) btn.textContent = 'Berhenti';
-        this.autoScrollInterval = setInterval(() => { window.scrollBy(0, 1); }, 35);
-      }
-    },
-    toggleTTS() {
-      const btn = document.getElementById('custom-tts-btn');
-      if (!window.speechSynthesis) return alert("Browser kamu tidak mendukung fitur pembaca suara.");
-      
-      if (this.isSpeaking) {
-        window.speechSynthesis.cancel();
-        this.isSpeaking = false;
-        if(btn) btn.textContent = 'Putar Suara';
-      } else {
-        const prose = document.getElementById('prose-content');
-        if (!prose || !prose.innerText) return alert("Tidak ada teks cerita.");
-        
-        const utterance = new SpeechSynthesisUtterance(prose.innerText);
-        utterance.lang = 'id-ID';
-        utterance.onend = () => {
-          if(btn) btn.textContent = 'Putar Suara';
-          this.isSpeaking = false;
-        };
-        
-        window.speechSynthesis.speak(utterance);
-        this.isSpeaking = true;
-        if(btn) btn.textContent = 'Matikan';
-      }
-    },
+    setReaderTheme(th) { document.body.setAttribute('data-reader-theme', th); },
     
     devTap() { this.devClicks++; if (this.devClicks >= 5) { this.devClicks = 0; const pin = prompt("🔑 PIN:"); if (pin === "😎") this.showView('admin'); } },
     switchAdminTab(tabName) {
@@ -720,7 +578,6 @@
       document.getElementById(`panel-tab-${tabName}`).style.display = 'block';
       document.getElementById(`tab-btn-${tabName}`).classList.add('active');
       if (tabName === 'manage') this.renderManageChaptersList();
-      if (tabName === 'deletenovel') this.renderManageNovelsList();
     },
     updateAdminSelectors() {
       const optionsHtml = this.novels.map(n => `<option value="${n.id}">${n.title}</option>`).join('');
@@ -809,35 +666,6 @@
         alert("Chapter Dihapus!");
         this.renderManageChaptersList();
       });
-    },
-
-    renderManageNovelsList() {
-      const container = document.getElementById('manage-novels-list');
-      if (!container) return;
-      if (this.novels.length === 0) {
-        container.innerHTML = `<p style="color:var(--ink-dim); font-size:0.8rem;">Tidak ada novel di pustaka.</p>`;
-        return;
-      }
-      container.innerHTML = this.novels.map(novel => `
-        <div class="admin-ch-manage-item">
-          <span><strong>${novel.title}</strong> (${novel.id})</span>
-          <button class="btn-del-small" onclick="app.deleteNovel('${novel.id}')">Hapus Novel</button>
-        </div>
-      `).join('');
-    },
-
-    deleteNovel(novelId) {
-      if (!confirm(`⚠️ PERINGATAN KELAS TINGGI!\n\nApakah kamu yakin ingin menghapus novel "${novelId}" beserta seluruh chapternya secara permanen dari Cloud?`)) return;
-      
-      remove(ref(db, `pustaka_novels/${novelId}`))
-        .then(() => {
-          alert("💥 Novel berhasil dihapus secara permanen dari database cloud!");
-          this.showView('home');
-        })
-        .catch((error) => {
-          console.error("Gagal menghapus novel:", error);
-          alert("Terjadi kesalahan saat mencoba menghapus novel.");
-        });
     }
   };
 
