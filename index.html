@@ -1,5 +1,3 @@
-
-     
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -132,7 +130,7 @@
     .detail-wrap { max-width: 880px; margin: 0 auto; padding: 4vh 6vw; }
     .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-dim); font-size: 0.85rem; margin-bottom: 20px; cursor: pointer; }
     .detail-head { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 30px; }
-    .detail-cover { flex: 0 0 220px; height: 310px; border-radius: 6px; border: 1px solid var(--hair); background-size: cover; background-position: center; }
+    .detail-cover { flex: 0 0 220px; height: 310px; border-radius: 6px; border: 1px solid var(--hair); background-size: cover; background-position: center; background-color: #1a2030; }
     .detail-info { flex: 1; min-width: 280px; }
     .detail-info h1 { font-family: 'Shippori Mincho B1', serif; font-size: 1.6rem; margin-bottom: 8px; }
 
@@ -347,6 +345,7 @@
       <input type="text" id="add-novel-id" class="admin-input" placeholder="ID (contoh: ushinawareta-ryu)">
       <input type="text" id="add-novel-title" class="admin-input" placeholder="Judul Novel">
       <input type="text" id="add-novel-author" class="admin-input" placeholder="Penulis">
+      <input type="text" id="add-novel-cover" class="admin-input" placeholder="URL Tautan Cover Gambar (https://...)">
       <textarea id="add-novel-synopsis" class="admin-textarea" placeholder="Sinopsis..."></textarea>
       <button class="btn-action btn-blue" onclick="app.createNewNovel()">Simpan Novel Baru</button>
     </div>
@@ -354,7 +353,7 @@
     <div id="panel-tab-chapter" class="admin-sub-tab" style="display:none;">
       <label style="font-size:0.8rem; color:var(--gold);">Pilih Novel Target:</label>
       <select id="select-novel-target" class="admin-input"></select>
-      <input type="text" id="new-chapter-title" class="admin-input" placeholder="Judul Chapter (contoh: Bab 1: Kebangkitan)"></input>
+      <input type="text" id="new-chapter-title" class="admin-input" placeholder="Judul Chapter (contoh: Bab 1: Kebangkitan)">
       <textarea id="new-chapter-content" class="admin-textarea" placeholder="Isi cerita di sini..."></textarea>
       <button class="btn-action btn-green" onclick="app.addNewChapter()">🔥 Publikasikan Chapter</button>
     </div>
@@ -567,7 +566,7 @@
       const shelf = document.getElementById('library-shelf'); if (!shelf) return;
       shelf.innerHTML = this.getNovelsArray().map(novel => `
         <article class="card" onclick="app.showView('novel', {novelId: '${novel.id}'})">
-          <div class="cover" style="background-image: url('${novel.coverUrl || '1000067643.png'}')"></div>
+          <div class="cover" style="background-image: url('${novel.coverUrl || 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=400'}')"></div>
           <div style="padding:12px;"><h3 style="font-size:0.9rem;">${novel.title}</h3></div>
         </article>
       `).join('');
@@ -597,8 +596,13 @@
       document.getElementById('detail-title').textContent = novel.title;
       document.getElementById('detail-author').textContent = novel.author;
       document.getElementById('detail-synopsis').textContent = novel.synopsis;
-      const container = document.getElementById('chapter-list-container');
       
+      const coverNode = document.getElementById('novel-main-cover');
+      if (coverNode) {
+        coverNode.style.backgroundImage = `url('${novel.coverUrl || 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=400'}')`;
+      }
+
+      const container = document.getElementById('chapter-list-container');
       const chapters = novel.chapters || [];
       if (chapters.length > 0) {
         container.innerHTML = chapters.map((ch, idx) => `<div class="chapter-row" onclick="app.showView('reader', {novelId:'${novelId}', chapterIdx:${idx}})"><span>${ch.title}</span><span style="color:var(--gold);">Baca →</span></div>`).join('');
@@ -681,20 +685,42 @@
     updateAdminSelectors() {
       const novelsArray = this.getNovelsArray();
       const optionsHtml = novelsArray.map(n => `<option value="${n.id}">${n.title}</option>`).join('');
-      if(document.getElementById('select-novel-target')) document.getElementById('select-novel-target').innerHTML = optionsHtml;
-      if(document.getElementById('select-novel-manage')) document.getElementById('select-novel-manage').innerHTML = optionsHtml;
-      if(document.getElementById('select-novel-delete-target')) document.getElementById('select-novel-delete-target').innerHTML = optionsHtml;
+      
+      const selectTarget = document.getElementById('select-novel-target');
+      const selectManage = document.getElementById('select-novel-manage');
+      const selectDeleteTarget = document.getElementById('select-novel-delete-target');
+
+      if(selectTarget) selectTarget.innerHTML = optionsHtml;
+      if(selectManage) selectManage.innerHTML = optionsHtml;
+      if(selectDeleteTarget) selectDeleteTarget.innerHTML = optionsHtml;
     },
 
     createNewNovel() {
       const id = document.getElementById('add-novel-id').value.trim(); 
       const title = document.getElementById('add-novel-title').value.trim(); 
       const author = document.getElementById('add-novel-author').value.trim(); 
+      const coverUrl = document.getElementById('add-novel-cover').value.trim();
       const synopsis = document.getElementById('add-novel-synopsis').value.trim();
       if(!id || !title || !author) return alert("Lengkapi data!");
       
-      const newNovel = { id, title, author, synopsis: synopsis || "Belum ada sinopsis.", coverUrl: "1000067643.png", chapters: [] };
-      set(ref(db, `pustaka_novels/${id}`), newNovel).then(() => { alert("Novel disimpan!"); this.showView('home'); });
+      const newNovel = { 
+        id, 
+        title, 
+        author, 
+        synopsis: synopsis || "Belum ada sinopsis.", 
+        coverUrl: coverUrl || "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=400", 
+        chapters: [] 
+      };
+      
+      set(ref(db, `pustaka_novels/${id}`), newNovel).then(() => { 
+        alert("Novel disimpan!"); 
+        document.getElementById('add-novel-id').value = "";
+        document.getElementById('add-novel-title').value = "";
+        document.getElementById('add-novel-author').value = "";
+        document.getElementById('add-novel-cover').value = "";
+        document.getElementById('add-novel-synopsis').value = "";
+        this.showView('home'); 
+      });
     },
 
     addNewChapter() {
@@ -743,10 +769,14 @@
     },
 
     renderManageChaptersList() {
-      const targetId = document.getElementById('select-novel-manage').value;
+      const selectNode = document.getElementById('select-novel-manage');
+      if (!selectNode || !selectNode.value) return;
+      
+      const targetId = selectNode.value;
       const novel = this.novelsObject[targetId];
       const container = document.getElementById('manage-chapters-list');
       if (!container) return;
+      
       if (!novel || !novel.chapters || novel.chapters.length === 0) {
         container.innerHTML = `<p style="color:var(--ink-dim); font-size:0.8rem; padding:10px 0;">Novel ini belum memiliki chapter.</p>`;
         return;
@@ -765,8 +795,6 @@
       
       if (confirm(`Hapus "${novel.chapters[idx].title}"?`)) {
         novel.chapters.splice(idx, 1);
-        
-        // Jika setelah dihapus chapternya habis, set array kosong agar database tidak null
         const updatedChapters = novel.chapters.length === 0 ? [] : novel.chapters;
         
         set(ref(db, `pustaka_novels/${novelId}/chapters`), updatedChapters).then(() => {
@@ -796,4 +824,3 @@
 </script>
 </body>
 </html>
-w
