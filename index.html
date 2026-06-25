@@ -72,6 +72,7 @@
     .card { background: var(--surface); border: 1px solid var(--hair); border-radius: 6px; overflow: hidden; cursor: pointer; position: relative; transition: transform 0.2s; }
     .card:hover { transform: translateY(-4px); }
     .cover { height: 260px; background-size: cover; background-position: center; background-color: #111; }
+    .card-genre-tag { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.75); color: var(--gold); font-size: 0.68rem; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--gold-soft); font-weight: 600; }
 
     /* STYLE KARTU PROFIL & ANIMASI PET GAME */
     .profile-wrap { max-width: 600px; margin: 4vh auto; padding: 0 6vw; position: relative; }
@@ -130,10 +131,11 @@
     /* DETAIL VIEW DENGAN BACKDROP YANG BERBEDA Sesuai Cover */
     .detail-wrap { max-width: 880px; margin: 0 auto; padding: 4vh 6vw; position: relative; z-index: 2; }
     .detail-head { display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 30px; background: rgba(18, 22, 31, 0.85); padding: 20px; border-radius: 8px; border: 1px solid var(--hair); backdrop-filter: blur(10px); }
-    .detail-cover { flex: 0 0 220px; height: 310px; border-radius: 6px; border: 1px solid var(--hair); background-size: cover; background-position: center; background-color: #1a2030; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+    .detail-cover { flex: 0 0 220px; height: 310px; border-radius: 6px; border: 1px solid var(--hair); background-size: cover; background-position: center; background-color: #1a2030; box-shadow: 0 8px 24px rgba(0,0,0,0.5); position: relative; }
     .detail-info { flex: 1; min-width: 280px; }
     .detail-info h1 { font-family: 'Shippori Mincho B1', serif; font-size: 1.6rem; margin-bottom: 8px; }
     .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-dim); font-size: 0.85rem; margin-bottom: 20px; cursor: pointer; background: rgba(0,0,0,0.4); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--hair); }
+    .detail-genre-badge { display: inline-block; background: var(--gold-soft); color: #fff; font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; margin-top: 6px; border: 1px solid var(--gold); }
 
     /* Background dinamis per novel */
     #view-novel { position: relative; min-height: 100vh; }
@@ -175,7 +177,7 @@
     .btn-nav { border: 1px solid var(--hair); color: var(--ink); padding: 8px 16px; border-radius: 4px; font-size: 0.8rem; background: var(--surface); }
     .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
 
-    .interaction-section { max-width: 680px; margin: 0 auto; padding: 0 6vw 8vh; }
+    .interaction-section { max-width: 680px; margin: 0 auto; padding: 0 6vw; padding-bottom: 8vh; }
     .like-box { text-align: center; margin: 30px 0; padding: 20px; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
     .btn-like { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--gold); color: var(--gold); padding: 10px 24px; border-radius: 30px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
     
@@ -285,6 +287,7 @@
       <div class="detail-info">
         <h1 id="detail-title"></h1>
         <p style="color: var(--gold); font-size: 0.85rem;" id="detail-author"></p>
+        <div id="detail-genre" class="detail-genre-badge"></div>
         <p id="detail-synopsis" style="margin-top:15px; font-size: 0.92rem; line-height: 1.6; color: var(--ink-dim);"></p>
       </div>
     </div>
@@ -352,6 +355,7 @@
       <input type="text" id="add-novel-id" class="admin-input" placeholder="ID (contoh: ushinawareta-ryu)">
       <input type="text" id="add-novel-title" class="admin-input" placeholder="Judul Novel">
       <input type="text" id="add-novel-author" class="admin-input" placeholder="Penulis">
+      <input type="text" id="add-novel-genre" class="admin-input" placeholder="Genre (contoh: Fantasi, Isekai, Sistem)">
       <input type="text" id="add-novel-cover" class="admin-input" placeholder="URL Tautan Cover Gambar (https://...)">
       <textarea id="add-novel-synopsis" class="admin-textarea" placeholder="Sinopsis..."></textarea>
       <button class="btn-action btn-blue" onclick="app.createNewNovel()">Simpan Novel Baru</button>
@@ -574,6 +578,7 @@
       shelf.innerHTML = this.getNovelsArray().map(novel => `
         <article class="card" onclick="app.showView('novel', {novelId: '${novel.id}'})">
           <div class="cover" style="background-image: url('${novel.coverUrl || 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=400'}')"></div>
+          ${novel.genre ? `<div class="card-genre-tag">${novel.genre}</div>` : ''}
           <div style="padding:12px;"><h3 style="font-size:0.9rem;">${novel.title}</h3></div>
         </article>
       `).join('');
@@ -598,20 +603,24 @@
       if (viewName === 'reader') this.renderReader(params.novelId, params.chapterIdx);
     },
 
-    /* MERENDER DETAIL NOVEL SEKALIGUS MENGGANTI BACKGROUND */
     renderNovelDetail(novelId) {
       const novel = this.novelsObject[novelId]; if (!novel) return; this.state.currentNovelId = novelId;
       document.getElementById('detail-title').textContent = novel.title;
       document.getElementById('detail-author').textContent = novel.author;
       document.getElementById('detail-synopsis').textContent = novel.synopsis || "Belum ada sinopsis.";
       
+      // Menampilkan info Genre di halaman detail
+      const genreNode = document.getElementById('detail-genre');
+      if (genreNode) {
+        genreNode.textContent = novel.genre || "Umum";
+        genreNode.style.display = novel.genre ? "inline-block" : "none";
+      }
+
       const targetCover = novel.coverUrl || 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=400';
       
-      // Ubah gambar cover kecil
       const coverNode = document.getElementById('novel-main-cover');
       if (coverNode) coverNode.style.backgroundImage = `url('${targetCover}')`;
 
-      // LOGIKA BARU: Ubah background halaman detail novel agar dinamis sesuai cover yang dimasukkan di admin!
       const blurBgNode = document.getElementById('novel-blur-bg');
       if (blurBgNode) blurBgNode.style.backgroundImage = `url('${targetCover}')`;
 
@@ -712,6 +721,7 @@
       const id = document.getElementById('add-novel-id').value.trim(); 
       const title = document.getElementById('add-novel-title').value.trim(); 
       const author = document.getElementById('add-novel-author').value.trim(); 
+      const genre = document.getElementById('add-novel-genre').value.trim();
       const coverUrl = document.getElementById('add-novel-cover').value.trim();
       const synopsis = document.getElementById('add-novel-synopsis').value.trim();
       
@@ -721,6 +731,7 @@
         id: id, 
         title: title, 
         author: author, 
+        genre: genre || "",
         synopsis: synopsis || "Belum ada sinopsis.", 
         coverUrl: coverUrl || "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=400", 
         chapters: [] 
@@ -731,6 +742,7 @@
         document.getElementById('add-novel-id').value = "";
         document.getElementById('add-novel-title').value = "";
         document.getElementById('add-novel-author').value = "";
+        document.getElementById('add-novel-genre').value = "";
         document.getElementById('add-novel-cover').value = "";
         document.getElementById('add-novel-synopsis').value = "";
         this.showView('home'); 
